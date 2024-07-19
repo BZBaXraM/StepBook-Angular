@@ -1,8 +1,10 @@
 <app-nav />
-<ul id="item">
-	@for (item of users(); track item.Id) {
-	<li>
-		{{item.Id}} - {{item.Username}}
-	</li>
-	}
-</ul>
+<div class="container" style="margin-top: 100px;">
+	<ul>
+		@for (item of users(); track item.Id) {
+		<li>
+			{{item.Id}} - {{item.Username}}
+		</li>
+		}
+	</ul>
+</div>

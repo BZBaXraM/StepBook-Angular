@@ -1,26 +1,45 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 	<div class="container-fluid">
-		<a class="navbar-brand docs-creator" href="#">Carousel</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-			aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarCollapse">
-			<ul class="navbar-nav me-auto mb-2 mb-md-0">
-				<li class="nav-item">
-					<a class="nav-link active docs-creator" aria-current="page" href="#">Home</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link docs-creator" href="#">Link</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled docs-creator" aria-disabled="true">Disabled</a>
-				</li>
-			</ul>
-			<form class="d-flex" role="search">
-				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-				<button class="btn btn-outline-success" type="submit">Search</button>
-			</form>
+		<a class="navbar-brand docs-creator" href="#">{{title}}</a>
+
+		@if (loggedIn) {
+		<ul class="navbar-nav me-auto mb-2 mb-md-0">
+			<li class="nav-item">
+				<a class="nav-link">Matches</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">Lists</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link">Messages</a>
+			</li>
+			<!-- <li class="nav-item">
+				<a class="nav-link" (click)="logout()">Logout</a>
+			</li> -->
+		</ul>
+		}
+
+		@if (loggedIn) {
+		<div dropdown class="dropdown">
+			<a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome,
+				{{model.UsernameOrEmail}}</a>
+			<div *dropdownMenu class="dropdown-menu">
+				<a class="dropdown-item">Edit profile</a>
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item" (click)="logout()">Logout</a>
+			</div>
 		</div>
+		}
+
+		@if (!loggedIn) {
+		<form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
+			<input name="usernameoremail" [(ngModel)]="model.UsernameOrEmail" class="form-control me-2"
+				placeholder="UsernameOrEmail">
+			<input name="password" [(ngModel)]="model.Password" class="form-control me-2" placeholder="Password"
+				type="password">
+			<button class="btn btn-outline-success" type="submit">Login</button>
+		</form>
+
+		}
 	</div>
 </nav>
