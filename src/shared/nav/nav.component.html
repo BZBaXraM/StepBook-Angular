@@ -2,10 +2,10 @@
 	<div class="container-fluid">
 		<a class="navbar-brand docs-creator" href="#">{{title}}</a>
 
-		@if (loggedIn) {
+		@if (accountService.currentUser()) {
 		<ul class="navbar-nav me-auto mb-2 mb-md-0">
 			<li class="nav-item">
-				<a class="nav-link">Matches</a>
+				<a class="nav-link">Friends From STEP IT</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link">Lists</a>
@@ -13,16 +13,12 @@
 			<li class="nav-item">
 				<a class="nav-link">Messages</a>
 			</li>
-			<!-- <li class="nav-item">
-				<a class="nav-link" (click)="logout()">Logout</a>
-			</li> -->
 		</ul>
 		}
 
-		@if (loggedIn) {
+		@if (accountService.currentUser()) {
 		<div dropdown class="dropdown">
-			<a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome,
-				{{model.UsernameOrEmail}}</a>
+			<a dropdownToggle class="dropdown-toggle text-light text-decoration-none">Welcome</a>
 			<div *dropdownMenu class="dropdown-menu">
 				<a class="dropdown-item">Edit profile</a>
 				<div class="dropdown-divider"></div>
@@ -31,13 +27,14 @@
 		</div>
 		}
 
-		@if (!loggedIn) {
+		@if (!accountService.currentUser()) {
 		<form #loginForm="ngForm" (ngSubmit)="login()" class="d-flex" autocomplete="off">
 			<input name="usernameoremail" [(ngModel)]="model.UsernameOrEmail" class="form-control me-2"
 				placeholder="UsernameOrEmail">
 			<input name="password" [(ngModel)]="model.Password" class="form-control me-2" placeholder="Password"
 				type="password">
-			<button class="btn btn-outline-success" type="submit">Login</button>
+			<!-- <button class="btn btn-outline-success" type="submit">Login</button> -->
+			<button class="cool-btn" type="submit">Login</button>
 		</form>
 
 		}

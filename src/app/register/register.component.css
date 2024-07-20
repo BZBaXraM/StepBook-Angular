@@ -1,11 +1,6 @@
-.dropdown-toggle,
-.dropdown-item {
-	cursor: pointer;
-}
-
 .cool-btn {
-	background-color: transparent;
-	color: #27a2d6;
+	background-color: rgb(183, 198, 198);
+	color: #333f45;
 	transition: all 0.3s ease;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 	transform: translateX(2px);
