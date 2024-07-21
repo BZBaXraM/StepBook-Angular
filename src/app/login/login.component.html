@@ -1,0 +1,32 @@
+<form
+	class="my-form"
+	#registerForm="ngForm"
+	(ngSubmit)="login()"
+	autocomplete="off"
+>
+	<h2 class="center text-primary">Login</h2>
+	<hr />
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			name="usernameoremail"
+			[(ngModel)]="model.UsernameOrEmail"
+			class="form-control me-2"
+			placeholder="UsernameOrEmail"
+		/>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			name="password"
+			[(ngModel)]="model.Password"
+			class="form-control me-2"
+			placeholder="Password"
+			type="password"
+		/>
+	</mat-form-field>
+	<div class="form-group text-center">
+		<button class="cool-btn" type="submit">Login</button>
+		<button class="cool-btn" routerLink="/">Back to Home</button>
+	</div>
+</form>

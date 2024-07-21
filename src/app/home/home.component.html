@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-auto">
 	<div style="text-align: center">
 		@if (!registerMode) {
 		<h1>Find your friend</h1>
@@ -6,12 +6,13 @@
 			Come on in to view your friends... All you need to do is sign up!
 		</p>
 		<div class="text-center">
-			<!-- <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2" routerLink="/register">Sign
-				Up</button>
-			<button class="btn btn-info btn-lg">Learn more</button> -->
 			<button (click)="registerToggle()" mat-fab extended>
 				Sign Up
 				<mat-icon>account_circle</mat-icon>
+			</button>
+			<button routerLink="/login" mat-fab extended>
+				Login
+				<mat-icon>login</mat-icon>
 			</button>
 			<button mat-fab extended>
 				Learn more
@@ -23,7 +24,9 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-4">
-					<app-register />
+					<app-register
+						(cancelRegister)="cancelRegisterMode($event)"
+					/>
 				</div>
 			</div>
 		</div>
