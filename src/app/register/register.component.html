@@ -1,50 +1,123 @@
-<form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+<form
+	class="my-form"
+	#registerForm="ngForm"
+	(ngSubmit)="register()"
+	autocomplete="off"
+>
 	<h2 class="center text-primary">Sign up</h2>
-	<hr>
-	<div class="mb-3 form-floating">
-		<input type="email" name="email" [(ngModel)]="model.Email" class="form-control" id="email" placeholder="Email"
-			required>
-		<label for="email">Email</label>
-	</div>
-	<div class="mb-3 form-floating">
-		<input type="text" name="username" [(ngModel)]="model.Username" class="form-control" id="username"
-			placeholder="Username" required>
-		<label for="username">Username</label>
-	</div>
-	<div class="mb-3 form-floating">
-		<input type="text" name="knownAs" [(ngModel)]="model.KnownAs" class="form-control" id="knownAs"
-			placeholder="KnownAs" required>
-		<label for="knownAs">KnownAs</label>
-	</div>
-	<div class="mb-3 form-floating">
-		<input type="text" name="gender" [(ngModel)]="model.Gender" class="form-control" id="gender"
-			placeholder="Gender" required>
-		<label for="gender">Gender</label>
-	</div>
-	<div class="mb-3 form-floating">
-
-		<input type="date" name="dateOfBirth" [(ngModel)]="model.DateOfBirth" class="form-control" id="dateOfBirth"
-			placeholder="DateOfBirth" required>
-		<label for="dateOfBirth">DateOfBirth</label>
-	</div>
-	<div class="mb-3 form-floating">
-
-		<input type="text" name="city" [(ngModel)]="model.City" class="form-control" id="city" placeholder="City"
-			required>
-		<label for="city">City</label>
-	</div>
-	<div class="mb-3 form-floating">
-		<input type="text" name="country" [(ngModel)]="model.Country" class="form-control" id="country"
-			placeholder="Country" required>
-		<label for="country">Country</label>
-	</div>
-	<div class="mb-3 form-floating">
-		<input type="password" name="password" [(ngModel)]="model.Password" class="form-control" id="password"
-			placeholder="Password" required>
-		<label for="password">Password</label>
-	</div>
+	<hr />
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="email"
+			name="email"
+			[(ngModel)]="model.Email"
+			class="form-control"
+			id="email"
+			placeholder="Ex. user@gmail.com"
+			required
+		/>
+		<mat-label for="email">Email</mat-label>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="text"
+			name="username"
+			[(ngModel)]="model.Username"
+			class="form-control"
+			id="username"
+			placeholder="Username"
+			required
+		/>
+		<mat-label for="username">Username</mat-label>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="text"
+			name="knownAs"
+			[(ngModel)]="model.KnownAs"
+			class="form-control"
+			id="knownAs"
+			placeholder="KnownAs"
+			required
+		/>
+		<mat-label for="knownAs">KnownAs</mat-label>
+	</mat-form-field>
+	<!-- <mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="text"
+			name="gender"
+			[(ngModel)]="model.Gender"
+			class="form-control"
+			id="gender"
+			placeholder="Gender"
+			required
+		/>
+		<mat-label for="gender">Gender</mat-label>
+	</mat-form-field> -->
+	<mat-form-field class="example-full-width">
+		<mat-select>
+			<mat-option id="gender" value="gender">Male</mat-option>
+			<mat-option value="gender">Female</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="date"
+			name="dateOfBirth"
+			[(ngModel)]="model.DateOfBirth"
+			class="form-control"
+			id="dateOfBirth"
+			placeholder="DateOfBirth"
+			required
+		/>
+		<mat-label for="dateOfBirth">DateOfBirth</mat-label>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="text"
+			name="city"
+			[(ngModel)]="model.City"
+			class="form-control"
+			id="city"
+			placeholder="City"
+			required
+		/>
+		<mat-label for="city">City</mat-label>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="text"
+			name="country"
+			[(ngModel)]="model.Country"
+			class="form-control"
+			id="country"
+			placeholder="Country"
+			required
+		/>
+		<mat-label for="country">Country</mat-label>
+	</mat-form-field>
+	<mat-form-field class="example-full-width">
+		<input
+			matInput
+			type="password"
+			name="password"
+			[(ngModel)]="model.Password"
+			class="form-control"
+			id="password"
+			placeholder="Password"
+			required
+		/>
+		<mat-label for="password">Password</mat-label>
+	</mat-form-field>
 	<div class="form-group text-center">
-		<button class="cool-btn" type="submit">Register</button>
-		<button class="cool-btn" (click)="cancel()">Cancel</button>
+		<button mat-button class="cool-btn" type="submit">Register</button>
+		<button mat-button class="cool-btn" (click)="cancel()">Cancel</button>
 	</div>
 </form>

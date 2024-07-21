@@ -2,11 +2,13 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService, Login } from '../../app/services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {MatButtonModule} from '@angular/material/button';
+
 
 @Component({
 	selector: 'app-nav',
 	standalone: true,
-	imports: [FormsModule, BsDropdownModule],
+	imports: [FormsModule, BsDropdownModule, MatButtonModule],
 	templateUrl: './nav.component.html',
 	styleUrls: ['./nav.component.css'],
 })
