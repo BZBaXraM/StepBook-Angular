@@ -5,6 +5,8 @@
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
 	transform: translateX(2px);
 	font-size: 22px;
+	margin: 15px;
+	padding: 10px 20px;
 }
 
 .cool-btn:hover {
@@ -20,5 +22,7 @@
 }
 
 .example-full-width {
-	width: 80%;
+	width: 100%;
+	margin: 10px auto;
+	padding: 10px 30px;
 }

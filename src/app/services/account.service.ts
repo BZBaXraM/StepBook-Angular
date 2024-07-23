@@ -1,17 +1,17 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../types/user.model';
-import { Login } from '../types/login.model';
-import { Register } from '../types/register.model';
-import { map } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable, signal} from '@angular/core';
+import {User} from '../types/user.model';
+import {catchError, map} from 'rxjs';
+import {Register} from "../types/register.model";
+import {Login} from "../types/login.model";
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AccountService {
-	baseUrl = 'https://localhost:7035/api/Account/';
+	private baseUrl = 'https://localhost:7035/api/Account/';
 	private http = inject(HttpClient);
-	currentUser = signal<User | null>(null);
+	public currentUser = signal<User | null>(null);
 
 	login(model: Login) {
 		return this.http
@@ -25,7 +25,11 @@ export class AccountService {
 						localStorage.setItem('user', JSON.stringify(user));
 						this.currentUser.set(user);
 					}
-				})
+				}),
+				catchError((error) => {
+						return error;
+					}
+				)
 			);
 	}
 
@@ -34,29 +38,37 @@ export class AccountService {
 		this.currentUser.set(null);
 	}
 
-	register(model: Register) {
-		return this.http
-			.post<User>(this.baseUrl + 'register', {
-				Email: model.Email,
-				Username: model.Username,
-				KnownAs: model.KnownAs,
-				Gender: model.Gender,
-				DateOfBirth: model.DateOfBirth,
-				City: model.City,
-				Country: model.Country,
-				Password: model.Password,
-			})
-			.pipe(
-				map((user) => {
-					if (user) {
-						localStorage.setItem('user', JSON.stringify(user));
-						this.currentUser.set(user);
-					}
+	// register(model: Register) {
+	// 	return this.http
+	// 		.post<User>(this.baseUrl + 'register', model)
+	// 		.pipe(
+	// 			map((user) => {
+	// 				if (user) {
+	// 					localStorage.setItem('user', JSON.stringify(user));
+	// 					this.currentUser.set(user);
+	// 				}
+	// 				return user;
+	// 			}));
+	// }
 
-					return user;
-				})
-			);
+	// In AccountService
+	register(model: Register) {
+		return this.http.post<User>(this.baseUrl + 'register', model).pipe(
+			map((response: any) => {
+				if (response.text === 'Registration successful. Please check your email for confirmation link.') {
+					localStorage.setItem('user', JSON.stringify(response.user));
+					this.currentUser.set(response.user);
+					return {success: true, user: response.user};
+				}
+				throw new Error('Registration failed');
+			})
+		);
+	}
+
+
+	confirmEmail(token: string, email: string) {
+		return this.http.get(this.baseUrl + 'confirm-email', {params: {token, email}});
 	}
 }
 
-export { Login, Register };
+export {Login, Register}

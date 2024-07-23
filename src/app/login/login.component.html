@@ -5,12 +5,12 @@
 	autocomplete="off"
 >
 	<h2 class="center text-primary">Login</h2>
-	<hr />
+	<hr/>
 	<mat-form-field class="example-full-width">
 		<input
 			matInput
 			name="usernameoremail"
-			[(ngModel)]="model.UsernameOrEmail"
+			[(ngModel)]="model().UsernameOrEmail"
 			class="form-control me-2"
 			placeholder="UsernameOrEmail"
 		/>
@@ -19,7 +19,7 @@
 		<input
 			matInput
 			name="password"
-			[(ngModel)]="model.Password"
+			[(ngModel)]="model().Password"
 			class="form-control me-2"
 			placeholder="Password"
 			type="password"

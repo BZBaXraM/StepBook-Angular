@@ -4,6 +4,7 @@ import { AccountService, Login } from '../services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {TitleCasePipe} from "@angular/common";
 
 @Component({
 	selector: 'app-nav',
@@ -14,6 +15,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 		MatButtonModule,
 		RouterLink,
 		RouterLinkActive,
+		TitleCasePipe,
 	],
 	templateUrl: './nav.component.html',
 	styleUrls: ['./nav.component.css'],

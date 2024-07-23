@@ -4,14 +4,17 @@
 	(ngSubmit)="register()"
 	autocomplete="off"
 >
-	<h2 class="center text-primary">Sign up</h2>
+	<h2 style="font-size: 35px; color: rgb(17, 17, 72)" mat-fab extended>
+		Sign up
+		<mat-icon>account_circle</mat-icon>
+	</h2>
 	<hr />
 	<mat-form-field class="example-full-width">
 		<input
 			matInput
 			type="email"
 			name="email"
-			[(ngModel)]="model.Email"
+			[(ngModel)]="model().Email"
 			class="form-control"
 			id="email"
 			required
@@ -23,7 +26,7 @@
 			matInput
 			type="text"
 			name="username"
-			[(ngModel)]="model.Username"
+			[(ngModel)]="model().Username"
 			class="form-control"
 			id="username"
 			required
@@ -35,7 +38,7 @@
 			matInput
 			type="text"
 			name="knownAs"
-			[(ngModel)]="model.KnownAs"
+			[(ngModel)]="model().KnownAs"
 			class="form-control"
 			id="knownAs"
 			required
@@ -47,7 +50,7 @@
 			matInput
 			type="text"
 			name="gender"
-			[(ngModel)]="model.Gender"
+			[(ngModel)]="model().Gender"
 			class="form-control"
 			id="gender"
 			required
@@ -59,7 +62,7 @@
 			matInput
 			type="date"
 			name="dateOfBirth"
-			[(ngModel)]="model.DateOfBirth"
+			[(ngModel)]="model().DateOfBirth"
 			class="form-control"
 			id="dateOfBirth"
 			required
@@ -71,7 +74,7 @@
 			matInput
 			type="text"
 			name="city"
-			[(ngModel)]="model.City"
+			[(ngModel)]="model().City"
 			class="form-control"
 			id="city"
 			required
@@ -83,7 +86,7 @@
 			matInput
 			type="text"
 			name="country"
-			[(ngModel)]="model.Country"
+			[(ngModel)]="model().Country"
 			class="form-control"
 			id="country"
 			required
@@ -95,7 +98,7 @@
 			matInput
 			type="password"
 			name="password"
-			[(ngModel)]="model.Password"
+			[(ngModel)]="model().Password"
 			class="form-control"
 			id="password"
 			required

@@ -1,7 +1,28 @@
 .dropdown-toggle,
 .dropdown-item {
 	cursor: pointer;
+	font-size: 14px;
+	margin: 0; /* Убрать маргины */
+	padding: 8px 16px; /* Добавить паддинги */
+	display: block; /* Обеспечить полный размер кликабельной области */
 }
+
+.dropdown-menu {
+	margin-top: 8px; /* Уменьшить отступ сверху */
+	padding: 0; /* Убрать внутренние отступы */
+	border: 1px solid #ccc; /* Добавить границу */
+	border-radius: 4px; /* Закруглить углы */
+	background-color: #fff; /* Цвет фона */
+}
+
+.dropdown-item:hover {
+	background-color: #f8f9fa; /* Цвет фона при наведении */
+}
+
+.dropdown-divider {
+	margin: 0; /* Убрать маргины */
+}
+
 
 .cool-btn {
 	background-color: rgb(204, 231, 231);

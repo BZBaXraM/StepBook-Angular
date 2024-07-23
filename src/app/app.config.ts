@@ -13,8 +13,9 @@ export const appConfig: ApplicationConfig = {
 		provideRouter(routes),
 		provideAnimationsAsync(),
 		provideAnimations(),
-		provideToastr(),
-
+		provideToastr({
+			positionClass: 'toast-bottom-right',
+		}),
 		provideHttpClient(),
 		provideAnimationsAsync(),
 	],
