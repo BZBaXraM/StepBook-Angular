@@ -5,10 +5,11 @@ import {ListsComponent} from './lists/lists.component';
 import {MessagesComponent} from './messages/messages.component';
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import {ConfirmEmailComponent} from "./confirm-email/confirm-email.component";
-import {ConfirmationEmailSentComponent} from "./confirmation-email-sent/confirmation-email-sent.component";
 import {Routes} from "@angular/router";
 import {authGuard} from "./guards/auth.guard";
+import {ServerErrorComponent} from "./errors/server-error/server-error.component";
+import {NotFoundComponent} from "./errors/not-found/not-found.component";
+import {TestErrorsComponent} from "./errors/test-errors/test-errors.component";
 
 export const routes: Routes = [
 	{
@@ -54,7 +55,9 @@ export const routes: Routes = [
 		path: 'login',
 		component: LoginComponent,
 	},
-
+	{path: 'errors', component: TestErrorsComponent},
+	{path: 'not-found', component: NotFoundComponent},
+	{path: 'server-error', component: ServerErrorComponent},
 	{
 		path: '**',
 		component: HomeComponent,
