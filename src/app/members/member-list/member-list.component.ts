@@ -2,11 +2,14 @@ import {Component, inject, OnInit, signal} from '@angular/core';
 import {MembersService} from '../../services/members.service';
 import {Member} from '../../models/member.model';
 import {ToastrService} from 'ngx-toastr';
+import {MemberCardComponent} from "../member-card/member-card.component";
 
 @Component({
 	selector: 'app-member-list',
 	standalone: true,
-	imports: [],
+	imports: [
+		MemberCardComponent
+	],
 	templateUrl: './member-list.component.html',
 	styleUrl: './member-list.component.css',
 })

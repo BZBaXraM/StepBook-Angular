@@ -1,7 +1,7 @@
 <div class="row">
-	<div class="col-2">
-		@for (member of members(); track member.Id) {
-			<p>{{ member.KnownAs }}</p>
-		}
-	</div>
+	@for (member of members(); track member.Id) {
+		<div class="col-2">
+			<app-member-card [member]="member"/>
+		</div>
+	}
 </div>
