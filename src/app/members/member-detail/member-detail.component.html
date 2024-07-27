@@ -1,1 +1,56 @@
-<p>member-detail works!</p>
+@if (member) {
+	<div class="row">
+		<div class="col-4">
+			<div class="card">
+				<img src="{{member.PhotoUrl || './assets/user.png'}}"
+					 class="card-img img-thumbnail"
+					 alt="{{member.Username}}">
+				<div class="card-body">
+					<div>
+						<strong>Location:</strong>
+						<p>{{ member.City }}, {{ member.Country }}</p>
+					</div>
+					<div>
+						<strong>Age:</strong>
+						<p>{{ member.Age }}</p>
+					</div>
+					<div>
+						<strong>Last Active:</strong>
+						<p>{{ member.LastActive }}</p>
+					</div>
+					<div>
+						<strong>Member Since:</strong>
+						<p>{{ member.Created }}</p>
+					</div>
+				</div>
+				<div class="card-footer">
+					<div class="btn-group d-flex">
+						<button class="btn cool-btn">Like</button>
+						<button class="btn cool-btn"> Message</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-8">
+			<tabset class="member-tabs">
+				<tab heading="About {{member.KnownAs}}">
+					<h4>Description</h4>
+					<p>{{ member.Introduction }}</p>
+					<h4>Looking For</h4>
+					<p>{{ member.LookingFor }}</p>
+				</tab>
+				<tab heading="Interests">
+					<h4>Interests</h4>
+					<p>{{ member.Interests }}</p>
+				</tab>
+				<tab heading="Photos">
+					<p>Photos will go here</p>
+				</tab>
+				<tab heading="Messages">
+					<p>Messages will go here</p>
+				</tab>
+			</tabset>
+		</div>
+	</div>
+}
