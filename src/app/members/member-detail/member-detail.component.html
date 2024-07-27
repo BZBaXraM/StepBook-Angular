@@ -33,7 +33,7 @@
 		</div>
 
 		<div class="col-8">
-			<tabset class="member-tabs">
+			<tabset class="member-tabset">
 				<tab heading="About {{member.KnownAs}}">
 					<h4>Description</h4>
 					<p>{{ member.Introduction }}</p>
@@ -44,8 +44,13 @@
 					<h4>Interests</h4>
 					<p>{{ member.Interests }}</p>
 				</tab>
-				<tab heading="Photos">
-					<p>Photos will go here</p>
+				<tab heading="Photos" #photoTab="tab">
+					@if (photoTab.active) {
+						<gallery
+							[items]="images"
+							class="gallery">
+						</gallery>
+					}
 				</tab>
 				<tab heading="Messages">
 					<p>Messages will go here</p>
