@@ -1,18 +1,14 @@
-.dropdown-toggle,
-.dropdown-item {
+.dropdown-toggle, .dropdown-item {
 	cursor: pointer;
-	font-size: 14px;
+	font-size: 12px;
 	margin: 0; /* Убрать маргины */
 	padding: 8px 16px; /* Добавить паддинги */
-	display: block; /* Обеспечить полный размер кликабельной области */
 }
 
 .dropdown-menu {
 	margin-top: 8px; /* Уменьшить отступ сверху */
 	padding: 0; /* Убрать внутренние отступы */
-	border: 1px solid #ccc; /* Добавить границу */
 	border-radius: 4px; /* Закруглить углы */
-	background-color: #fff; /* Цвет фона */
 }
 
 .dropdown-item:hover {
@@ -23,17 +19,12 @@
 	margin: 0; /* Убрать маргины */
 }
 
-
-.cool-btn {
-	background-color: rgb(204, 231, 231);
-	color: #9db2bc;
-	transition: all 0.3s ease;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-	transform: translateX(2px);
-	font-size: 15px;
+.navbar {
+	background: #1c79a1;
 }
 
-.cool-btn:hover {
-	background-color: transparent;
-	box-shadow: 0 15px 15px rgba(181, 187, 187, 0.8);
+img {
+	max-height: 50px;
+	border: 2px solid white;
+	display: inline;
 }

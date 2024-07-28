@@ -1,0 +1,36 @@
+.cool-btn {
+	background-color: rgb(204, 231, 231);
+	color: #10415a;
+	transition: all 0.3s ease;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+	transform: translateX(2px);
+	font-size: 14px;
+}
+
+.cool-btn:hover {
+	background-color: transparent;
+	box-shadow: 0 15px 15px rgba(181, 187, 187, 0.8);
+}
+
+.not-approved {
+	opacity: 0.2;
+}
+
+.img-wrapper {
+	position: relative
+}
+
+.img-text {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 30%;
+	text-align: center;
+	word-wrap: break-word;
+	white-space: normal;
+	width: 100%;
+	padding: 0 10px;
+	box-sizing: border-box;
+}

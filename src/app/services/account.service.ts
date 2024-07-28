@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../models/user.model';
-import { map } from 'rxjs';
-import { Register } from '../models/register.model';
-import { Login } from '../models/login.model';
-import { environment } from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {inject, Injectable, signal} from '@angular/core';
+import {User} from '../models/user.model';
+import {map} from 'rxjs';
+import {Register} from '../models/register.model';
+import {Login} from '../models/login.model';
+import {environment} from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root',
@@ -37,7 +37,7 @@ export class AccountService {
 
 	confirmEmail(token: string, email: string) {
 		return this.http.get(this.baseUrl + 'confirm-email', {
-			params: { token, email },
+			params: {token, email},
 		});
 	}
 
@@ -45,10 +45,11 @@ export class AccountService {
 		localStorage.removeItem('user');
 		this.currentUser.set(null);
 	}
+
 	setCurrentUser(user: User) {
 		localStorage.setItem('user', JSON.stringify(user));
 		this.currentUser.set(user);
 	}
 }
 
-export { Login, Register };
+export {Login, Register};
