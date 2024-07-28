@@ -23,7 +23,7 @@ export class MemberDetailComponent implements OnInit {
 	}
 
 	getMember() {
-		const userName = this.route.snapshot.paramMap.get('username');
+		const userName = this.route.snapshot.paramMap.get('Username');
 		if (!userName) return;
 		this.memberService.getMember(userName).subscribe({
 			next: (member) => {
@@ -34,6 +34,7 @@ export class MemberDetailComponent implements OnInit {
 						thumb: photo.Url
 					}));
 				});
+				console.log(this.member.Username);
 			},
 			error: (error) => {
 				console.error(error);
