@@ -1,12 +1,13 @@
 <form
 	class="my-form"
-	#registerForm="ngForm"
 	(ngSubmit)="login()"
 	autocomplete="off"
 >
-	<h2 class="center text-primary">Login</h2>
+	<h2 class="text-center text-pretty">Login
+		<mat-icon>login</mat-icon>
+	</h2>f
 	<hr/>
-	<mat-form-field class="example-full-width">
+	<div class="mb-3 form-floating">
 		<input
 			matInput
 			name="usernameoremail"
@@ -14,8 +15,8 @@
 			class="form-control me-2"
 			placeholder="Username Or Email"
 		/>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
+	</div>
+	<div class="mb-3 form-floating">
 		<input
 			matInput
 			name="password"
@@ -25,7 +26,7 @@
 			type="password"
 
 		/>
-	</mat-form-field>
+	</div>
 	<div class="form-group text-center">
 		<button class="cool-btn" type="submit">Login</button>
 		<button class="cool-btn" routerLink="/">Back to Home</button>

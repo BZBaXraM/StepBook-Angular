@@ -1,112 +1,92 @@
-<form
-	class="my-form"
-	#registerForm="ngForm"
-	(ngSubmit)="register()"
-	autocomplete="off"
->
-	<h2 style="font-size: 35px; color: rgb(17, 17, 72)" mat-fab extended>
+<form class="my-form" [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
+	<h2 class="text-center text-pretty">
 		Sign up
 		<mat-icon>account_circle</mat-icon>
 	</h2>
-	<hr />
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="email"
-			name="email"
-			[(ngModel)]="model().Email"
-			class="form-control"
-			id="email"
-			required
+	<hr/>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('Email')?.errors && registerForm.get('Email')?.touched" type="email"
+			   formControlName="Email"
+			   class="form-control" id="email" placeholder="Email"/>
+		<label for="email">
+			<mat-icon>email</mat-icon>
+			Email</label>
+		<div class="invalid-feedback">Please enter a email</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('Username')?.errors && registerForm.get('Username')?.touched"
+			   type="text" formControlName="Username" class="form-control" id="username" placeholder="Username"
 		/>
-		<mat-label for="email">Email</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="text"
-			name="username"
-			[(ngModel)]="model().Username"
-			class="form-control"
-			id="username"
-			required
+		<label for="username">
+			<mat-icon>person</mat-icon>
+			Username</label>
+		<div class="invalid-feedback">Please enter a username</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('KnownAs')?.errors && registerForm.get('KnownAs')?.touched"
+			   type="text" formControlName="KnownAs" class="form-control" id="knownAs" placeholder="Known As"/>
+		<label for="knownAs">
+			<mat-icon>badge</mat-icon>
+			Known As</label>
+		<div class="invalid-feedback">Please enter a known as</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('Gender')?.errors && registerForm.get('Gender')?.touched"
+			   type="text" formControlName="Gender" class="form-control" id="gender" placeholder="Gender"/>
+		<label for="gender">
+			<mat-icon>male</mat-icon>
+			Gender</label>
+		<div class="invalid-feedback">Please enter a gender</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('DateOfBirth')?.errors && registerForm.get('DateOfBirth')?.touched"
+			   type="date" formControlName="DateOfBirth" class="form-control" id="dateOfBirth"
+			   placeholder="Date of Birth"/>
+		<label for="dateOfBirth">
+			<mat-icon>calendar_today</mat-icon>
+			Date of Birth</label>
+		<div class="invalid-feedback">Please enter a date of birth</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('City')?.errors && registerForm.get('City')?.touched" type="text"
+			   formControlName="City" class="form-control" id="city" placeholder="City"/>
+		<label for="city">
+			<mat-icon>location_city</mat-icon>
+			City</label>
+		<div class="invalid-feedback">Please enter a city</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('Country')?.errors && registerForm.get('Country')?.touched"
+			   type="text" formControlName="Country" class="form-control" id="country" placeholder="Country"/>
+		<label for="country">
+			<mat-icon>public</mat-icon>
+			Country</label>
+		<div class="invalid-feedback">Please enter a country</div>
+	</div>
+	<div class="mb-3 form-floating">
+		<input [class.is-invalid]="registerForm.get('Password')?.errors && registerForm.get('Password')?.touched"
+			   type="password" formControlName="Password" class="form-control" id="password" placeholder="Password"
 		/>
-		<mat-label for="username">Username</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
+		<label for="password">
+			<mat-icon>lock</mat-icon>
+			Password</label>
+		<div class="invalid-feedback">Please enter a password</div>
+	</div>
+	<div class="mb-3 form-floating">
 		<input
-			matInput
-			type="text"
-			name="knownAs"
-			[(ngModel)]="model().KnownAs"
-			class="form-control"
-			id="knownAs"
-			required
-		/>
-		<mat-label for="knownAs">KnownAs</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="text"
-			name="gender"
-			[(ngModel)]="model().Gender"
-			class="form-control"
-			id="gender"
-			required
-		/>
-		<mat-label for="gender">Gender</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="date"
-			name="dateOfBirth"
-			[(ngModel)]="model().DateOfBirth"
-			class="form-control"
-			id="dateOfBirth"
-			required
-		/>
-		<mat-label for="dateOfBirth">DateOfBirth</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="text"
-			name="city"
-			[(ngModel)]="model().City"
-			class="form-control"
-			id="city"
-			required
-		/>
-		<mat-label for="city">City</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="text"
-			name="country"
-			[(ngModel)]="model().Country"
-			class="form-control"
-			id="country"
-			required
-		/>
-		<mat-label for="country">Country</mat-label>
-	</mat-form-field>
-	<mat-form-field class="example-full-width">
-		<input
-			matInput
-			type="password"
-			name="password"
-			[(ngModel)]="model().Password"
-			class="form-control"
-			id="password"
-			required
-		/>
-		<mat-label for="password">Password</mat-label>
-	</mat-form-field>
+			[class.is-invalid]="registerForm.get('ConfirmPassword')?.errors && registerForm.get('ConfirmPassword')?.touched"
+			type="password" formControlName="ConfirmPassword" class="form-control" id="confirmPassword"
+			placeholder="Confirm Password"/>
+		<label for="confirmPassword">
+			<mat-icon>lock</mat-icon>
+			Confirm Password</label>
+		<div class="invalid-feedback">Please enter a confirm password</div>
+	</div>
 	<div class="form-group text-center">
 		<button mat-button class="cool-btn" type="submit">Register</button>
 		<button mat-button class="cool-btn" (click)="cancel()">Cancel</button>
 	</div>
 </form>
+
+<p>Form value: {{ registerForm.value | json }}</p>
+<p>Form status: {{ registerForm.status | json }}</p>

@@ -6,6 +6,7 @@ import {MatInputModule} from '@angular/material/input';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {MatButtonModule} from '@angular/material/button';
 import {ToastrService} from 'ngx-toastr';
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
 	selector: 'app-login',
@@ -16,6 +17,7 @@ import {ToastrService} from 'ngx-toastr';
 		MatInputModule,
 		MatButtonModule,
 		RouterLink,
+		MatIcon,
 	],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.css',

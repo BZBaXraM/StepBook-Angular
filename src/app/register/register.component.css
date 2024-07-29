@@ -15,14 +15,43 @@
 }
 
 .my-form {
-	min-width: 150px;
-	max-width: 500px;
-	width: 100%;
 	margin: 0 auto;
+	padding: 15px;
+	background-color: rgb(203 213 225);
+	border-radius: 8px;
 }
 
-.example-full-width {
-	width: 100%;
-	margin: 10px auto;
-	padding: 10px 30px;
+.form-floating {
+	position: relative;
+	margin-bottom: 1rem;
+}
+
+.form-floating label {
+	position: absolute;
+	top: 50%;
+	left: 10px;
+	transform: translateY(-50%);
+	pointer-events: none;
+	transition: 0.2s ease all;
+	font-size: 0.9rem;
+	color: black;
+}
+
+.form-control:focus ~ label,
+.form-control:not(:placeholder-shown) ~ label {
+	top: 18px;
+	left: 10px;
+	font-size: 0.75rem;
+	color: #007bff;
+}
+
+.form-control {
+	padding: 12px 20px 12px 40px;
+}
+
+.form-control + mat-icon {
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
 }

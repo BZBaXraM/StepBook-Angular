@@ -19,8 +19,9 @@
 	margin: 0; /* Убрать маргины */
 }
 
-.navbar {
-	background: #1c79a1;
+.my-nav {
+	background-color: rgb(2 6 23);
+
 }
 
 img {

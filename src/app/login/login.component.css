@@ -24,8 +24,10 @@
 	width: 100%;
 	margin: auto;
 	padding: 30px;
-	background-color: #f9f9f9;
-	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+	background-color: rgb(203 213 225);
+
+	/*background-color: #f9f9f9;*/
+	/*box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);*/
 	border-radius: 10px;
 }
 

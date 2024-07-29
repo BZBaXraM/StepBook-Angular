@@ -1,4 +1,6 @@
-/*@import "ngx-toastr/toastr";*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .tab-panel {
 	border: 1px solid #ddd;
