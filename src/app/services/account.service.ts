@@ -36,7 +36,7 @@ export class AccountService {
 	}
 
 	confirmEmail(token: string, email: string) {
-		return this.http.get(this.baseUrl + 'confirm-email', {
+		return this.http.get(this.baseUrl + 'Account/confirm-email', {
 			params: {token, email},
 		});
 	}
@@ -49,6 +49,14 @@ export class AccountService {
 	setCurrentUser(user: User) {
 		localStorage.setItem('user', JSON.stringify(user));
 		this.currentUser.set(user);
+	}
+
+	forgetPassword(email: string, clientURI: string) {
+		return this.http.post(this.baseUrl + 'Account/forgot-password', {email, clientURI});
+	}
+
+	resetPassword(model: any) {
+		return this.http.post(this.baseUrl + 'Account/reset-password', model);
 	}
 }
 

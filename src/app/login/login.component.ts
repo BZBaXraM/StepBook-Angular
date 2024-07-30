@@ -23,13 +23,14 @@ import {MatIcon} from "@angular/material/icon";
 	styleUrl: './login.component.css',
 })
 export class LoginComponent {
-	protected model = signal<Login>({
+	model = signal<Login>({
 		UsernameOrEmail: '',
 		Password: '',
 	});
 	accountService = inject(AccountService);
 	private router = inject(Router);
 	private toast = inject(ToastrService);
+	passwordFieldType = 'password';
 
 	async login() {
 		this.accountService.login(this.model()).subscribe({
@@ -39,5 +40,9 @@ export class LoginComponent {
 			},
 			error: (error) => this.toast.error(`${JSON.stringify(error.error)}`),
 		});
+	}
+
+	togglePasswordVisibility() {
+		this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }
