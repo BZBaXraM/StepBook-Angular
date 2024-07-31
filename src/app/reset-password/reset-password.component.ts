@@ -25,7 +25,6 @@ export class ResetPasswordComponent {
 		Token: '',
 		Email: '',
 		NewPassword: '',
-		ConfirmNewPassword: ''
 	});
 	loading = false;
 	success = false;
@@ -38,7 +37,7 @@ export class ResetPasswordComponent {
 				this.success = true;
 				this.loading = false;
 				this.toast.success('Password reset successfully');
-				this.router.navigateByUrl('/members');
+				this.router.navigateByUrl('/login');
 			},
 			error: (_) => {
 				this.loading = false;

@@ -9,7 +9,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 	const toastr = inject(ToastrService);
 
 	return next(req).pipe(
-		catchError(async (error) => {
+		catchError((error) => {
 			if (error) {
 				switch (error.status) {
 					case 400:
@@ -31,13 +31,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 						toastr.error("Unauthorised", error.status);
 						break;
 					case 404:
-						await router.navigateByUrl("/not-found");
+						router.navigateByUrl("/not-found");
 						break;
 					case 500:
 						const navigationExtras: NavigationExtras = {
 							state: {error: error.error},
 						};
-						await router.navigateByUrl("/server-error", navigationExtras);
+						router.navigateByUrl("/server-error", navigationExtras);
 						break;
 					default:
 						toastr.error("Something unexpected went wrong");

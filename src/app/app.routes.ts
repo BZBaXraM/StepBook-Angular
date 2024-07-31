@@ -12,8 +12,8 @@ import {NotFoundComponent} from "./errors/not-found/not-found.component";
 import {TestErrorsComponent} from "./errors/test-errors/test-errors.component";
 import {MemberEditComponent} from "./members/member-edit/member-edit.component";
 import {preventUnsavedChangeGuard} from "./guards/prevent-unsaved-change.guard";
-import {ForgetPasswordComponent} from "./forget-password/forget-password.component";
 import {ResetPasswordComponent} from "./reset-password/reset-password.component";
+import {ForgetPasswordComponent} from "./forget-password/forget-password.component";
 
 export const routes: Routes = [
 	{
@@ -34,7 +34,7 @@ export const routes: Routes = [
 				component: MemberDetailComponent,
 			},
 			{
-				path: 'member/:edit ',
+				path: 'member/:edit',
 				component: MemberEditComponent,
 				canDeactivate: [preventUnsavedChangeGuard]
 			},
@@ -64,14 +64,8 @@ export const routes: Routes = [
 		path: 'login',
 		component: LoginComponent,
 	},
-	{
-		path: 'forget-password',
-		component: ForgetPasswordComponent,
-	},
-	{
-		path: 'reset-password',
-		component: ResetPasswordComponent,
-	},
+	{path: 'forget-password', component: ForgetPasswordComponent},
+	{path: 'reset-password', component: ResetPasswordComponent},
 	{path: 'errors', component: TestErrorsComponent},
 	{path: 'not-found', component: NotFoundComponent},
 	{path: 'server-error', component: ServerErrorComponent},

@@ -1,10 +1,12 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable, signal} from '@angular/core';
 import {User} from '../models/user.model';
-import {map} from 'rxjs';
+import {map, Observable, tap} from 'rxjs';
 import {Register} from '../models/register.model';
 import {Login} from '../models/login.model';
 import {environment} from '../../environments/environment';
+import {ResetPassword} from "../models/reset-password.model";
+import {ForgetPasswordModel} from "../models/forget.password.model";
 
 @Injectable({
 	providedIn: 'root',
@@ -25,7 +27,7 @@ export class AccountService {
 	}
 
 	register(model: Register) {
-		return this.http.post<User>(this.baseUrl + 'Account/register', model).pipe(
+		return this.http.post<User>(this.baseUrl + 'Account/register', model, {responseType: 'json'}).pipe(
 			map((user) => {
 				if (user) {
 					this.setCurrentUser(user);
@@ -51,12 +53,15 @@ export class AccountService {
 		this.currentUser.set(user);
 	}
 
-	forgetPassword(email: string, clientURI: string) {
-		return this.http.post(this.baseUrl + 'Account/forgot-password', {email, clientURI});
+	// account.service.ts
+	forgetPassword(model: ForgetPasswordModel) {
+		console.log('forgetPassword service called with model:', model);
+		return this.http.post('https://localhost:7035/api/Account/forget-password', model, {responseType: 'text'});
 	}
 
-	resetPassword(model: any) {
-		return this.http.post(this.baseUrl + 'Account/reset-password', model);
+
+	resetPassword(model: ResetPassword) {
+		return this.http.post(this.baseUrl + 'Account/reset-password', model, {responseType: 'text'});
 	}
 }
 
