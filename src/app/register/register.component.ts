@@ -7,8 +7,9 @@ import {AccountService} from "../services/account.service";
 import {Router} from "@angular/router";
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
+import {JsonPipe, NgIf} from "@angular/common";
+import {TextInputComponent} from "../forms/text-input/text-input.component";
 import {MatIcon} from "@angular/material/icon";
-import {JsonPipe} from "@angular/common";
 
 @Component({
 	selector: "app-register",
@@ -18,8 +19,10 @@ import {JsonPipe} from "@angular/common";
 		MatInputModule,
 		MatSelectModule,
 		MatButtonModule,
-		MatIcon,
 		JsonPipe,
+		NgIf,
+		TextInputComponent,
+		MatIcon,
 	],
 	templateUrl: "./register.component.html",
 	styleUrl: "./register.component.css",
@@ -73,7 +76,7 @@ export class RegisterComponent implements OnInit {
 	}
 
 	register() {
-		console.log(this.registerForm.value);
+		console.log(this.registerForm?.value);
 		/*const dateOfBirthISO = new Date(this.model().DateOfBirth).toISOString();
 		const modelWithCorrectedDate = {
 			...this.model(),

@@ -22,12 +22,14 @@ export class ResetPasswordComponent {
 	private accountService = inject(AccountService);
 	private toast = inject(ToastrService);
 	model = signal<ResetPassword>({
-		Token: '',
 		Email: '',
+		Code: '',
 		NewPassword: '',
 	});
 	loading = false;
 	success = false;
+	passwordFieldType = 'password';
+
 	private router = inject(Router);
 
 	async resetPassword() {
@@ -49,5 +51,9 @@ export class ResetPasswordComponent {
 	reset() {
 		this.loading = false;
 		this.success = false;
+	}
+
+	togglePasswordVisibility() {
+		this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }

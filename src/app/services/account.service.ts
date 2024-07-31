@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {inject, Injectable, signal} from '@angular/core';
 import {User} from '../models/user.model';
-import {map, Observable, tap} from 'rxjs';
+import {map} from 'rxjs';
 import {Register} from '../models/register.model';
 import {Login} from '../models/login.model';
 import {environment} from '../../environments/environment';

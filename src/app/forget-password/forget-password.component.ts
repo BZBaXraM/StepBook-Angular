@@ -32,11 +32,11 @@ export class ForgetPasswordComponent {
 				console.log('Password reset request successful:', response);
 				this.success = true;
 				this.toast.success('Please check your email for password reset instructions');
-				this.router.navigateByUrl('/reset-password').then(() => {
-					console.log('Navigation to /reset-password successful');
-				}).catch((err) => {
-					console.error('Navigation error:', err);
-				});
+				// this.router.navigateByUrl('/reset-password').then(() => {
+				// 	console.log('Navigation to /reset-password successful');
+				// }).catch((err) => {
+				// 	console.error('Navigation error:', err);
+				// });
 			},
 			error: (error) => {
 				console.error('Error occurred:', error);
