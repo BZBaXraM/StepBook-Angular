@@ -32,10 +32,10 @@ export class AccountService {
 				if (user) {
 					this.setCurrentUser(user);
 				}
-				return user;
 			})
 		);
 	}
+
 
 	confirmEmail(token: string, email: string) {
 		return this.http.get(this.baseUrl + 'Account/confirm-email', {
@@ -48,8 +48,9 @@ export class AccountService {
 		this.currentUser.set(null);
 	}
 
-	setCurrentUser(user: User) {
+	setCurrentUser(user: User | ArrayBuffer) {
 		localStorage.setItem('user', JSON.stringify(user));
+		// @ts-ignore
 		this.currentUser.set(user);
 	}
 

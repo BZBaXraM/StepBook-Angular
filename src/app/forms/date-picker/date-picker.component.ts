@@ -1,20 +1,27 @@
 import {Component, input, Self} from '@angular/core';
 import {ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule} from "@angular/forms";
+import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
 import {NgIf} from "@angular/common";
 
 @Component({
-	selector: 'app-text-input',
+	selector: 'app-date-picker',
 	standalone: true,
-	imports: [NgIf, ReactiveFormsModule],
-	templateUrl: './text-input.component.html',
-	styleUrls: ['./text-input.component.css']
+	imports: [BsDatepickerModule, NgIf, ReactiveFormsModule],
+	templateUrl: './date-picker.component.html',
+	styleUrl: './date-picker.component.css'
 })
-export class TextInputComponent implements ControlValueAccessor {
+export class DatePickerComponent implements ControlValueAccessor {
 	label = input<string>('');
-	type = input<string>('text');
+	maxDate = input<Date>();
+	bsConfig?: Partial<BsDatepickerConfig>;
 
 	constructor(@Self() public ngControl: NgControl) {
 		this.ngControl.valueAccessor = this;
+		this.bsConfig = {
+			containerClass: 'theme-dark-blue',
+			dateInputFormat: 'DD MMMM YYYY',
+		};
+
 	}
 
 	writeValue(obj: any): void {
@@ -29,4 +36,5 @@ export class TextInputComponent implements ControlValueAccessor {
 	get control(): FormControl {
 		return this.ngControl.control as FormControl;
 	}
+
 }

@@ -1,99 +1,87 @@
-import {Component, inject, OnInit, output, signal} from "@angular/core";
-import {Register} from "../models/register.model";
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatButtonModule} from "@angular/material/button";
-import {AccountService} from "../services/account.service";
-import {Router} from "@angular/router";
-import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {JsonPipe, NgIf} from "@angular/common";
+import {Component, OnInit, OnDestroy, inject, output} from '@angular/core';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	ReactiveFormsModule,
+	ValidatorFn,
+	Validators
+} from '@angular/forms';
+import {AccountService} from '../services/account.service';
 import {TextInputComponent} from "../forms/text-input/text-input.component";
+import {DatePickerComponent} from '../forms/date-picker/date-picker.component';
+import {Router} from '@angular/router';
+import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 
 @Component({
-	selector: "app-register",
+	selector: 'app-register',
 	standalone: true,
-	imports: [
-		ReactiveFormsModule,
-		MatInputModule,
-		MatSelectModule,
-		MatButtonModule,
-		JsonPipe,
-		NgIf,
-		TextInputComponent,
-		MatIcon,
-	],
-	templateUrl: "./register.component.html",
-	styleUrl: "./register.component.css",
+	templateUrl: './register.component.html',
+	styleUrl: './register.component.css',
+	imports: [ReactiveFormsModule, TextInputComponent, DatePickerComponent, MatButton, MatIcon]
 })
-export class RegisterComponent implements OnInit {
-	model = signal<Register>({
-		Email: "",
-		Username: "",
-		KnownAs: "",
-		Gender: "",
-		DateOfBirth: Date.now().toString(),
-		City: "",
-		Country: "",
-		Password: "",
-	});
-	cancelRegister = output<boolean>();
+export class RegisterComponent implements OnInit, OnDestroy {
 	private accountService = inject(AccountService);
+	private fb = inject(FormBuilder);
 	private router = inject(Router);
-	private toast = inject(ToastrService);
-	registerForm: FormGroup = new FormGroup({});
+	cancelRegister = output<boolean>();
+	registerForm = new FormGroup({
+		Gender: new FormControl('Male'),
+		Email: new FormControl('', [Validators.required, Validators.email]),
+		Username: new FormControl('', Validators.required),
+		KnownAs: new FormControl('', Validators.required),
+		DateOfBirth: new FormControl('', Validators.required),
+		City: new FormControl('', Validators.required),
+		Country: new FormControl('', Validators.required),
+		Password: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]),
+		ConfirmPassword: new FormControl('', [Validators.required, this.matchValues('Password')]),
+	});
+	maxDate = new Date();
+	validationErrors: string[] | undefined;
+	passwordFieldType = 'password';
 
 	ngOnInit(): void {
-		this.initializeForm();
+		// this.initializeForm();
+		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+		this.loadFormData();
 	}
 
-	initializeForm() {
-		this.registerForm = new FormGroup({
-			Email: new FormControl("", [Validators.required, Validators.email]),
-			Username: new FormControl("", Validators.required),
-			KnownAs: new FormControl("", Validators.required),
-			Gender: new FormControl("", Validators.required),
-			DateOfBirth: new FormControl("", Validators.required),
-			City: new FormControl("", Validators.required),
-			Country: new FormControl("", Validators.required),
-			Password: new FormControl("", [
-				Validators.required,
-				Validators.minLength(12),
-				Validators.maxLength(20),
-			]),
-			ConfirmPassword: new FormControl("", this.matchValues("Password")),
-		});
-		this.registerForm.controls['Password'].valueChanges.subscribe({
-			next: () => this.registerForm.controls['ConfirmPassword'].updateValueAndValidity()
-		})
+	ngOnDestroy(): void {
+		this.saveFormData();
 	}
+
+	// initializeForm() {
+	// 	this.registerForm = this.fb.group({
+	// 		Gender: ['Male'],
+	// 		Email: ['', [Validators.required, Validators.email]],
+	// 		Username: ['', Validators.required],
+	// 		KnownAs: ['', Validators.required],
+	// 		DateOfBirth: ['', Validators.required],
+	// 		City: ['', Validators.required],
+	// 		Country: ['', Validators.required],
+	// 		Password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]],
+	// 		ConfirmPassword: ['', [Validators.required, this.matchValues('Password')]],
+	// 	});
+	// 	this.registerForm.controls['Password'].valueChanges.subscribe({
+	// 		next: () => this.registerForm.controls['ConfirmPassword'].updateValueAndValidity()
+	// 	});
+	// }
 
 	matchValues(matchTo: string): ValidatorFn {
 		return (control: AbstractControl) => {
-			return control.value === control.parent?.get(matchTo)?.value ? null : {isMatching: true}
-		}
+			return control.value === control.parent?.get(matchTo)?.value ? null : {isMatching: true};
+		};
 	}
 
 	register() {
-		console.log(this.registerForm?.value);
-		/*const dateOfBirthISO = new Date(this.model().DateOfBirth).toISOString();
-		const modelWithCorrectedDate = {
-			...this.model(),
-			DateOfBirth: dateOfBirthISO,
-		};
-
-		this.accountService.register(modelWithCorrectedDate).subscribe({
-			next: (_) => {
-				console.log('Registered successfully');
-				this.toast.success('Registration successful, please check your email for the verification link.');
-				// this.router.navigateByUrl("/confirmation-email-sent");
-			},
-			error: (error) => {
-				// console.log(error);
-				this.toast.error(error.error);
-			},
-		});*/
+		const dob = this.getDateOnly(this.registerForm.get('DateOfBirth')?.value);
+		this.registerForm.patchValue({dateOfBirth: dob});
+		this.accountService.register(this.registerForm.value).subscribe({
+			next: _ => this.router.navigateByUrl('/login'),
+			error: error => this.validationErrors = error
+		});
 	}
 
 	cancel() {
@@ -103,5 +91,20 @@ export class RegisterComponent implements OnInit {
 	private getDateOnly(dob: string | undefined) {
 		if (!dob) return;
 		return new Date(dob).toISOString().slice(0, 10);
+	}
+
+	togglePasswordVisibility() {
+		this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+	}
+
+	private saveFormData() {
+		localStorage.setItem('registerFormData', JSON.stringify(this.registerForm.value));
+	}
+
+	private loadFormData() {
+		const savedData = localStorage.getItem('registerFormData');
+		if (savedData) {
+			this.registerForm.patchValue(JSON.parse(savedData));
+		}
 	}
 }
