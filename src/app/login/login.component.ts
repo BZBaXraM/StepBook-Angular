@@ -1,12 +1,12 @@
-import {Component, inject, signal} from '@angular/core';
-import {AccountService, Login} from '../services/account.service';
-import {Router, RouterLink} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
-import {MatButtonModule} from '@angular/material/button';
-import {ToastrService} from 'ngx-toastr';
-import {MatIcon} from "@angular/material/icon";
+import { Component, inject, signal } from '@angular/core';
+import { AccountService, Login } from '../services/account.service';
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MatButtonModule } from '@angular/material/button';
+import { ToastrService } from 'ngx-toastr';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-login',
@@ -38,11 +38,13 @@ export class LoginComponent {
 				this.toast.success('Logged in successfully');
 				this.router.navigateByUrl('/members');
 			},
-			error: (error) => this.toast.error(`${JSON.stringify(error.error)}`),
+			error: (error) =>
+				this.toast.error(`${JSON.stringify(error.error)}`),
 		});
 	}
 
 	togglePasswordVisibility() {
-		this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+		this.passwordFieldType =
+			this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }
