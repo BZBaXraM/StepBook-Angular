@@ -1,11 +1,4 @@
-import {
-	Component,
-	OnInit,
-	OnDestroy,
-	inject,
-	output,
-	signal,
-} from '@angular/core';
+import { Component, OnInit, inject, output, signal } from '@angular/core';
 import {
 	AbstractControl,
 	FormControl,
@@ -34,13 +27,13 @@ import { MatIcon } from '@angular/material/icon';
 		MatIcon,
 	],
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit {
 	private accountService = inject(AccountService);
 	private router = inject(Router);
 	cancelRegister = output<boolean>();
 	registerForm: FormGroup = new FormGroup({
 		Gender: new FormControl('Male'),
-		Email: new FormControl('', [Validators.required, Validators.email]),
+		Email: new FormControl('', [Validators.email, Validators.required]),
 		Username: new FormControl('', Validators.required),
 		KnownAs: new FormControl('', Validators.required),
 		DateOfBirth: new FormControl('', Validators.required),
@@ -63,11 +56,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
-		this.loadFormData();
-	}
-
-	ngOnDestroy(): void {
-		this.saveFormData();
 	}
 
 	matchValues(matchTo: string): ValidatorFn {
@@ -85,11 +73,55 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		);
 		this.registerForm.patchValue({ DateOfBirth: dob });
 		this.accountService.register(this.registerForm.value).subscribe({
-			next: () => {
-				// localStorage.removeItem('registerFormData'); // Clear form data on successful registration
-				this.router.navigateByUrl('/login'); // Redirect to login page after successful registration not working, but registration is successful
+			next: (response) => {
+				this.router
+					.navigateByUrl('/confirmation-email-sent')
+					.then((success) => {
+						if (success) {
+							console.log('Navigation successful');
+						} else {
+							console.log('Navigation failed');
+						}
+					});
 			},
-			error: (error) => this.validationErrors.set(error), // Display validation errors not working!
+			error: (error) => {
+				console.error('Registration error:', error);
+				this.validationErrors.set(error);
+			},
+		});
+	}
+
+	signInWithGoogle() {
+		this.accountService.sigInWithGoogle().subscribe({
+			next: (response) => {
+				this.router.navigateByUrl('/members').then((success) => {
+					if (success) {
+						console.log('Navigation successful');
+					} else {
+						console.log('Navigation failed');
+					}
+				});
+			},
+			error: (error) => {
+				console.error('Google sign-in error:', error);
+			},
+		});
+	}
+
+	loginWithGoogle() {
+		this.accountService.loginWithGoogle().subscribe({
+			next: (response) => {
+				this.router.navigateByUrl('/members').then((success) => {
+					if (success) {
+						console.log('Navigation successful');
+					} else {
+						console.log('Navigation failed');
+					}
+				});
+			},
+			error: (error) => {
+				console.error('Google login error:', error);
+			},
 		});
 	}
 
@@ -105,18 +137,5 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	togglePasswordVisibility() {
 		this.passwordFieldType =
 			this.passwordFieldType === 'password' ? 'text' : 'password';
-	}
-
-	private saveFormData() {
-		const formData = this.registerForm.value;
-		formData.DateOfBirth = this.getDateOnly(formData.DateOfBirth); // Ensure DateOfBirth is stored in correct format
-		localStorage.setItem('registerFormData', JSON.stringify(formData));
-	}
-
-	private loadFormData() {
-		const savedData = localStorage.getItem('registerFormData');
-		if (savedData) {
-			this.registerForm.patchValue(JSON.parse(savedData));
-		}
 	}
 }

@@ -7,8 +7,8 @@
 	<hr class="mb-4" />
 
 	<div class="mb-4">
-		<label class="block text-gray-700 text-sm font-bold mb-2">I am a: </label>
-		<div class="flex items-center mb-4">
+		<label class="block text-black font-normal mb-7">I am a: </label>
+		<div class="flex justify-center mb-4">
 			<label class="inline-flex items-center mr-4">
 				<input type="radio" class="form-radio" value="Male" formControlName="Gender" />
 				<span class="ml-2">Male</span>
@@ -47,11 +47,19 @@
 	}
 
 	<div class="text-center">
-		<button [disabled]="!registerForm.valid" class="btn cool-btn" type="submit">
+		<button [disabled]="registerForm.valid" class="btn cool-btn" type="submit">
 			Register
 		</button>
 		<button class="btn cool-btn" type="button" (click)="cancel()">
 			Cancel
+		</button>
+
+		<button class="btn cool-btn" type="button" (click)="signInWithGoogle()">
+			Sign in with Google
+		</button>
+
+		<button class="btn cool-btn" type="button" (click)="loginWithGoogle()">
+			Login in with Google
 		</button>
 	</div>
 </form>

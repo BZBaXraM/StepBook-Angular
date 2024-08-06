@@ -11,6 +11,10 @@
 	border-radius: 5px;
 }
 
+input {
+	padding-left: 10px; /* Добавляет отступ слева */
+	padding-right: 10px; /* Добавляет отступ справа */
+}
 .cool-btn:hover {
 	background-color: transparent;
 	color: #1c79a1;

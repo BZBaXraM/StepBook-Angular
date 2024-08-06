@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Register } from '../models/register.model';
 import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
@@ -26,21 +26,9 @@ export class AccountService {
 		);
 	}
 
-	register(model: Register) {
-		return this.http
-			.post<User>(this.baseUrl + 'Account/register', model)
-			.pipe(
-				map((user) => {
-					if (user) {
-						this.setCurrentUser(user);
-					}
-				})
-			);
-	}
-
-	confirmEmail(token: string, email: string) {
-		return this.http.get(this.baseUrl + 'Account/confirm-email', {
-			params: { token, email },
+	register(model: Register): Observable<string | User> {
+		return this.http.post(this.baseUrl + 'Account/register', model, {
+			responseType: 'text',
 		});
 	}
 
@@ -65,6 +53,14 @@ export class AccountService {
 		return this.http.post(this.baseUrl + 'Account/reset-password', model, {
 			responseType: 'text',
 		});
+	}
+
+	sigInWithGoogle() {
+		return this.http.get(this.baseUrl + 'Account/signin-google', {});
+	}
+
+	loginWithGoogle() {
+		return this.http.get(this.baseUrl + 'Account/login-google', {});
 	}
 }
 
