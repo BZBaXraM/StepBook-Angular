@@ -13,6 +13,7 @@ import { DatePickerComponent } from '../forms/date-picker/date-picker.component'
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-register',
@@ -30,6 +31,7 @@ import { MatIcon } from '@angular/material/icon';
 export class RegisterComponent implements OnInit {
 	private accountService = inject(AccountService);
 	private router = inject(Router);
+	private toast = inject(ToastrService);
 	cancelRegister = output<boolean>();
 	registerForm: FormGroup = new FormGroup({
 		Gender: new FormControl('Male'),
@@ -50,8 +52,7 @@ export class RegisterComponent implements OnInit {
 		]),
 	});
 	maxDate = new Date();
-	// validationErrors: string[] | undefined; // not working!
-	validationErrors = signal<string[] | undefined>([]);
+	validationErrors: string[] | undefined; // not working!
 	passwordFieldType = 'password';
 
 	ngOnInit(): void {
@@ -73,27 +74,31 @@ export class RegisterComponent implements OnInit {
 		);
 		this.registerForm.patchValue({ DateOfBirth: dob });
 		this.accountService.register(this.registerForm.value).subscribe({
-			next: (response) => {
+			next: (_) => {
 				this.router
 					.navigateByUrl('/confirmation-email-sent')
 					.then((success) => {
 						if (success) {
-							console.log('Navigation successful');
+							this.toast.success(
+								"You've successfully registered!"
+							);
 						} else {
-							console.log('Navigation failed');
+							this.toast.error(
+								'An error occurred while navigating to confirmation-email-sent'
+							);
 						}
 					});
 			},
 			error: (error) => {
-				console.error('Registration error:', error);
-				this.validationErrors.set(error);
+				this.validationErrors = error;
+				this.toast.error(this.validationErrors!.toString());
 			},
 		});
 	}
 
 	signInWithGoogle() {
 		this.accountService.sigInWithGoogle().subscribe({
-			next: (response) => {
+			next: (_response) => {
 				this.router.navigateByUrl('/members').then((success) => {
 					if (success) {
 						console.log('Navigation successful');
@@ -110,7 +115,7 @@ export class RegisterComponent implements OnInit {
 
 	loginWithGoogle() {
 		this.accountService.loginWithGoogle().subscribe({
-			next: (response) => {
+			next: (_response) => {
 				this.router.navigateByUrl('/members').then((success) => {
 					if (success) {
 						console.log('Navigation successful');

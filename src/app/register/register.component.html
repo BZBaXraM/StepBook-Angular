@@ -36,7 +36,7 @@
 		}}
 	</button>
 
-	@if (validationErrors()) {
+	<!-- @if (validationErrors()) {
 	<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
 		<ul>
 			@for (error of validationErrors(); track $index) {
@@ -44,10 +44,10 @@
 			}
 		</ul>
 	</div>
-	}
+	} -->
 
 	<div class="text-center">
-		<button [disabled]="registerForm.valid" class="btn cool-btn" type="submit">
+		<button [disabled]="!registerForm.valid" class="btn cool-btn" type="submit">
 			Register
 		</button>
 		<button class="btn cool-btn" type="button" (click)="cancel()">
