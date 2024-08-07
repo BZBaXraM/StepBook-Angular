@@ -3,7 +3,7 @@ import {AccountService} from "../services/account.service";
 import {Router, RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
-import {ForgetPasswordModel} from "../models/forget.password.model";
+import {ForgetPassword} from "../models/forget.password.model";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
@@ -15,7 +15,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class ForgetPasswordComponent {
 	private accountService = inject(AccountService);
-	model = signal<ForgetPasswordModel>({
+	model = signal<ForgetPassword>({
 		Email: '',
 		ClientURI: 'https://localhost:7035/api/Account/reset-password'
 	})

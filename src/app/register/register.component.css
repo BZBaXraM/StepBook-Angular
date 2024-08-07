@@ -7,51 +7,13 @@
 	font-size: 22px;
 	margin: 15px;
 	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
 }
 
 .cool-btn:hover {
 	background-color: transparent;
+	color: #1c79a1;
 	box-shadow: 0 15px 15px rgba(28, 121, 161, 0.8);
-}
-
-.my-form {
-	margin: 0 auto;
-	padding: 15px;
-	background-color: rgb(203 213 225);
-	border-radius: 8px;
-}
-
-.form-floating {
-	position: relative;
-	margin-bottom: 1rem;
-}
-
-.form-floating label {
-	position: absolute;
-	top: 50%;
-	left: 10px;
-	transform: translateY(-50%);
-	pointer-events: none;
-	transition: 0.2s ease all;
-	font-size: 0.9rem;
-	color: black;
-}
-
-.form-control:focus ~ label,
-.form-control:not(:placeholder-shown) ~ label {
-	top: 18px;
-	left: 10px;
-	font-size: 0.75rem;
-	color: #007bff;
-}
-
-.form-control {
-	padding: 12px 20px 12px 40px;
-}
-
-.form-control + mat-icon {
-	position: absolute;
-	left: 10px;
-	top: 50%;
-	transform: translateY(-50%);
+	transform: translateY(-5px);
 }

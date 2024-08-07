@@ -1,107 +1,146 @@
-import {Component, inject, OnInit, output, signal} from "@angular/core";
-import {Register} from "../models/register.model";
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {MatButtonModule} from "@angular/material/button";
-import {AccountService} from "../services/account.service";
-import {Router} from "@angular/router";
-import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
-import {JsonPipe, NgIf} from "@angular/common";
-import {TextInputComponent} from "../forms/text-input/text-input.component";
-import {MatIcon} from "@angular/material/icon";
+import { Component, OnInit, inject, output, signal } from '@angular/core';
+import {
+	AbstractControl,
+	FormControl,
+	FormGroup,
+	ReactiveFormsModule,
+	ValidatorFn,
+	Validators,
+} from '@angular/forms';
+import { AccountService } from '../services/account.service';
+import { TextInputComponent } from '../forms/text-input/text-input.component';
+import { DatePickerComponent } from '../forms/date-picker/date-picker.component';
+import { Router } from '@angular/router';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-	selector: "app-register",
+	selector: 'app-register',
 	standalone: true,
+	templateUrl: './register.component.html',
+	styleUrl: './register.component.css',
 	imports: [
 		ReactiveFormsModule,
-		MatInputModule,
-		MatSelectModule,
-		MatButtonModule,
-		JsonPipe,
-		NgIf,
 		TextInputComponent,
+		DatePickerComponent,
+		MatButton,
 		MatIcon,
 	],
-	templateUrl: "./register.component.html",
-	styleUrl: "./register.component.css",
 })
 export class RegisterComponent implements OnInit {
-	model = signal<Register>({
-		Email: "",
-		Username: "",
-		KnownAs: "",
-		Gender: "",
-		DateOfBirth: Date.now().toString(),
-		City: "",
-		Country: "",
-		Password: "",
-	});
-	cancelRegister = output<boolean>();
 	private accountService = inject(AccountService);
 	private router = inject(Router);
 	private toast = inject(ToastrService);
-	registerForm: FormGroup = new FormGroup({});
+	cancelRegister = output<boolean>();
+	registerForm: FormGroup = new FormGroup({
+		Gender: new FormControl('Male'),
+		Email: new FormControl('', [Validators.email, Validators.required]),
+		Username: new FormControl('', Validators.required),
+		KnownAs: new FormControl('', Validators.required),
+		DateOfBirth: new FormControl('', Validators.required),
+		City: new FormControl('', Validators.required),
+		Country: new FormControl('', Validators.required),
+		Password: new FormControl('', [
+			Validators.required,
+			Validators.minLength(8),
+			Validators.maxLength(30),
+		]),
+		ConfirmPassword: new FormControl('', [
+			Validators.required,
+			this.matchValues('Password'),
+		]),
+	});
+	maxDate = new Date();
+	validationErrors: string[] | undefined; // not working!
+	passwordFieldType = 'password';
 
 	ngOnInit(): void {
-		this.initializeForm();
-	}
-
-	initializeForm() {
-		this.registerForm = new FormGroup({
-			Email: new FormControl("", [Validators.required, Validators.email]),
-			Username: new FormControl("", Validators.required),
-			KnownAs: new FormControl("", Validators.required),
-			Gender: new FormControl("", Validators.required),
-			DateOfBirth: new FormControl("", Validators.required),
-			City: new FormControl("", Validators.required),
-			Country: new FormControl("", Validators.required),
-			Password: new FormControl("", [
-				Validators.required,
-				Validators.minLength(12),
-				Validators.maxLength(20),
-			]),
-			ConfirmPassword: new FormControl("", this.matchValues("Password")),
-		});
-		this.registerForm.controls['Password'].valueChanges.subscribe({
-			next: () => this.registerForm.controls['ConfirmPassword'].updateValueAndValidity()
-		})
+		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
 	}
 
 	matchValues(matchTo: string): ValidatorFn {
 		return (control: AbstractControl) => {
-			return control.value === control.parent?.get(matchTo)?.value ? null : {isMatching: true}
-		}
+			return control.value === control.parent?.get(matchTo)?.value
+				? null
+				: { isMatching: true };
+		};
 	}
 
-	register() {
-		console.log(this.registerForm?.value);
-		/*const dateOfBirthISO = new Date(this.model().DateOfBirth).toISOString();
-		const modelWithCorrectedDate = {
-			...this.model(),
-			DateOfBirth: dateOfBirthISO,
-		};
-
-		this.accountService.register(modelWithCorrectedDate).subscribe({
+	async register() {
+		console.log(this.registerForm.value);
+		const dob = this.getDateOnly(
+			this.registerForm.get('DateOfBirth')?.value
+		);
+		this.registerForm.patchValue({ DateOfBirth: dob });
+		this.accountService.register(this.registerForm.value).subscribe({
 			next: (_) => {
-				console.log('Registered successfully');
-				this.toast.success('Registration successful, please check your email for the verification link.');
-				// this.router.navigateByUrl("/confirmation-email-sent");
+				this.router
+					.navigateByUrl('/confirmation-email-sent')
+					.then((success) => {
+						if (success) {
+							this.toast.success(
+								"You've successfully registered!"
+							);
+						} else {
+							this.toast.error(
+								'An error occurred while navigating to confirmation-email-sent'
+							);
+						}
+					});
 			},
 			error: (error) => {
-				// console.log(error);
-				this.toast.error(error.error);
+				this.validationErrors = error;
+				this.toast.error(this.validationErrors!.toString());
 			},
-		});*/
+		});
+	}
+
+	signInWithGoogle() {
+		this.accountService.sigInWithGoogle().subscribe({
+			next: (_response) => {
+				this.router.navigateByUrl('/members').then((success) => {
+					if (success) {
+						console.log('Navigation successful');
+					} else {
+						console.log('Navigation failed');
+					}
+				});
+			},
+			error: (error) => {
+				console.error('Google sign-in error:', error);
+			},
+		});
+	}
+
+	loginWithGoogle() {
+		this.accountService.loginWithGoogle().subscribe({
+			next: (_response) => {
+				this.router.navigateByUrl('/members').then((success) => {
+					if (success) {
+						console.log('Navigation successful');
+					} else {
+						console.log('Navigation failed');
+					}
+				});
+			},
+			error: (error) => {
+				console.error('Google login error:', error);
+			},
+		});
 	}
 
 	cancel() {
 		this.cancelRegister.emit(false);
 	}
 
-	private getDateOnly(dob: string | undefined) {
+	private getDateOnly(dob: string) {
 		if (!dob) return;
 		return new Date(dob).toISOString().slice(0, 10);
+	}
+
+	togglePasswordVisibility() {
+		this.passwordFieldType =
+			this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }

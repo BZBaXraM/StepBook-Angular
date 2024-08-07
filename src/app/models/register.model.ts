@@ -3,7 +3,7 @@ export interface Register {
 	Username: string;
 	KnownAs: string;
 	Gender: string;
-	DateOfBirth: string;
+	DateOfBirth: Date;
 	City: string;
 	Country: string;
 	Password: string;

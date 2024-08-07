@@ -1,33 +1,65 @@
-<form class="my-form" [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
-	<h2 class="text-center text-pretty">
+<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" [formGroup]="registerForm" (ngSubmit)="register()"
+	autocomplete="off">
+	<h2 class="text-center text-2xl font-bold mb-4 text-gray-700">
 		Sign up
-		<mat-icon>account_circle</mat-icon>
+		<mat-icon class="text-pretty">account_circle</mat-icon>
 	</h2>
-	<hr/>
-	<app-text-input [formControl]="$any(registerForm.controls['Email'])" [label]="'Email'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['Username'])" [label]="'Username'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['KnownAs'])" [label]="'Known As'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['Gender'])" [label]="'Gender'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['DateOfBirth'])" [type]="'date'"
-					[label]="'Date of Birth'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['City'])" [label]="'City'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['Country'])" [label]="'Country'"/>
-	<app-text-input [formControl]="$any(registerForm.controls['Password'])"
-					[label]="'Password'"
-					[type]="'password'">
-	</app-text-input>
+	<hr class="mb-4" />
 
-	<app-text-input [formControl]="$any(registerForm.controls['ConfirmPassword'])"
-					[label]="'Confirm password'"
-					[type]="'password'">
-	</app-text-input>
+	<div class="mb-4">
+		<label class="block text-black font-normal mb-7">I am a: </label>
+		<div class="flex justify-center mb-4">
+			<label class="inline-flex items-center mr-4">
+				<input type="radio" class="form-radio" value="Male" formControlName="Gender" />
+				<span class="ml-2">Male</span>
+			</label>
+			<label class="inline-flex items-center">
+				<input type="radio" class="form-radio" value="Female" formControlName="Gender" />
+				<span class="ml-2">Female</span>
+			</label>
+		</div>
+	</div>
 
+	<app-text-input formControlName="Email" [label]="'Email'"></app-text-input>
+	<app-text-input formControlName="Username" [label]="'Username'"></app-text-input>
+	<app-text-input formControlName="KnownAs" [label]="'Known As'"></app-text-input>
+	<app-date-picker formControlName="DateOfBirth" [label]="'Date of Birth'" [maxDate]="maxDate"></app-date-picker>
+	<app-text-input formControlName="City" [label]="'City'"></app-text-input>
+	<app-text-input formControlName="Country" [label]="'Country'"></app-text-input>
+	<app-text-input formControlName="Password" [label]="'Password'" [type]="passwordFieldType"></app-text-input>
+	<app-text-input formControlName="ConfirmPassword" [label]="'Confirm password'"
+		[type]="passwordFieldType"></app-text-input>
 
-	<div class="form-group text-center">
-		<button mat-button class="cool-btn" type="submit">Register</button>
-		<button mat-button class="cool-btn" (click)="cancel()">Cancel</button>
+	<button class="text-blue-500 hover:text-blue-700 mb-4" type="button" (click)="togglePasswordVisibility()">
+		{{
+		passwordFieldType === 'password' ? 'Show password' : 'Hide password'
+		}}
+	</button>
+
+	<!-- @if (validationErrors()) {
+	<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+		<ul>
+			@for (error of validationErrors(); track $index) {
+			<li>{{ error }}</li>
+			}
+		</ul>
+	</div>
+	} -->
+
+	<div class="text-center">
+		<button [disabled]="!registerForm.valid" class="btn cool-btn" type="submit">
+			Register
+		</button>
+		<button class="btn cool-btn" type="button" (click)="cancel()">
+			Cancel
+		</button>
+
+		<button class="btn cool-btn" type="button" (click)="signInWithGoogle()">
+			Sign in with Google
+		</button>
+
+		<button class="btn cool-btn" type="button" (click)="loginWithGoogle()">
+			Login in with Google
+		</button>
 	</div>
 </form>
-
-<p>Form value: {{ registerForm.value | json }}</p>
-<p>Form status: {{ registerForm.status | json }}</p>
