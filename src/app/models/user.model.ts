@@ -3,5 +3,6 @@ export interface User {
 	Token: string;
 	PhotoUrl?: string;
 	KnownAs: string;
+	Gender: string;
 	RefreshToken: string;
 }

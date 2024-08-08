@@ -7,6 +7,7 @@ import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
 import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
+import { ChangePassword } from '../models/change-password';
 
 @Injectable({
 	providedIn: 'root',
@@ -61,6 +62,16 @@ export class AccountService {
 
 	loginWithGoogle() {
 		return this.http.get(this.baseUrl + 'Account/login-google', {});
+	}
+
+	deleteAccount() {
+		return this.http.delete(this.baseUrl + 'Account/delete-account', {});
+	}
+
+	changePassword(model: ChangePassword) {
+		return this.http.post(this.baseUrl + 'Account/change-password', model, {
+			responseType: 'text',
+		});
 	}
 }
 

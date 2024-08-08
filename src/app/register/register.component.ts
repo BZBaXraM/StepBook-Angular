@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
 		]),
 	});
 	maxDate = new Date();
-	validationErrors: string[] | undefined; // not working!
+	validationErrors: string[] | undefined;
 	passwordFieldType = 'password';
 
 	ngOnInit(): void {
@@ -92,40 +92,6 @@ export class RegisterComponent implements OnInit {
 			error: (error) => {
 				this.validationErrors = error;
 				this.toast.error(this.validationErrors!.toString());
-			},
-		});
-	}
-
-	signInWithGoogle() {
-		this.accountService.sigInWithGoogle().subscribe({
-			next: (_response) => {
-				this.router.navigateByUrl('/members').then((success) => {
-					if (success) {
-						console.log('Navigation successful');
-					} else {
-						console.log('Navigation failed');
-					}
-				});
-			},
-			error: (error) => {
-				console.error('Google sign-in error:', error);
-			},
-		});
-	}
-
-	loginWithGoogle() {
-		this.accountService.loginWithGoogle().subscribe({
-			next: (_response) => {
-				this.router.navigateByUrl('/members').then((success) => {
-					if (success) {
-						console.log('Navigation successful');
-					} else {
-						console.log('Navigation failed');
-					}
-				});
-			},
-			error: (error) => {
-				console.error('Google login error:', error);
 			},
 		});
 	}
