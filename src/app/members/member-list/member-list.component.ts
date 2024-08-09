@@ -23,8 +23,8 @@ export class MemberListComponent implements OnInit {
 	protected memberService = inject(MembersService);
 	private accountService = inject(AccountService);
 	genderList = [
-		{ value: 'Male', display: 'Males' },
-		{ value: 'Female', display: 'Females' },
+		{ value: 'male', display: 'Males' },
+		{ value: 'female', display: 'Females' },
 	];
 
 	ngOnInit(): void {
