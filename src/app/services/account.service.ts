@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment';
 import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
 import { ChangePassword } from '../models/change-password';
+import { LikesService } from './likes.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -15,6 +16,7 @@ import { ChangePassword } from '../models/change-password';
 export class AccountService {
 	private baseUrl = environment.apiUrl;
 	private http = inject(HttpClient);
+	private likeService = inject(LikesService);
 	public currentUser = signal<User | null>(null);
 
 	login(model: Login) {
@@ -41,6 +43,7 @@ export class AccountService {
 	setCurrentUser(user: User) {
 		localStorage.setItem('user', JSON.stringify(user));
 		this.currentUser.set(user);
+		this.likeService.getLikeIds();
 	}
 
 	forgetPassword(model: ForgetPassword) {

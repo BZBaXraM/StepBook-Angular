@@ -1,9 +1,7 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MembersService } from '../../services/members.service';
 import { MemberCardComponent } from '../member-card/member-card.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { AccountService } from '../../services/account.service';
-import { UserParams } from '../../models/userParams';
 import { FormsModule } from '@angular/forms';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
@@ -20,11 +18,10 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 	styleUrl: './member-list.component.css',
 })
 export class MemberListComponent implements OnInit {
-	protected memberService = inject(MembersService);
-	private accountService = inject(AccountService);
+	memberService = inject(MembersService);
 	genderList = [
-		{ value: 'male', display: 'Males' },
-		{ value: 'female', display: 'Females' },
+		{ value: 'Male', display: 'Males' },
+		{ value: 'Female', display: 'Females' },
 	];
 
 	ngOnInit(): void {
@@ -34,17 +31,17 @@ export class MemberListComponent implements OnInit {
 	}
 
 	getMembers() {
-		this.memberService.getMembers(this.memberService.userParams);
+		this.memberService.getMembers();
 	}
 
 	resetFilters() {
-		this.memberService.userParams;
+		this.memberService.resetUserParams();
 		this.getMembers();
 	}
 
 	pageChanged(event: any) {
-		if (this.memberService.userParams.PageNumber !== event.page) {
-			this.memberService.userParams.PageNumber = event.page;
+		if (this.memberService.userParams().PageNumber !== event.page) {
+			this.memberService.userParams().PageNumber = event.page;
 			this.getMembers();
 		}
 	}
