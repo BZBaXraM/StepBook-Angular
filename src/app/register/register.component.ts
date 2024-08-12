@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, output, signal } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import {
 	AbstractControl,
 	FormControl,
