@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { inject, Injectable, model, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Member } from '../models/member.model';
 import { of, tap } from 'rxjs';
@@ -7,6 +7,10 @@ import { Photo } from '../models/photo.model';
 import { PaginatedResult } from '../models/pagination.model';
 import { UserParams } from '../models/userParams';
 import { AccountService } from './account.service';
+import {
+	setPaginatedResponse,
+	setPaginationHeaders,
+} from '../../../_helpers/paginationHelper';
 
 @Injectable({
 	providedIn: 'root',
@@ -30,10 +34,10 @@ export class MembersService {
 		);
 
 		if (response) {
-			this.setPaginatedResponse(response);
+			setPaginatedResponse(response, this.paginatedResult);
 		}
 
-		let params = this.setPaginationHeaders(
+		let params = setPaginationHeaders(
 			this.userParams().PageNumber,
 			this.userParams().PageSize
 		);
@@ -50,20 +54,13 @@ export class MembersService {
 			})
 			.subscribe({
 				next: (response) => {
-					this.setPaginatedResponse(response);
+					setPaginatedResponse(response, this.paginatedResult);
 					this.memberCache.set(
 						Object.values(this.userParams()).join('-'),
 						response
 					);
 				},
 			});
-	}
-
-	private setPaginatedResponse(response: HttpResponse<Member[]>) {
-		this.paginatedResult.set({
-			items: response.body as Member[],
-			pagination: JSON.parse(response.headers.get('Pagination')!),
-		});
 	}
 
 	getMember(username: string) {
@@ -124,16 +121,5 @@ export class MembersService {
 			// 	);
 			// })
 			();
-	}
-
-	private setPaginationHeaders(pageNumber: number, pageSize: number) {
-		let params = new HttpParams();
-
-		if (pageNumber && pageSize) {
-			params = params.append('pageNumber', pageNumber);
-			params = params.append('pageSize', pageSize);
-		}
-
-		return params;
 	}
 }

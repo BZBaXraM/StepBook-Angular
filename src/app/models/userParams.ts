@@ -10,6 +10,6 @@ export class UserParams {
 
 
 	constructor(user: User | null) {
-		this.Gender = user?.Gender === 'Female' ? 'Male' : 'Female';
+		this.Gender = user?.Gender === 'Female' ? 'Male' : 'Male';
 	}
 }
