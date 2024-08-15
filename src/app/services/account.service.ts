@@ -7,7 +7,7 @@ import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
 import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
-import { ChangePassword } from '../models/change-password';
+import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
 
 @Injectable({

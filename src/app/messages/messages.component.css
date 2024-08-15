@@ -1,0 +1,12 @@
+.pagination-container {
+	position: fixed;
+	bottom: 0;
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	padding: 15px 0;
+}
+
+.rounded-circle {
+	max-height: 50px;
+}
