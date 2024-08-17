@@ -7,14 +7,48 @@ import {
 	setPaginatedResponse,
 	setPaginationHeaders,
 } from '../../_helpers/paginationHelper';
+import {
+	HubConnection,
+	HubConnectionBuilder,
+	HubConnectionState,
+} from '@microsoft/signalr';
+import { User } from './models/user.model';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class MessageService {
 	baseUrl = environment.apiUrl;
+	hubUrl = environment.hubsUrl;
 	private http = inject(HttpClient);
+	private hubConnection?: HubConnection;
 	paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
+	messageThread = signal<Message[]>([]);
+
+	createHubConnection(user: User, other: string) {
+		this.hubConnection = new HubConnectionBuilder()
+			.withUrl(this.hubUrl + 'message?user=' + other, {
+				accessTokenFactory: () => user.Token,
+			})
+			.withAutomaticReconnect()
+			.build();
+
+		this.hubConnection.start().catch((error) => console.log(error));
+
+		this.hubConnection.on('ReceiveMessageThread', (messages) => {
+			this.messageThread.set(messages);
+		});
+
+		this.hubConnection.on('NewMessage', (message) => {
+			this.messageThread.update((messages) => [...message, message]);
+		});
+	}
+
+	stopHubConnection() {
+		if (this.hubConnection?.state === HubConnectionState.Connected) {
+			this.hubConnection.stop().catch((error) => console.log(error));
+		}
+	}
 
 	getMessages(pageNumber: number, pageSize: number, container: string) {
 		let params = setPaginationHeaders(pageNumber, pageSize);
@@ -42,9 +76,9 @@ export class MessageService {
 		);
 	}
 
-	sendMessage(username: string, content: string) {
-		return this.http.post<Message>(this.baseUrl + 'Messages', {
-			RecipientUsername: username,
+	async sendMessage(username: string, content: string) {
+		return this.hubConnection?.invoke('SendMessage', {
+			recipientUsername: username,
 			content,
 		});
 	}

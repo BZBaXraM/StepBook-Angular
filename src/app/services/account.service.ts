@@ -9,6 +9,7 @@ import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
 import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
+import { PresenceService } from '../../services/presence.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,6 +19,7 @@ export class AccountService {
 	private http = inject(HttpClient);
 	private likeService = inject(LikesService);
 	public currentUser = signal<User | null>(null);
+	private presenceService = inject(PresenceService);
 
 	login(model: Login) {
 		return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(
@@ -38,12 +40,14 @@ export class AccountService {
 	logout() {
 		localStorage.removeItem('user');
 		this.currentUser.set(null);
+		this.presenceService.stopHubConnection();
 	}
 
 	setCurrentUser(user: User) {
 		localStorage.setItem('user', JSON.stringify(user));
 		this.currentUser.set(user);
 		this.likeService.getLikeIds();
+		this.presenceService.createConnection(user);
 	}
 
 	forgetPassword(model: ForgetPassword) {

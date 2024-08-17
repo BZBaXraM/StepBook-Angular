@@ -1,10 +1,10 @@
 <div class="card">
 	<div class="card-body">
-		@if(messages().length === 0) {
+		@if(messageService.messageThread().length === 0) {
 		<p>No messages yet</p>
 		} @else {
 		<ul class="chat">
-			@for (item of messages(); track item.Id) {
+			@for (item of messageService.messageThread(); track item.Id) {
 			<li>
 				<div>
 					<span class="chat-img float-end">
@@ -42,7 +42,7 @@
 	</div>
 
 	<div class="card-footer">
-		<form #messageForm (ngSubmit)="sendMessage()">
+		<form #messageForm="ngForm" (ngSubmit)="sendMessage()">
 			<div class="input-group">
 				<input
 					name="content"
@@ -54,7 +54,7 @@
 				/>
 				<div class="input-group-append">
 					<button
-					[disabled]="!messageForm.valid"
+						[disabled]="!messageForm.valid"
 						class="btn btn-primary"
 						type="submit"
 					>
