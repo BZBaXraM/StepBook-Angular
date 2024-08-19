@@ -8,18 +8,18 @@
 			<div class="d-flex mx-2">
 				<label class="col-form-label">Age from: </label>
 				<input type="number" class="form-control ms-1" style="width: 70px;" name="minAge"
-					[(ngModel)]="memberService.userParams().minAge">
+					[(ngModel)]="memberService.userParams().MinAge">
 			</div>
 			<div class="d-flex mx-2">
 				<label class="col-form-label">Age to: </label>
 				<input type="number" class="form-control ms-1" style="width: 70px;" name="maxAge"
-					[(ngModel)]="memberService.userParams().maxAge">
+					[(ngModel)]="memberService.userParams().MaxAge">
 			</div>
 
 			<div class="d-flex mx-2">
 				<label class="col-form-label">Show: </label>
 				<select name="gender" style="width: 130px;" class="form-select ms-1"
-					[(ngModel)]="memberService.userParams().gender">
+					[(ngModel)]="memberService.userParams().Gender">
 
 					@for (item of genderList; track item.value) {
 					<option [value]="item.value">{{item.display}}</option>
@@ -32,9 +32,9 @@
 			<div class="col">
 				<div class="btn-group float-end">
 					<button type="button" class="btn btn-primary" name="orderBy" (click)="getMembers()"
-						btnRadio="lastActive" [(ngModel)]="memberService.userParams().orderBy">Last Active</button>
+						btnRadio="lastActive" [(ngModel)]="memberService.userParams().OrderBy">Last Active</button>
 					<button type="button" class="btn btn-primary" name="orderBy" (click)="getMembers()"
-						btnRadio="created" [(ngModel)]="memberService.userParams().orderBy">Newest Members</button>
+						btnRadio="created" [(ngModel)]="memberService.userParams().OrderBy">Newest Members</button>
 				</div>
 			</div>
 
@@ -42,7 +42,7 @@
 		</form>
 	</div>
 
-	@for (member of memberService.paginatedResult()?.items; track member.id) {
+	@for (member of memberService.paginatedResult()?.items; track member.Id) {
 	<div class="col-2">
 		<app-member-card [member]="member" />
 	</div>

@@ -41,11 +41,11 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 			next: (data) => {
 				this.member = data['member'];
 				this.member &&
-					this.member.photos?.map((photo) => {
+					this.member.Photos?.map((photo) => {
 						this.images.push(
 							new ImageItem({
-								src: photo.url,
-								thumb: photo.url,
+								src: photo.Url,
+								thumb: photo.Url,
 							})
 						);
 					});
@@ -81,7 +81,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 			this.messageService.hubConnection?.stop().then(() => {
 				this.messageService.createHubConnection(
 					user,
-					this.member.username
+					this.member.Username
 				);
 			});
 		}
@@ -97,7 +97,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 		if (this.activeTab.heading === 'Messages' && this.member) {
 			const user = this.accountService.currentUser();
 			if (!user) return;
-			this.messageService.createHubConnection(user, this.member.username);
+			this.messageService.createHubConnection(user, this.member.Username);
 		} else {
 			this.messageService.stopHubConnection();
 		}

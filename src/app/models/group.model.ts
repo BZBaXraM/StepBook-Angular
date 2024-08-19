@@ -1,9 +1,9 @@
 export interface Group {
-    name: string;
-    connections: Connection[]
+	Name: string;
+	Connections: Connection[];
 }
 
 export interface Connection {
-    connectionId: string;
-    username: string;
+	ConnectionId: string;
+	Username: string;
 }
