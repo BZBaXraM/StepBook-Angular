@@ -1,12 +1,14 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../environments/environment.development';
+import { environment } from '../../environments/environment.development';
 import {
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
-import { User } from '../app/models/user.model';
+import { User } from '../models/user.model';
+import { take } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -14,6 +16,7 @@ import { User } from '../app/models/user.model';
 export class PresenceService {
 	hubUrl = environment.hubsUrl;
 	private connection?: HubConnection;
+	private router = inject(Router);
 	private toastr = inject(ToastrService);
 	onlineUsers = signal<string[]>([]);
 
@@ -30,15 +33,28 @@ export class PresenceService {
 		});
 
 		this.connection.on('UserIsOnline', (username) => {
-			this.toastr.info(username + ' is online');
+			this.onlineUsers.update((users) => [...users, username]);
 		});
 
 		this.connection.on('UserIsOffline', (username) => {
-			this.toastr.warning(username + ' is offline');
+			this.onlineUsers.update((users) =>
+				users.filter((x) => x !== username)
+			);
 		});
 
 		this.connection.on('GetOnlineUsers', (usernames) => {
 			this.onlineUsers.set(usernames);
+		});
+
+		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
+			this.toastr
+				.info('You have a new message from ' + knownAs)
+				.onTap.pipe(take(1))
+				.subscribe(() =>
+					this.router.navigateByUrl(
+						'/members/' + username + '?tab=Messages'
+					)
+				);
 		});
 	}
 

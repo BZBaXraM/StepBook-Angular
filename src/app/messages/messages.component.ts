@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MessageService } from '../message.service';
+import { MessageService } from '../services/message.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';

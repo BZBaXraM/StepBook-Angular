@@ -1,38 +1,42 @@
 <div class="card">
 	<div class="card-body">
-		@if(messageService.messageThread().length === 0) {
+		@if (messageService.messageThread().length === 0) {
 		<p>No messages yet</p>
 		} @else {
-		<ul class="chat">
-			@for (item of messageService.messageThread(); track item.Id) {
+		<ul
+			class="chat"
+			#scrollMe
+			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
+		>
+			@for (message of messageService.messageThread(); track message.Id) {
 			<li>
 				<div>
 					<span class="chat-img float-end">
 						<img
 							class="rounded-circle"
-							src="{{ item.SenderPhotoUrl || 'user.png' }}"
+							src="{{ message.SenderPhotoUrl || 'user.png' }}"
 							alt="Image of message sender"
 						/>
 					</span>
 					<div class="chat-body">
 						<div class="header">
 							<small class="text-muted">
-								<span class="fa fa-clock-0">{{
-									item.MessageSent
+								<span class="fa fa-clock-o">{{
+									message.MessageSent | timeago
 								}}</span>
-								<span>{{ item.MessageSent | timeago }}</span>
-								@if (!item.DateRead && item.SenderUsername !==
-								username()) {
-								<span class="text-danger">Unread</span>
-								} @if (item.DateRead && item.SenderUsername !==
-								username()) {
+								@if (!message.DateRead && message.SenderUsername
+								!== username()) {
+								<span class="text-danger">(unread)</span>
+								} @if (message.DateRead &&
+								message.SenderUsername !== username()) {
 								<span class="text-success"
-									>(read {{ item.DateRead | timeago }})</span
+									>(read
+									{{ message.DateRead | timeago }})</span
 								>
 								}
 							</small>
 						</div>
-						<p>{{ item.Content }}</p>
+						<p>{{ message.Content }}</p>
 					</div>
 				</div>
 			</li>
@@ -45,12 +49,12 @@
 		<form #messageForm="ngForm" (ngSubmit)="sendMessage()">
 			<div class="input-group">
 				<input
-					name="content"
+					name="messageContent"
 					required
 					[(ngModel)]="content"
 					type="text"
 					class="form-control input-sm"
-					placeholder="Type a message..."
+					placeholder="Send a private message"
 				/>
 				<div class="input-group-append">
 					<button
@@ -59,6 +63,9 @@
 						type="submit"
 					>
 						Send
+						<!-- @if (loading) {
+                            <i class="fa fa-spinner fa-spin"></i>
+                        } -->
 					</button>
 				</div>
 			</div>

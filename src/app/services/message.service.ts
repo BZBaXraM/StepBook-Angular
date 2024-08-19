@@ -1,18 +1,19 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { PaginatedResult } from './models/pagination.model';
-import { Message } from './models/message.model';
+import { PaginatedResult } from '../models/pagination.model';
+import { Message } from '../models/message.model';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
-} from '../../_helpers/paginationHelper';
+} from '../../../_helpers/paginationHelper';
 import {
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
-import { User } from './models/user.model';
+import { User } from '../models/user.model';
+import { Group } from '../models/group.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,13 +22,13 @@ export class MessageService {
 	baseUrl = environment.apiUrl;
 	hubUrl = environment.hubsUrl;
 	private http = inject(HttpClient);
-	private hubConnection?: HubConnection;
+	hubConnection?: HubConnection;
 	paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
 	messageThread = signal<Message[]>([]);
 
-	createHubConnection(user: User, other: string) {
+	createHubConnection(user: User, otherUsername: string) {
 		this.hubConnection = new HubConnectionBuilder()
-			.withUrl(this.hubUrl + 'message?user=' + other, {
+			.withUrl(this.hubUrl + 'message?user=' + otherUsername, {
 				accessTokenFactory: () => user.Token,
 			})
 			.withAutomaticReconnect()
@@ -40,7 +41,21 @@ export class MessageService {
 		});
 
 		this.hubConnection.on('NewMessage', (message) => {
-			this.messageThread.update((messages) => [...message, message]);
+			console.log('New message received:', message); // Log message
+			this.messageThread.update((messages) => [...messages, message]);
+		});
+
+		this.hubConnection.on('UpdatedGroup', (group: Group) => {
+			if (group.Connections.some((x) => x.Username === otherUsername)) {
+				this.messageThread.update((messages) => {
+					messages.forEach((message) => {
+						if (!message.DateRead) {
+							message.DateRead = new Date(Date.now());
+						}
+					});
+					return messages;
+				});
+			}
 		});
 	}
 

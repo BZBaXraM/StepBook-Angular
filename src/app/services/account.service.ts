@@ -9,7 +9,7 @@ import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
 import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
-import { PresenceService } from '../../services/presence.service';
+import { PresenceService } from './presence.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -52,7 +52,7 @@ export class AccountService {
 
 	forgetPassword(model: ForgetPassword) {
 		console.log('forgetPassword service called with model:', model);
-		return this.http.post('Account/forget-password', model, {
+		return this.http.post(this.baseUrl + 'Account/forget-password', model, {
 			responseType: 'text',
 		});
 	}

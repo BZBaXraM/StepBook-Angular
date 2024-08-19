@@ -2,7 +2,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { Member } from '../../models/member.model';
 import { RouterLink } from '@angular/router';
 import { LikesService } from '../../services/likes.service';
-import { PresenceService } from '../../../services/presence.service';
+import { PresenceService } from '../../services/presence.service';
 
 @Component({
 	selector: 'app-member-card',

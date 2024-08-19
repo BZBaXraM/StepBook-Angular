@@ -34,11 +34,10 @@
 		<h6 class="card-title text-center mb-1">
 			<span [class.is-online]="isOnline()">
 				<i class="fa fa-user me-2"></i>
-
 			</span>
 			{{ member().KnownAs }}, {{ member().Age }}
 			@if (hasLiked()) {
-			<i class="fa fa-heart ms-2" style="color: red"></i>
+			<i class="fa fa-heart ms-2" style="color: rgb(0, 213, 255)"></i>
 			}
 		</h6>
 		<p class="card-text text-muted text-center">
