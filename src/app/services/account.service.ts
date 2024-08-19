@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { map, Observable } from 'rxjs';
-import { Register } from '../models/register.model';
-import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
 import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
 import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
 import { PresenceService } from './presence.service';
+import { Login } from '../models/login.model';
+import { Register } from '../models/register.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -47,7 +47,7 @@ export class AccountService {
 		localStorage.setItem('user', JSON.stringify(user));
 		this.currentUser.set(user);
 		this.likeService.getLikeIds();
-		this.presenceService.createConnection(user);
+		this.presenceService.createHubConnection(user);
 	}
 
 	forgetPassword(model: ForgetPassword) {

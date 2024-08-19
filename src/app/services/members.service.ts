@@ -39,14 +39,14 @@ export class MembersService {
 		}
 
 		let params = setPaginationHeaders(
-			this.userParams().PageNumber,
-			this.userParams().PageSize
+			this.userParams().pageNumber,
+			this.userParams().pageSize
 		);
 
-		params = params.append('MinAge', this.userParams().MinAge);
-		params = params.append('MaxAge', this.userParams().MaxAge);
-		params = params.append('Gender', this.userParams().Gender);
-		params = params.append('OrderBy', this.userParams().OrderBy);
+		params = params.append('MinAge', this.userParams().minAge);
+		params = params.append('MaxAge', this.userParams().maxAge);
+		params = params.append('Gender', this.userParams().gender);
+		params = params.append('OrderBy', this.userParams().orderBy);
 
 		return this.http
 			.get<Member[]>(this.baseUrl + 'Users', {
@@ -67,7 +67,7 @@ export class MembersService {
 	getMember(username: string) {
 		const member: Member = [...this.memberCache.values()]
 			.reduce((arr, elem) => arr.concat(elem.items), [])
-			.find((member: Member) => member?.Username === username);
+			.find((member: Member) => member?.username === username);
 
 		if (member) {
 			return of(member);
@@ -81,7 +81,7 @@ export class MembersService {
 			tap(() => {
 				this.members.update((members) =>
 					members.map((x) =>
-						x.Username === member.Username ? member : x
+						x.username === member.username ? member : x
 					)
 				);
 			})
@@ -90,13 +90,13 @@ export class MembersService {
 
 	setMainPhoto(photo: Photo) {
 		return this.http
-			.put(this.baseUrl + 'Users/set-main-photo/' + photo.Id, {})
+			.put(this.baseUrl + 'Users/set-main-photo/' + photo.id, {})
 			.pipe(
 				tap(() => {
 					this.members.update((members) =>
 						members.map((x) => {
-							if (x.Photos.includes(photo)) {
-								x.PhotoUrl = photo.Url;
+							if (x.photos.includes(photo)) {
+								x.photoUrl = photo.url;
 							}
 							return x;
 						})
@@ -107,13 +107,13 @@ export class MembersService {
 
 	deletePhoto(photo: Photo) {
 		return this.http
-			.delete(this.baseUrl + 'Users/delete-photo/' + photo.Id)
+			.delete(this.baseUrl + 'Users/delete-photo/' + photo.id)
 			.pipe(
 				tap(() => {
 					this.members.update((members) =>
 						members.map((x) => {
-							x.Photos = x.Photos.filter(
-								(x) => x.Id !== photo.Id
+							x.photos = x.photos.filter(
+								(x) => x.id !== photo.id
 							);
 							return x;
 						})

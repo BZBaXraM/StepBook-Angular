@@ -24,8 +24,8 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class LoginComponent {
 	model = signal<Login>({
-		UsernameOrEmail: '',
-		Password: '',
+		usernameOrEmail: '',
+		password: '',
 	});
 	accountService = inject(AccountService);
 	private router = inject(Router);

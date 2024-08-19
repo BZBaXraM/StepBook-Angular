@@ -2,12 +2,12 @@
 	<div class="col-4">
 		<div class="card">
 			<img
-				src="{{ member.PhotoUrl || 'user.png' }}"
+				src="{{ member.photoUrl || 'user.png' }}"
 				class="card-img img-thumbnail"
-				alt="{{ member.Username }}"
+				alt="{{ member.username }}"
 			/>
 			<div class="card-body">
-				@if (presenceService.onlineUsers().includes(member.Username)) {
+				@if (presenceService.onlineUsers().includes(member.username)) {
 				<div class="mb-2">
 					<i class="fa fa-user-circle text-succses"></i> Online now
 				</div>
@@ -15,19 +15,19 @@
 				}
 				<div>
 					<strong>Location:</strong>
-					<p>{{ member.City }}, {{ member.Country }}</p>
+					<p>{{ member.city }}, {{ member.country }}</p>
 				</div>
 				<div>
 					<strong>Age:</strong>
-					<p>{{ member.Age }}</p>
+					<p>{{ member.age }}</p>
 				</div>
 				<div>
 					<strong>Last Active:</strong>
-					<p>{{ member.LastActive | timeago }}</p>
+					<p>{{ member.lastActive | timeago }}</p>
 				</div>
 				<div>
 					<strong>Member Since:</strong>
-					<p>{{ member.Created | date : "dd MMM yyyy" }}</p>
+					<p>{{ member.created | date : "dd MMM yyyy" }}</p>
 				</div>
 			</div>
 			<div class="card-footer">
@@ -47,17 +47,17 @@
 	<div class="col-8">
 		<tabset class="member-tabset" #memberTabs>
 			<tab
-				heading="About {{ member.KnownAs }}"
+				heading="About {{ member.knownAs }}"
 				(selectTab)="onTabActivated($event)"
 			>
 				<h4>Description</h4>
-				<p>{{ member.Introduction }}</p>
+				<p>{{ member.introduction }}</p>
 				<h4>Looking For</h4>
-				<p>{{ member.LookingFor }}</p>
+				<p>{{ member.lookingFor }}</p>
 			</tab>
 			<tab heading="Interests" (selectTab)="onTabActivated($event)">
 				<h4>Interests</h4>
-				<p>{{ member.Interests }}</p>
+				<p>{{ member.interests }}</p>
 			</tab>
 			<tab
 				heading="Photos"
@@ -71,7 +71,7 @@
 			</tab>
 			<tab heading="Messages" (selectTab)="onTabActivated($event)">
 				<app-member-messages
-					[username]="member.Username"
+					[username]="member.username"
 				></app-member-messages>
 			</tab>
 		</tabset>

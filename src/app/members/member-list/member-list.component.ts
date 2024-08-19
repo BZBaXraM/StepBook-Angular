@@ -40,8 +40,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
 	}
 
 	pageChanged(event: any) {
-		if (this.memberService.userParams().PageNumber !== event.page) {
-			this.memberService.userParams().PageNumber = event.page;
+		if (this.memberService.userParams().pageNumber !== event.page) {
+			this.memberService.userParams().pageNumber = event.page;
 			this.getMembers();
 		}
 	}

@@ -16,23 +16,23 @@ export class MemberCardComponent {
 	member = input.required<Member>();
 	private presenceService = inject(PresenceService);
 	hasLiked = computed(() =>
-		this.likeService.likeIds().includes(this.member().Id)
+		this.likeService.likeIds().includes(this.member().id)
 	);
 	isOnline = computed(() =>
-		this.presenceService.onlineUsers().includes(this.member().Username)
+		this.presenceService.onlineUsers().includes(this.member().username)
 	);
 
 	toggleLike() {
-		this.likeService.toggleLike(this.member().Id).subscribe({
+		this.likeService.toggleLike(this.member().id).subscribe({
 			next: () => {
 				if (this.hasLiked()) {
 					this.likeService.likeIds.update((ids) =>
-						ids.filter((id) => id !== this.member().Id)
+						ids.filter((id) => id !== this.member().id)
 					);
 				} else {
 					this.likeService.likeIds.update((ids) => [
 						...ids,
-						this.member().Id,
+						this.member().id,
 					]);
 				}
 			},

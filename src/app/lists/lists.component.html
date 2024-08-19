@@ -1,21 +1,39 @@
 <div class="text-center mt-3">
-	<h2>{{getTitle()}}</h2>
+	<h2>{{ getTitle() }}</h2>
 </div>
 
 <div class="container mt3">
 	<div class="d-flex">
 		<div class="btn-group">
-			<button class="btn btn-primary" btnRadio="liked" [(ngModel)]="predicate" (click)="getLikes()">Members I
-				like</button>
-			<button class="btn btn-primary" btnRadio="likedBy" [(ngModel)]="predicate" (click)="getLikes()">Members who
-				like me</button>
-			<button class="btn btn-primary" btnRadio="mutual" [(ngModel)]="predicate"
-				(click)="getLikes()">Mutual</button>
+			<button
+				class="btn btn-primary"
+				btnRadio="liked"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Members I like
+			</button>
+			<button
+				class="btn btn-primary"
+				btnRadio="likedBy"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Members who like me
+			</button>
+			<button
+				class="btn btn-primary"
+				btnRadio="mutual"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Mutual
+			</button>
 		</div>
 	</div>
 
 	<div class="row mt-3">
-		@for (item of likeService.paginatedResult()?.items; track item.Id) {
+		@for (item of likeService.paginatedResult()?.items; track item.id) {
 		<div class="col-2">
 			<app-member-card [member]="item"></app-member-card>
 		</div>
@@ -25,11 +43,22 @@
 
 @if (likeService.paginatedResult()?.pagination) {
 <div class="pagination-container">
-
-	<pagination [boundaryLinks]="true" [totalItems]="likeService.paginatedResult()?.pagination!.totalItems"
-		[itemsPerPage]="likeService.paginatedResult()?.pagination!.itemsPerPage" (pageChanged)="pageChanged($event)"
-		[(ngModel)]="likeService.paginatedResult()?.pagination!.currentPage" [maxSize]="10" previousText="&lsaquo;"
-		[maxSize]="10" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+	<pagination
+		[boundaryLinks]="true"
+		[totalItems]="(likeService.paginatedResult()?.pagination)!.totalItems"
+		[itemsPerPage]="
+			(likeService.paginatedResult()?.pagination)!.itemsPerPage
+		"
+		(pageChanged)="pageChanged($event)"
+		[(ngModel)]="(likeService.paginatedResult()?.pagination)!.currentPage"
+		[maxSize]="10"
+		previousText="&lsaquo;"
+		[maxSize]="10"
+		previousText="&lsaquo;"
+		nextText="&rsaquo;"
+		firstText="&laquo;"
+		lastText="&raquo;"
+	>
 	</pagination>
 </div>
 }

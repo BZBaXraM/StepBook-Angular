@@ -1,8 +1,8 @@
 export interface User {
-	Username: string;
-	Token: string;
-	PhotoUrl?: string;
-	KnownAs: string;
-	Gender: string;
-	RefreshToken: string;
+    username: string;
+    knownAs: string;
+    gender: string;
+    token: string;
+	refreshToken: string;
+    photoUrl?: string;
 }

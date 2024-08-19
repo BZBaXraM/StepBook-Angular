@@ -11,58 +11,48 @@ import { take } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
-	providedIn: 'root',
-})
-export class PresenceService {
+	providedIn: 'root'
+  })
+  export class PresenceService {
 	hubUrl = environment.hubsUrl;
-	private connection?: HubConnection;
-	private router = inject(Router);
+	private hubConnection?: HubConnection;
 	private toastr = inject(ToastrService);
+	private router = inject(Router);
 	onlineUsers = signal<string[]>([]);
 
-	createConnection(user: User) {
-		this.connection = new HubConnectionBuilder()
-			.withUrl(`${this.hubUrl}presence`, {
-				accessTokenFactory: () => user.Token,
-			})
-			.withAutomaticReconnect()
-			.build();
+	createHubConnection(user: User) {
+	  this.hubConnection = new HubConnectionBuilder()
+		.withUrl(this.hubUrl + 'presence', {
+		  accessTokenFactory: () => user.token
+		})
+		.withAutomaticReconnect()
+		.build();
 
-		this.connection.start().catch((error) => {
-			this.toastr.error(error);
-		});
+	  this.hubConnection.start().catch(error => console.log(error));
 
-		this.connection.on('UserIsOnline', (username) => {
-			this.onlineUsers.update((users) => [...users, username]);
-		});
+	  this.hubConnection.on('UserIsOnline', username => {
+		this.onlineUsers.update(users => [...users, username]);
+	  });
 
-		this.connection.on('UserIsOffline', (username) => {
-			this.onlineUsers.update((users) =>
-				users.filter((x) => x !== username)
-			);
-		});
+	  this.hubConnection.on('UserIsOffline', username => {
+		this.onlineUsers.update(users => users.filter(x => x !== username));
+	  });
 
-		this.connection.on('GetOnlineUsers', (usernames) => {
-			this.onlineUsers.set(usernames);
-		});
+	  this.hubConnection.on('GetOnlineUsers', usernames => {
+		this.onlineUsers.set(usernames)
+	  });
 
-		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
-			this.toastr
-				.info('You have a new message from ' + knownAs)
-				.onTap.pipe(take(1))
-				.subscribe(() =>
-					this.router.navigateByUrl(
-						'/members/' + username + '?tab=Messages'
-					)
-				);
-		});
+	  this.hubConnection.on('NewMessageReceived', ({username, knownAs}) => {
+		this.toastr.info(knownAs + ' has sent you a new message!  Click me to see it')
+		  .onTap
+		  .pipe(take(1))
+		  .subscribe(() => this.router.navigateByUrl('/members/' + username + '?tab=Messages'))
+	  })
 	}
 
 	stopHubConnection() {
-		if (this.connection?.state === HubConnectionState.Connected) {
-			this.connection.stop().catch((error) => {
-				console.log(error);
-			});
-		}
+	  if (this.hubConnection?.state === HubConnectionState.Connected) {
+		this.hubConnection.stop().catch(error => console.log(error))
+	  }
 	}
-}
+  }

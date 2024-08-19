@@ -1,10 +1,10 @@
 export interface Register {
-	Email: string;
-	Username: string;
-	KnownAs: string;
-	Gender: string;
-	DateOfBirth: Date;
-	City: string;
-	Country: string;
-	Password: string;
+	email: string;
+	username: string;
+	knownAs: string;
+	gender: string;
+	dateOfBirth: Date;
+	city: string;
+	country: string;
+	password: string;
 }

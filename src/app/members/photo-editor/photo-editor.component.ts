@@ -37,14 +37,14 @@ export class PhotoEditorComponent implements OnInit {
 			next: _ => {
 				const user = this.accountService.currentUser();
 				if (user) {
-					user.PhotoUrl = photo.Url;
+					user.photoUrl = photo.url;
 					this.accountService.setCurrentUser(user);
 				}
 				const updatedMember = {...this.member()};
-				updatedMember.PhotoUrl = photo.Url;
-				updatedMember.Photos.forEach(p => {
-					if (p.IsMain) p.IsMain = false;
-					if (p.Id === photo.Id) p.IsMain = true;
+				updatedMember.photoUrl = photo.url;
+				updatedMember.photos.forEach(p => {
+					if (p.isMain) p.isMain = false;
+					if (p.id === photo.id) p.isMain = true;
 				});
 				this.memberChange.emit(updatedMember);
 			}
@@ -55,7 +55,7 @@ export class PhotoEditorComponent implements OnInit {
 		this.memberService.deletePhoto(photo).subscribe({
 			next: _ => {
 				const updatedMember = {...this.member()};
-				updatedMember.Photos = updatedMember.Photos.filter(p => p.Id !== photo.Id);
+				updatedMember.photos = updatedMember.photos.filter(p => p.id !== photo.id);
 				this.memberChange.emit(updatedMember);
 			}
 		});
@@ -64,7 +64,7 @@ export class PhotoEditorComponent implements OnInit {
 	initializeUploader() {
 		this.uploader = new FileUploader({
 			url: this.baseUrl + 'Users/add-photo',
-			authToken: 'Bearer ' + this.accountService.currentUser()?.Token,
+			authToken: 'Bearer ' + this.accountService.currentUser()?.token,
 			isHTML5: true,
 			allowedFileType: ['image'],
 			removeAfterUpload: true,
@@ -79,7 +79,7 @@ export class PhotoEditorComponent implements OnInit {
 		this.uploader.onSuccessItem = (item, response, status, headers) => {
 			const photo = JSON.parse(response);
 			const updatedMember = {...this.member()};
-			updatedMember.Photos.push(photo);
+			updatedMember.photos.push(photo);
 			this.memberChange.emit(updatedMember);
 
 		};
