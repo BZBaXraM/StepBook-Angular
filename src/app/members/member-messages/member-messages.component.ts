@@ -3,27 +3,41 @@ import {
 	Component,
 	inject,
 	input,
+	OnInit,
+	signal,
 	ViewChild,
 } from '@angular/core';
 import { MessageService } from '../../services/message.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
-import { AsyncPipe } from '@angular/common';
+import { Message } from '../../models/message.model';
 
 @Component({
 	selector: 'app-member-messages',
 	standalone: true,
-	imports: [TimeagoModule, FormsModule, AsyncPipe],
+	imports: [TimeagoModule, FormsModule],
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
-export class MemberMessagesComponent implements AfterViewChecked {
+export class MemberMessagesComponent implements AfterViewChecked, OnInit {
 	@ViewChild('messageForm') messageForm?: NgForm;
 	@ViewChild('scrollMe') scrollMe?: any;
 	username = input.required<string>();
 	messageService = inject(MessageService);
 	content = '';
+	messages = signal<Message[]>([]);
 
+	getMessages() {
+		this.messageService
+			.getMessageThread(this.username())
+			.subscribe((messages) => {
+				this.messages.set(messages);
+			});
+	}
+
+	ngOnInit(): void {
+		this.getMessages();
+	}
 	sendMessage() {
 		this.messageService
 			.sendMessage(this.username(), this.content)
