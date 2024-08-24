@@ -14,8 +14,8 @@ import { preventUnsavedChangeGuard } from './guards/prevent-unsaved-change.guard
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ConfirmationEmailSentComponent } from './confirmation-email-sent/confirmation-email-sent.component';
-import { memberDetailedResolver } from './member-detailed.resolver';
 import { MessagesComponent } from './messages/messages.component';
+import { memberDetailedResolver } from './member-detailed.resolver';
 
 export const routes: Routes = [
 	{
@@ -70,7 +70,7 @@ export const routes: Routes = [
 	{ path: 'server-error', component: ServerErrorComponent },
 	{
 		path: '**',
-		component: MemberListComponent,
+		component: HomeComponent,
 		pathMatch: 'full',
 	},
 ];

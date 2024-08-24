@@ -1,8 +1,6 @@
 <div class="card">
 	<div class="card-body">
-		@if (messageService.messageThread().length === 0) {
-		<!-- messages().length === 0 -->
-
+		@if (messages().length === 0) {
 		<p>No messages yet</p>
 		} @else {
 		<ul
@@ -10,8 +8,7 @@
 			#scrollMe
 			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
 		>
-			@for (message of messageService.messageThread(); track message.Id) {
-			<!-- message of messages() -->
+			@for (message of messages(); track message.Id) {
 			<li>
 				<div>
 					<span class="chat-img float-end">
@@ -70,9 +67,6 @@
 						type="submit"
 					>
 						Send
-						<!-- @if (loading) {
-                            <i class="fa fa-spinner fa-spin"></i>
-                        } -->
 					</button>
 				</div>
 			</div>

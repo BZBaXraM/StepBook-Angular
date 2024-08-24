@@ -28,7 +28,7 @@ export class MessageService {
 	paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
 	messageThread = signal<Message[]>([]);
 
-	createHubConnection(user: User, otherUsername: string) {
+	async createHubConnection(user: User, otherUsername: string) {
 		this.busyService.busy();
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl(this.hubUrl + 'message?user=' + otherUsername, {
@@ -42,11 +42,11 @@ export class MessageService {
 			.catch((error) => console.log(error))
 			.finally(() => this.busyService.idle());
 
-		this.hubConnection.on('ReceiveMessageThread', (messages) => {
+		this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
 			this.messageThread.set(messages);
 		});
 
-		this.hubConnection.on('NewMessage', (message) => {
+		this.hubConnection.on('NewMessage', (message: Message) => {
 			this.messageThread.update((messages) => [...messages, message]);
 		});
 
@@ -76,7 +76,7 @@ export class MessageService {
 		params = params.append('Container', container);
 
 		return this.http
-			.get<Message[]>(this.baseUrl + 'messages', {
+			.get<Message[]>(this.baseUrl + 'Messages', {
 				observe: 'response',
 				params,
 			})
@@ -88,12 +88,12 @@ export class MessageService {
 
 	getMessageThread(username: string) {
 		return this.http.get<Message[]>(
-			this.baseUrl + 'messages/thread/' + username
+			this.baseUrl + 'Messages/Thread/' + username
 		);
 	}
 
 	async sendMessage(username: string, content: string) {
-		return this.hubConnection?.invoke('SendMessage', {
+		return await this.hubConnection?.invoke('SendMessage', {
 			recipientUsername: username,
 			content,
 		});
