@@ -1,41 +1,47 @@
-<div class="row">
-	<div class="col-4">
-		<div class="card">
+<div class="flex flex-wrap">
+	<div class="w-full md:w-1/3 mb-4">
+		<div class="bg-white shadow-md rounded-lg overflow-hidden">
 			<img
 				src="{{ member.PhotoUrl || 'user.png' }}"
 				class="card-img img-thumbnail"
 				alt="{{ member.Username }}"
 			/>
-			<div class="card-body">
+			<div class="p-4">
 				@if (presenceService.onlineUsers().includes(member.Username)) {
 				<div class="mb-2">
-					<i class="fa fa-user-circle text-succses"></i> Online now
+					<i class="fa fa-user-circle text-green-500"></i> Online now
 				</div>
-
 				}
-				<div>
+				<div class="mb-2">
+					<strong>Username:</strong>
+					<p>{{ member.Username }}</p>
+				</div>
+				<div class="mb-2">
+					<strong>Known As:</strong>
+					<p>{{ member.KnownAs }}</p>
+				</div>
+				<div class="mb-2">
 					<strong>Location:</strong>
 					<p>{{ member.City }}, {{ member.Country }}</p>
 				</div>
-				<div>
+				<div class="mb-2">
 					<strong>Age:</strong>
 					<p>{{ member.Age }}</p>
 				</div>
-				<div>
+				<div class="mb-2">
 					<strong>Last Active:</strong>
 					<p>{{ member.LastActive | timeago }}</p>
 				</div>
-				<div>
+				<div class="mb-2">
 					<strong>Member Since:</strong>
 					<p>{{ member.Created | date : "dd MMM yyyy" }}</p>
 				</div>
 			</div>
-			<div class="card-footer">
-				<div class="btn-group d-flex">
-					<button class="btn cool-btn">Like</button>
+			<div class="bg-gray-100 p-4">
+				<div class="flex justify-center">
 					<button
 						(click)="selectTab('Messages')"
-						class="btn cool-btn"
+						class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
 					>
 						Message
 					</button>
@@ -44,19 +50,19 @@
 		</div>
 	</div>
 
-	<div class="col-8">
+	<div class="w-full md:w-2/3">
 		<tabset class="member-tabset" #memberTabs>
 			<tab
 				heading="About {{ member.KnownAs }}"
 				(selectTab)="onTabActivated($event)"
 			>
-				<h4>Description</h4>
-				<p>{{ member.Introduction }}</p>
-				<h4>Looking For</h4>
+				<h4 class="font-bold text-lg mb-2">Description</h4>
+				<p class="mb-4">{{ member.Introduction }}</p>
+				<h4 class="font-bold text-lg mb-2">Looking For</h4>
 				<p>{{ member.LookingFor }}</p>
 			</tab>
 			<tab heading="Interests" (selectTab)="onTabActivated($event)">
-				<h4>Interests</h4>
+				<h4 class="font-bold text-lg mb-2">Interests</h4>
 				<p>{{ member.Interests }}</p>
 			</tab>
 			<tab
@@ -65,8 +71,11 @@
 				(selectTab)="onTabActivated($event)"
 			>
 				@if (photoTab.active) {
-				<gallery [items]="images" class="gallery" [itemAutosize]="true">
-				</gallery>
+				<gallery
+					[items]="images"
+					class="gallery"
+					[itemAutosize]="true"
+				/>
 				}
 			</tab>
 			<tab heading="Messages" (selectTab)="onTabActivated($event)">

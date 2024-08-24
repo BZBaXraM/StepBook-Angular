@@ -1,8 +1,8 @@
 <div class="container mt-3">
-	<div class="d-flex">
-		<div class="btn-group">
+	<div class="flex justify-start">
+		<div class="inline-flex">
 			<button
-				class="btn btn-primary"
+				class="bg-blue-500 text-white py-2 px-4 rounded-l-lg focus:outline-none hover:bg-blue-600"
 				btnRadio="Unread"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -10,7 +10,7 @@
 				Unread
 			</button>
 			<button
-				class="btn btn-primary"
+				class="bg-blue-500 text-white py-2 px-4 focus:outline-none hover:bg-blue-600"
 				btnRadio="Inbox"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -18,7 +18,7 @@
 				Inbox
 			</button>
 			<button
-				class="btn btn-primary"
+				class="bg-blue-500 text-white py-2 px-4 rounded-r-lg focus:outline-none hover:bg-blue-600"
 				btnRadio="Outbox"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -31,28 +31,29 @@
 
 @if (!messageService.paginatedResult()?.items ||
 messageService.paginatedResult()?.items?.length === 0) {
-<h3 mt-3>No messages</h3>
+<h3 class="mt-3">No messages</h3>
 } @else {
-<table class="table table-hover mt-3" style="cursor: pointer">
+<table class="table-auto w-full mt-3 cursor-pointer">
 	<thead>
-		<tr>
-			<th style="width: 40%">Message</th>
-			<th style="width: 20%">From / To</th>
-			<th style="width: 20%">Sent / Received</th>
-			<th style="width: 20%"></th>
+		<tr class="bg-gray-100">
+			<th class="py-2 px-4 w-2/5">Message</th>
+			<th class="py-2 px-4 w-1/5">From / To</th>
+			<th class="py-2 px-4 w-1/5">Sent / Received</th>
+			<th class="py-2 px-4 w-1/5"></th>
 		</tr>
 	</thead>
 	<tbody class="align-middle">
 		@for (item of messageService.paginatedResult()?.items; track item.Id) {
 		<tr
+			class="hover:bg-gray-200"
 			routerLink="{{ getRoute(item) }}"
 			[queryParams]="{ tab: 'Messages' }"
 		>
-			<td>{{ item.Content }}</td>
-			<td>
-				<div>
+			<td class="py-2 px-4">{{ item.Content }}</td>
+			<td class="py-2 px-4">
+				<div class="flex items-center">
 					<img
-						class="rounded-circle me-2"
+						class="rounded-full h-8 w-8 mr-2"
 						[src]="
 							isOutbox
 								? item.RecipientPhotoUrl || 'user.png'
@@ -60,15 +61,17 @@ messageService.paginatedResult()?.items?.length === 0) {
 						"
 						alt="img of user"
 					/>
-
 					<strong>{{
 						isOutbox ? item.RecipientUsername : item.SenderUsername
 					}}</strong>
 				</div>
 			</td>
-			<td>{{ item.MessageSent | timeago }}</td>
-			<td (click)="$event.stopImmediatePropagation()">
-				<button class="btn btn-danger" (click)="deleteMessage(item.Id)">
+			<td class="py-2 px-4">{{ item.MessageSent | timeago }}</td>
+			<td class="py-2 px-4" (click)="$event.stopImmediatePropagation()">
+				<button
+					class="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600"
+					(click)="deleteMessage(item.Id)"
+				>
 					Delete
 				</button>
 			</td>
@@ -78,7 +81,7 @@ messageService.paginatedResult()?.items?.length === 0) {
 </table>
 } @if (messageService.paginatedResult()?.pagination &&
 messageService.paginatedResult()?.pagination?.totalItems! > 0) {
-<div class="pagination-container">
+<div class="flex justify-center mt-4">
 	<pagination
 		[boundaryLinks]="true"
 		[totalItems]="
@@ -93,13 +96,10 @@ messageService.paginatedResult()?.pagination?.totalItems! > 0) {
 		"
 		[maxSize]="10"
 		previousText="&lsaquo;"
-		[maxSize]="10"
-		previousText="&lsaquo;"
 		nextText="&rsaquo;"
 		firstText="&laquo;"
 		lastText="&raquo;"
 	>
 	</pagination>
 </div>
-
 }

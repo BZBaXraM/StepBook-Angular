@@ -51,7 +51,6 @@ export class AccountService {
 	}
 
 	forgetPassword(model: ForgetPassword) {
-		console.log('forgetPassword service called with model:', model);
 		return this.http.post(this.baseUrl + 'Account/forget-password', model, {
 			responseType: 'text',
 		});

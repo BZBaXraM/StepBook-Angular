@@ -1,6 +1,6 @@
 <div class="card">
 	<div class="card-body">
-		@if (messageService.messageThread().length === 0) {
+		@if (messages().length === 0) {
 		<p>No messages yet</p>
 		} @else {
 		<ul
@@ -8,7 +8,7 @@
 			#scrollMe
 			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
 		>
-			@for (message of messageService.messageThread(); track message.Id) {
+			@for (message of messages(); track message.Id) {
 			<li>
 				<div>
 					<span class="chat-img float-end">
@@ -21,9 +21,13 @@
 					<div class="chat-body">
 						<div class="header">
 							<small class="text-muted">
-								<span class="fa fa-clock-o">{{
-									message.MessageSent | timeago
-								}}</span>
+								<span class="fa fa-clock-o">
+									{{
+										message.MessageSent
+											? (message.MessageSent | timeago)
+											: "Unknown time"
+									}}
+								</span>
 								@if (!message.DateRead && message.SenderUsername
 								!== username()) {
 								<span class="text-danger">(unread)</span>
@@ -63,9 +67,6 @@
 						type="submit"
 					>
 						Send
-						<!-- @if (loading) {
-                            <i class="fa fa-spinner fa-spin"></i>
-                        } -->
 					</button>
 				</div>
 			</div>

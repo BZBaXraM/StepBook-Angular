@@ -18,8 +18,8 @@ export class ForgetPasswordComponent {
 	private accountService = inject(AccountService);
 	private baseUrl = environment.apiUrl;
 	model = signal<ForgetPassword>({
-		Email: '',
-		ClientURI: this.baseUrl + '/Account/reset-password',
+		email: '',
+		clientURI: this.baseUrl + '/Account/reset-password',
 	});
 	loading = false;
 	success = false;

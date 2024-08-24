@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class PresenceService {
 	hubUrl = environment.hubsUrl;
-	private connection?: HubConnection;
+	private connection!: HubConnection;
 	private router = inject(Router);
 	private toastr = inject(ToastrService);
 	onlineUsers = signal<string[]>([]);
