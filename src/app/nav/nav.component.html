@@ -28,6 +28,14 @@
 					>Messages</a
 				>
 			</li>
+			<li class="nav-item">
+				@if (haveMessages) {
+				<span class="badge bg-inherit rounded-none">{{
+					newMessagesCount
+				}}</span>
+
+				}
+			</li>
 			}
 		</ul>
 		@if (accountService.currentUser()) {

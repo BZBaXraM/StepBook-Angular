@@ -102,4 +102,10 @@ export class MessageService {
 	deleteMessage(id: number) {
 		return this.http.delete(this.baseUrl + 'messages/' + id);
 	}
+
+	getNewMessagesCount() {
+		return this.http.get<number>(
+			this.baseUrl + 'messages/new-messages-count'
+		);
+	}
 }

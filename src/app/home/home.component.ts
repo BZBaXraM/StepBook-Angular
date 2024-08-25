@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,7 +20,6 @@ import { RouterLink } from '@angular/router';
 })
 export class HomeComponent {
 	registerMode = false;
-	// users = signal<Member[]>([]);
 
 	registerToggle() {
 		this.registerMode = !this.registerMode;

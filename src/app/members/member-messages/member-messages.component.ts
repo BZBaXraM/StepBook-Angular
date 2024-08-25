@@ -80,7 +80,6 @@ export class MemberMessagesComponent implements AfterViewChecked, OnInit {
 
 	ngAfterViewChecked(): void {
 		this.scrollToBottom();
-		this.cdr.detectChanges();
 	}
 
 	private scrollToBottom() {
