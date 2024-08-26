@@ -48,6 +48,7 @@ export class MessageService {
 
 		this.hubConnection.on('NewMessage', (message: Message) => {
 			this.messageThread.update((messages) => [...messages, message]);
+			console.log(message);
 		});
 
 		this.hubConnection.on('UpdatedGroup', (group: Group) => {

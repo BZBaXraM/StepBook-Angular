@@ -13,12 +13,11 @@ import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Message } from '../../models/message.model';
 import { AccountService } from '../../services/account.service';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
 	selector: 'app-member-messages',
 	standalone: true,
-	imports: [TimeagoModule, FormsModule, AsyncPipe],
+	imports: [TimeagoModule, FormsModule],
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
@@ -31,6 +30,7 @@ export class MemberMessagesComponent implements AfterViewChecked, OnInit {
 	private accountService = inject(AccountService);
 	content = '';
 	messages = signal<Message[]>([]);
+	loading = false;
 
 	getMessages() {
 		return this.messageService.getMessageThread(this.username()).subscribe({
@@ -55,6 +55,7 @@ export class MemberMessagesComponent implements AfterViewChecked, OnInit {
 	}
 
 	sendMessage() {
+		this.loading = true;
 		this.messageService
 			.sendMessage(this.username(), this.content)
 			.then(() => {
@@ -72,10 +73,10 @@ export class MemberMessagesComponent implements AfterViewChecked, OnInit {
 						RecipientPhotoUrl: '',
 					},
 				]);
-
 				this.messageForm?.reset();
-				this.cdr.detectChanges();
-			});
+				// this.scrollToBottom();
+			})
+			.finally(() => (this.loading = false));
 	}
 
 	ngAfterViewChecked(): void {
