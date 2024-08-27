@@ -1,14 +1,14 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import {inject, Injectable, signal} from '@angular/core';
+import {environment} from '../../environments/environment.development';
 import {
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
-import { ToastrService } from 'ngx-toastr';
-import { User } from '../models/user.model';
-import { take } from 'rxjs';
-import { Router } from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {User} from '../models/user.model';
+import {take} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -46,7 +46,7 @@ export class PresenceService {
 			this.onlineUsers.set(usernames);
 		});
 
-		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
+		this.connection.on('NewMessageReceived', ({username, knownAs}) => {
 			this.toastr
 				.info('You have a new message from ' + knownAs)
 				.onTap.pipe(take(1))

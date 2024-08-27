@@ -22,8 +22,8 @@ export class ResetPasswordComponent {
 	private accountService = inject(AccountService);
 	private toast = inject(ToastrService);
 	model = signal<ResetPassword>({
-		Email: '',
-		Code: '',
+		email: '',
+		code: '',
 		NewPassword: '',
 	});
 	loading = false;

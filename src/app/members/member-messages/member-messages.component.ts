@@ -1,18 +1,13 @@
 import {
 	AfterViewChecked,
-	ChangeDetectorRef,
 	Component,
 	inject,
 	input,
-	OnInit,
-	signal,
 	ViewChild,
 } from '@angular/core';
-import { MessageService } from '../../services/message.service';
-import { TimeagoModule } from 'ngx-timeago';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Message } from '../../models/message.model';
-import { AccountService } from '../../services/account.service';
+import {MessageService} from '../../services/message.service';
+import {TimeagoModule} from 'ngx-timeago';
+import {FormsModule, NgForm} from '@angular/forms';
 
 @Component({
 	selector: 'app-member-messages',
@@ -21,62 +16,18 @@ import { AccountService } from '../../services/account.service';
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
-export class MemberMessagesComponent implements AfterViewChecked, OnInit {
+export class MemberMessagesComponent implements AfterViewChecked {
 	@ViewChild('messageForm') messageForm?: NgForm;
 	@ViewChild('scrollMe') scrollMe?: any;
 	username = input.required<string>();
 	messageService = inject(MessageService);
-	private cdr = inject(ChangeDetectorRef);
-	private accountService = inject(AccountService);
-	content = '';
-	messages = signal<Message[]>([]);
-	loading = false;
-
-	getMessages() {
-		return this.messageService.getMessageThread(this.username()).subscribe({
-			next: (messages) => {
-				this.messages.set(messages);
-				this.cdr.detectChanges();
-			},
-		});
-	}
-
-	ngOnInit(): void {
-		const currentUser = this.accountService.currentUser();
-		if (currentUser) {
-			this.messageService.createHubConnection(
-				currentUser,
-				this.username()
-			);
-		} else {
-			console.error('User is not logged in');
-		}
-		this.getMessages();
-	}
+	messageContent = '';
 
 	sendMessage() {
-		this.loading = true;
-		this.messageService
-			.sendMessage(this.username(), this.content)
-			.then(() => {
-				this.messages.update((messages) => [
-					...messages,
-					{
-						SenderUsername: this.username(),
-						Content: this.content,
-						MessageSent: new Date(),
-						Id: 0,
-						SenderId: 0,
-						SenderPhotoUrl: '',
-						RecipientId: 0,
-						RecipientUsername: '',
-						RecipientPhotoUrl: '',
-					},
-				]);
-				this.messageForm?.reset();
-				// this.scrollToBottom();
-			})
-			.finally(() => (this.loading = false));
+		this.messageService.sendMessage(this.username(), this.messageContent).then(() => {
+			this.messageForm?.reset();
+			this.scrollToBottom();
+		});
 	}
 
 	ngAfterViewChecked(): void {

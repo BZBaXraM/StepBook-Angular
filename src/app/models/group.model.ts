@@ -1,9 +1,6 @@
-export interface Group {
-	Name: string;
-	Connections: Connection[];
-}
+import {Connection} from "./connection.model";
 
-export interface Connection {
-	ConnectionId: string;
-	Username: string;
+export interface Group {
+	name: string;
+	connections: Connection[];
 }

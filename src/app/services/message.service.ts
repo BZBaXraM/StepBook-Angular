@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { PaginatedResult } from '../models/pagination.model';
-import { Message } from '../models/message.model';
+import {inject, Injectable, signal} from '@angular/core';
+import {environment} from '../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {PaginatedResult} from '../models/pagination.model';
+import {Message} from '../models/message.model';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
@@ -12,9 +12,9 @@ import {
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
-import { User } from '../models/user.model';
-import { Group } from '../models/group.model';
-import { BusyService } from './busy.service';
+import {User} from '../models/user.model';
+import {Group} from '../models/group.model';
+import {BusyService} from './busy.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -52,7 +52,7 @@ export class MessageService {
 		});
 
 		this.hubConnection.on('UpdatedGroup', (group: Group) => {
-			if (group.Connections.some((x) => x.Username === otherUsername)) {
+			if (group.connections.some((x) => x.username === otherUsername)) {
 				this.messageThread.update((messages) => {
 					messages.forEach((message) => {
 						if (!message.DateRead) {
@@ -94,7 +94,7 @@ export class MessageService {
 	}
 
 	async sendMessage(username: string, content: string) {
-		return await this.hubConnection?.invoke('SendMessage', {
+		return this.hubConnection?.invoke('SendMessage', {
 			recipientUsername: username,
 			content,
 		});

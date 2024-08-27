@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { AccountService } from '../services/account.service';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { MessageService } from '../services/message.service';
-import { MatIcon } from '@angular/material/icon';
+import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {AccountService} from '../services/account.service';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {MatButtonModule} from '@angular/material/button';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {MessageService} from '../services/message.service';
+import {MatIcon} from '@angular/material/icon';
 
 @Component({
 	selector: 'app-nav',
@@ -42,8 +42,8 @@ export class NavComponent implements OnInit {
 		});
 	}
 
-	logout() {
+	async logout() {
 		this.accountService.logout();
-		this.router.navigateByUrl('/');
+		await this.router.navigateByUrl('/');
 	}
 }

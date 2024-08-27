@@ -4,60 +4,60 @@
 
 		<ul class="navbar-nav me-auto mb-2 mb-md-0">
 			@if (accountService.currentUser()) {
-			<li class="nav-item">
-				<a
-					routerLink="/members"
-					routerLinkActive="active"
-					class="nav-link"
+				<li class="nav-item">
+					<a
+						routerLink="/members"
+						routerLinkActive="active"
+						class="nav-link"
 					>Friends From STEP IT</a
-				>
-			</li>
-			<li class="nav-item">
-				<a
-					routerLink="/lists"
-					routerLinkActive="active"
-					class="nav-link"
+					>
+				</li>
+				<li class="nav-item">
+					<a
+						routerLink="/lists"
+						routerLinkActive="active"
+						class="nav-link"
 					>Lists</a
-				>
-			</li>
-			<li class="nav-item">
-				<a
-					routerLink="/messages"
-					routerLinkActive="active"
-					class="nav-link"
+					>
+				</li>
+				<li class="nav-item">
+					<a
+						routerLink="/messages"
+						routerLinkActive="active"
+						class="nav-link"
 					>Messages</a
-				>
-			</li>
-			<li class="nav-item">
-				@if (haveMessages) {
-				<span class="badge bg-inherit rounded-none">{{
-					newMessagesCount
-				}}</span>
+					>
+				</li>
+				<li class="nav-item">
+					@if (haveMessages) {
+						<span class="badge bg-inherit rounded-none">{{
+								newMessagesCount
+							}}</span>
 
-				}
-			</li>
+					}
+				</li>
 			}
 		</ul>
 		@if (accountService.currentUser()) {
-		<div dropdown class="dropdown">
-			<img
-				class="me-2"
-				src="{{ accountService.currentUser()?.PhotoUrl || 'user.png' }}"
-				alt="Main photo"
-			/>
-			<a
-				dropdownToggle
-				class="dropdown-toggle text-light text-decoration-none"
+			<div dropdown class="dropdown">
+				<img
+					class="me-2"
+					src="{{ accountService.currentUser()?.PhotoUrl || 'user.png' }}"
+					alt="Main photo"
+				/>
+				<a
+					dropdownToggle
+					class="dropdown-toggle text-light text-decoration-none"
 				>Welcome {{ accountService.currentUser()?.KnownAs }}</a
-			>
-			<div *dropdownMenu class="dropdown-menu">
-				<a routerLink="/member/edit" class="dropdown-item"
-					>Edit profile</a
 				>
-				<div class="dropdown-divider"></div>
-				<a class="dropdown-item" (click)="logout()">Logout</a>
+				<div *dropdownMenu class="dropdown-menu">
+					<a routerLink="/member/edit" class="dropdown-item"
+					>Edit profile</a
+					>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" (click)="logout()">Logout</a>
+				</div>
 			</div>
-		</div>
 		}
 	</div>
 </nav>

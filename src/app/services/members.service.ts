@@ -43,10 +43,10 @@ export class MembersService {
 			this.userParams().PageSize
 		);
 
-		params = params.append('MinAge', this.userParams().MinAge);
-		params = params.append('MaxAge', this.userParams().MaxAge);
-		params = params.append('Gender', this.userParams().Gender);
-		params = params.append('OrderBy', this.userParams().OrderBy);
+		params = params.append('minAge', this.userParams().MinAge);
+		params = params.append('maxAge', this.userParams().MaxAge);
+		params = params.append('gender', this.userParams().Gender);
+		params = params.append('orderBy', this.userParams().OrderBy);
 
 		return this.http
 			.get<Member[]>(this.baseUrl + 'Users', {

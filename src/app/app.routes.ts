@@ -1,21 +1,21 @@
-import { HomeComponent } from './home/home.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { ListsComponent } from './lists/lists.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { Routes } from '@angular/router';
-import { authGuard } from './guards/auth.guard';
-import { ServerErrorComponent } from './errors/server-error/server-error.component';
-import { NotFoundComponent } from './errors/not-found/not-found.component';
-import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
-import { MemberEditComponent } from './members/member-edit/member-edit.component';
-import { preventUnsavedChangeGuard } from './guards/prevent-unsaved-change.guard';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { ForgetPasswordComponent } from './forget-password/forget-password.component';
-import { ConfirmationEmailSentComponent } from './confirmation-email-sent/confirmation-email-sent.component';
-import { MessagesComponent } from './messages/messages.component';
-import { memberDetailedResolver } from './member-detailed.resolver';
+import {HomeComponent} from './home/home.component';
+import {MemberListComponent} from './members/member-list/member-list.component';
+import {MemberDetailComponent} from './members/member-detail/member-detail.component';
+import {ListsComponent} from './lists/lists.component';
+import {LoginComponent} from './login/login.component';
+import {RegisterComponent} from './register/register.component';
+import {Routes} from '@angular/router';
+import {authGuard} from './guards/auth.guard';
+import {ServerErrorComponent} from './errors/server-error/server-error.component';
+import {NotFoundComponent} from './errors/not-found/not-found.component';
+import {TestErrorsComponent} from './errors/test-errors/test-errors.component';
+import {MemberEditComponent} from './members/member-edit/member-edit.component';
+import {preventUnsavedChangeGuard} from './guards/prevent-unsaved-change.guard';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
+import {ForgetPasswordComponent} from './forget-password/forget-password.component';
+import {ConfirmationEmailSentComponent} from './confirmation-email-sent/confirmation-email-sent.component';
+import {MessagesComponent} from './messages/messages.component';
+import {memberDetailedResolver} from './member-detailed.resolver';
 
 export const routes: Routes = [
 	{
@@ -34,7 +34,7 @@ export const routes: Routes = [
 			{
 				path: 'members/:Username',
 				component: MemberDetailComponent,
-				resolve: { member: memberDetailedResolver },
+				resolve: {member: memberDetailedResolver},
 			},
 			{
 				path: 'member/:edit',
@@ -63,11 +63,11 @@ export const routes: Routes = [
 		path: 'login',
 		component: LoginComponent,
 	},
-	{ path: 'forget-password', component: ForgetPasswordComponent },
-	{ path: 'reset-password', component: ResetPasswordComponent },
-	{ path: 'errors', component: TestErrorsComponent },
-	{ path: 'not-found', component: NotFoundComponent },
-	{ path: 'server-error', component: ServerErrorComponent },
+	{path: 'forget-password', component: ForgetPasswordComponent},
+	{path: 'reset-password', component: ResetPasswordComponent},
+	{path: 'errors', component: TestErrorsComponent},
+	{path: 'not-found', component: NotFoundComponent},
+	{path: 'server-error', component: ServerErrorComponent},
 	{
 		path: '**',
 		component: HomeComponent,

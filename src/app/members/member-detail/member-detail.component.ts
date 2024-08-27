@@ -1,16 +1,15 @@
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Member } from '../../models/member.model';
-import { TabDirective, TabsetComponent, TabsModule } from 'ngx-bootstrap/tabs';
-import { GalleryItem, GalleryModule, ImageItem } from 'ng-gallery';
-import { TimeagoModule } from 'ngx-timeago';
-import { DatePipe } from '@angular/common';
-import { MemberMessagesComponent } from '../member-messages/member-messages.component';
-import { Message } from '../../models/message.model';
-import { MessageService } from '../../services/message.service';
-import { PresenceService } from '../../services/presence.service';
-import { AccountService } from '../../services/account.service';
-import { HubConnectionState } from '@microsoft/signalr';
+import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Member} from '../../models/member.model';
+import {TabDirective, TabsetComponent, TabsModule} from 'ngx-bootstrap/tabs';
+import {GalleryItem, GalleryModule, ImageItem} from 'ng-gallery';
+import {TimeagoModule} from 'ngx-timeago';
+import {DatePipe} from '@angular/common';
+import {MemberMessagesComponent} from '../member-messages/member-messages.component';
+import {MessageService} from '../../services/message.service';
+import {PresenceService} from '../../services/presence.service';
+import {AccountService} from '../../services/account.service';
+import {HubConnectionState} from '@microsoft/signalr';
 
 @Component({
 	selector: 'app-member-detail',
@@ -26,7 +25,7 @@ import { HubConnectionState } from '@microsoft/signalr';
 	styleUrl: './member-detail.component.css',
 })
 export class MemberDetailComponent implements OnInit, OnDestroy {
-	@ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
+	@ViewChild('memberTabs', {static: true}) memberTabs?: TabsetComponent;
 	presenceService = inject(PresenceService);
 	private route = inject(ActivatedRoute);
 	private router = inject(Router);
@@ -41,14 +40,14 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 			next: (data) => {
 				this.member = data['member'];
 				this.member &&
-					this.member.Photos?.map((photo) => {
-						this.images.push(
-							new ImageItem({
-								src: photo.Url,
-								thumb: photo.Url,
-							})
-						);
-					});
+				this.member.Photos?.map((photo) => {
+					this.images.push(
+						new ImageItem({
+							src: photo.Url,
+							thumb: photo.Url,
+						})
+					);
+				});
 			},
 		});
 
@@ -70,12 +69,12 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	onRouteParamsChange() {
+	async onRouteParamsChange() {
 		const user = this.accountService.currentUser();
 		if (!user) return;
 		if (
 			this.messageService.hubConnection?.state ===
-				HubConnectionState.Connected &&
+			HubConnectionState.Connected &&
 			this.activeTab?.heading === 'Messages'
 		) {
 			this.messageService.hubConnection?.stop().then(() => {
@@ -87,17 +86,17 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	onTabActivated(data: TabDirective) {
+	async onTabActivated(data: TabDirective) {
 		this.activeTab = data;
-		this.router.navigate([], {
+		await this.router.navigate([], {
 			relativeTo: this.route,
-			queryParams: { tab: this.activeTab.heading },
+			queryParams: {tab: this.activeTab.heading},
 			queryParamsHandling: 'merge',
 		});
 		if (this.activeTab.heading === 'Messages' && this.member) {
 			const user = this.accountService.currentUser();
 			if (!user) return;
-			this.messageService.createHubConnection(user, this.member.Username);
+			await this.messageService.createHubConnection(user, this.member.Username);
 		} else {
 			this.messageService.stopHubConnection();
 		}
