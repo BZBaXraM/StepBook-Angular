@@ -55,8 +55,8 @@ export class MessageService {
 			if (group.connections.some((x) => x.username === otherUsername)) {
 				this.messageThread.update((messages) => {
 					messages.forEach((message) => {
-						if (!message.DateRead) {
-							message.DateRead = new Date(Date.now());
+						if (!message.dateRead) {
+							message.dateRead = new Date(Date.now());
 						}
 					});
 					return messages;

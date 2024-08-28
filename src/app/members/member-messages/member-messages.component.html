@@ -42,6 +42,25 @@
 									</small>
 								</div>
 								<p>{{ message.content }}</p>
+								<div class="clearfix">
+									@if (message.recipientUsername === username()) {
+										<button
+											class="btn border-t-neutral-50 btn-sm float-end"
+											(click)="deleteMessage(message.id)"
+										>
+											Delete
+										</button>
+									}
+									@if (message.senderUsername === username()) {
+										<button
+											class="btn border-t-neutral-50 btn-sm float-end"
+											(click)="deleteMessage(message.id)"
+										>
+											Delete
+										</button>
+									}
+
+								</div>
 							</div>
 						</div>
 					</li>
@@ -61,6 +80,7 @@
 					class="form-control input-sm"
 					placeholder="Send a private message"
 				/>
+
 				<div class="input-group-append">
 					<button
 						[disabled]="!messageForm.valid"

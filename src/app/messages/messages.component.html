@@ -43,7 +43,7 @@ messageService.paginatedResult()?.items?.length === 0) {
 		</tr>
 		</thead>
 		<tbody class="align-middle">
-			@for (item of messageService.paginatedResult()?.items; track $index) {
+			@for (item of messageService.paginatedResult()?.items; track item.id) {
 				<tr
 					class="hover:bg-gray-200"
 					routerLink="{{ getRoute(item) }}"
@@ -56,8 +56,8 @@ messageService.paginatedResult()?.items?.length === 0) {
 								class="rounded-full h-8 w-8 mr-2"
 								[src]="
 							isOutbox
-								? item.RecipientPhotoUrl || 'user.png'
-								: item.SenderPhotoUrl || 'user.png'
+								? item.recipientPhotoUrl || 'user.png'
+								: item.senderPhotoUrl || 'user.png'
 						"
 								alt="img of user"
 							/>

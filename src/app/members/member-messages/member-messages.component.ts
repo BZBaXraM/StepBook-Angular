@@ -30,6 +30,22 @@ export class MemberMessagesComponent implements AfterViewChecked {
 		});
 	}
 
+	deleteMessage(id: number) {
+		this.messageService.deleteMessage(id).subscribe({
+			next: () => {
+				this.messageService.paginatedResult.update((prev) => {
+					if (prev && prev.items) {
+						prev.items.splice(
+							prev.items.findIndex((m) => m.id === id),
+							1);
+						return prev;
+					}
+					return prev;
+				});
+			},
+		});
+	}
+
 	ngAfterViewChecked(): void {
 		this.scrollToBottom();
 	}

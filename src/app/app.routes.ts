@@ -32,7 +32,7 @@ export const routes: Routes = [
 				component: MemberListComponent,
 			},
 			{
-				path: 'members/:Username',
+				path: 'members/:username',
 				component: MemberDetailComponent,
 				resolve: {member: memberDetailedResolver},
 			},
