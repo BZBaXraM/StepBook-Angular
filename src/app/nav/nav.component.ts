@@ -37,31 +37,20 @@ export class NavComponent implements OnInit {
 	messageService = inject(MessageService);
 	haveMessages = false;
 	newMessagesCount = 0;
-
-	// constructor(private eventService: PresenceService) {} // B
-
-	// sendNotification() {
-	// 	this.eventService.triggerEvent({ message: 'Hello from Component A!' });
-	// }
-
-	// ngOnInit(): void {
-	// 	this.getNewMessagesCount();
-	// 	this.cdr.detectChanges();
-	// }
-
 	notificationMessage: string = '';
 	private eventSubscription!: Subscription;
-
-	constructor(private eventService: PresenceService) {}
+	presenceService = inject(PresenceService);
 
 	ngOnInit() {
-		this.eventSubscription = this.eventService.eventObservable$.subscribe(
+		this.eventSubscription = this.presenceService.eventObservable$.subscribe(
 			(data) => {
 				console.log(data.message);
 
 				this.getNewMessagesCount();
 			}
 		);
+			this.getNewMessagesCount();
+		this.cdr.detectChanges();
 	}
 
 	ngOnDestroy() {

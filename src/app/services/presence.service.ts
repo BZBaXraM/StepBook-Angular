@@ -67,6 +67,7 @@ export class PresenceService {
 
 			// // 	this.haveMessages = count > 0;
 			// // });
+			this.triggerEvent({ message: 'Hello from Component A!' });
 			this.toastr
 				.info('You have a new message from ' + knownAs)
 				.onTap.pipe(take(1))
@@ -75,7 +76,7 @@ export class PresenceService {
 						'/members/' + username + '?tab=Messages'
 					)
 				);
-				this.triggerEvent({ message: 'Hello from Component A!' });
+
 
 		});
 	}
