@@ -1,24 +1,39 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {environment} from '../../environments/environment.development';
+import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment.development';
 import {
+	HttpClient,
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
-import {ToastrService} from 'ngx-toastr';
-import {User} from '../models/user.model';
-import {take} from 'rxjs';
-import {Router} from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { User } from '../models/user.model';
+import { Subject, take } from 'rxjs';
+import { Router } from '@angular/router';
+import { MessageService } from './message.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class PresenceService {
+	baseUrl = environment.apiUrl;
 	hubUrl = environment.hubsUrl;
 	private connection!: HubConnection;
 	private router = inject(Router);
 	private toastr = inject(ToastrService);
+	private messageService = inject(MessageService);
 	onlineUsers = signal<string[]>([]);
+	count = 0;
+	haveMessages = false;
+	newMessagesCount = 0;
+
+	private eventSubject = new Subject<any>();
+
+	eventObservable$ = this.eventSubject.asObservable();
+
+	triggerEvent(data: any) {
+		this.eventSubject.next(data);
+	}
 
 	createConnection(user: User) {
 		this.connection = new HubConnectionBuilder()
@@ -46,7 +61,12 @@ export class PresenceService {
 			this.onlineUsers.set(usernames);
 		});
 
-		this.connection.on('NewMessageReceived', ({username, knownAs}) => {
+		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
+			// // this.messageService.getNewMessagesCount().subscribe((count) => {
+			// 	this.newMessagesCount = count;
+
+			// // 	this.haveMessages = count > 0;
+			// // });
 			this.toastr
 				.info('You have a new message from ' + knownAs)
 				.onTap.pipe(take(1))
@@ -55,6 +75,8 @@ export class PresenceService {
 						'/members/' + username + '?tab=Messages'
 					)
 				);
+				this.triggerEvent({ message: 'Hello from Component A!' });
+
 		});
 	}
 
@@ -65,4 +87,11 @@ export class PresenceService {
 			});
 		}
 	}
+
+	// getNewMessagesCount(): void {
+	// 	this.messageService.getNewMessagesCount().subscribe((count) => {
+	// 		this.newMessagesCount = count;
+	// 		this.haveMessages = count > 0;
+	// 	});
+	// }
 }

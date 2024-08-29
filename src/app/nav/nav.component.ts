@@ -1,11 +1,19 @@
-import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {AccountService} from '../services/account.service';
-import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
-import {MatButtonModule} from '@angular/material/button';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {MessageService} from '../services/message.service';
-import {MatIcon} from '@angular/material/icon';
+import {
+	AfterViewChecked,
+	ChangeDetectorRef,
+	Component,
+	inject,
+	OnInit,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { AccountService } from '../services/account.service';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { MessageService } from '../services/message.service';
+import { MatIcon } from '@angular/material/icon';
+import { PresenceService } from '../services/presence.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-nav',
@@ -30,9 +38,36 @@ export class NavComponent implements OnInit {
 	haveMessages = false;
 	newMessagesCount = 0;
 
-	ngOnInit(): void {
-		this.getNewMessagesCount();
-		this.cdr.detectChanges();
+	// constructor(private eventService: PresenceService) {} // B
+
+	// sendNotification() {
+	// 	this.eventService.triggerEvent({ message: 'Hello from Component A!' });
+	// }
+
+	// ngOnInit(): void {
+	// 	this.getNewMessagesCount();
+	// 	this.cdr.detectChanges();
+	// }
+
+	notificationMessage: string = '';
+	private eventSubscription!: Subscription;
+
+	constructor(private eventService: PresenceService) {}
+
+	ngOnInit() {
+		this.eventSubscription = this.eventService.eventObservable$.subscribe(
+			(data) => {
+				console.log(data.message);
+
+				this.getNewMessagesCount();
+			}
+		);
+	}
+
+	ngOnDestroy() {
+		if (this.eventSubscription) {
+			this.eventSubscription.unsubscribe();
+		}
 	}
 
 	getNewMessagesCount(): void {
