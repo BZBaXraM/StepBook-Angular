@@ -105,6 +105,8 @@ export class MessageService {
 	}
 
 	getNewMessagesCount() {
+		console.log("getNewMessagesCount");
+
 		return this.http.get<number>(
 			this.baseUrl + 'messages/new-messages-count'
 		);
