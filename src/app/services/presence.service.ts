@@ -62,11 +62,6 @@ export class PresenceService {
 		});
 
 		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
-			// // this.messageService.getNewMessagesCount().subscribe((count) => {
-			// 	this.newMessagesCount = count;
-
-			// // 	this.haveMessages = count > 0;
-			// // });
 			this.triggerEvent({ message: 'Hello from Component A!' });
 			this.toastr
 				.info('You have a new message from ' + knownAs)
@@ -76,8 +71,6 @@ export class PresenceService {
 						'/members/' + username + '?tab=Messages'
 					)
 				);
-
-
 		});
 	}
 

@@ -1,8 +1,8 @@
-import {inject, Injectable, signal} from '@angular/core';
-import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {PaginatedResult} from '../models/pagination.model';
-import {Message} from '../models/message.model';
+import { inject, Injectable, signal } from '@angular/core';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { PaginatedResult } from '../models/pagination.model';
+import { Message } from '../models/message.model';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
@@ -12,9 +12,9 @@ import {
 	HubConnectionBuilder,
 	HubConnectionState,
 } from '@microsoft/signalr';
-import {User} from '../models/user.model';
-import {Group} from '../models/group.model';
-import {BusyService} from './busy.service';
+import { User } from '../models/user.model';
+import { Group } from '../models/group.model';
+import { BusyService } from './busy.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -94,10 +94,15 @@ export class MessageService {
 	}
 
 	async sendMessage(username: string, content: string) {
-		return this.hubConnection?.invoke('SendMessage', {
-			recipientUsername: username,
-			content,
-		});
+		try {
+			return await this.hubConnection?.invoke('SendMessage', {
+				recipientUsername: username,
+				content,
+			});
+		} catch (error) {
+			console.error('Failed to send message:', error);
+			throw error; // Re-throw the error if you want to handle it further up the call stack
+		}
 	}
 
 	deleteMessage(id: number) {
@@ -105,8 +110,6 @@ export class MessageService {
 	}
 
 	getNewMessagesCount() {
-		console.log("getNewMessagesCount");
-
 		return this.http.get<number>(
 			this.baseUrl + 'messages/new-messages-count'
 		);

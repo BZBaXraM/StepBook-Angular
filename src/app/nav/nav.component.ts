@@ -1,10 +1,4 @@
-import {
-	AfterViewChecked,
-	ChangeDetectorRef,
-	Component,
-	inject,
-	OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -42,14 +36,11 @@ export class NavComponent implements OnInit {
 	presenceService = inject(PresenceService);
 
 	ngOnInit() {
-		this.eventSubscription = this.presenceService.eventObservable$.subscribe(
-			(data) => {
-				console.log(data.message);
-
+		this.eventSubscription =
+			this.presenceService.eventObservable$.subscribe(() => {
 				this.getNewMessagesCount();
-			}
-		);
-			this.getNewMessagesCount();
+			});
+		this.getNewMessagesCount();
 		this.cdr.detectChanges();
 	}
 
@@ -59,11 +50,13 @@ export class NavComponent implements OnInit {
 		}
 	}
 
-	getNewMessagesCount(): void {
-		this.messageService.getNewMessagesCount().subscribe((count) => {
-			this.newMessagesCount = count;
-			this.haveMessages = count > 0;
-		});
+	getNewMessagesCount() {
+		if (this.accountService.currentUser()) {
+			this.messageService.getNewMessagesCount().subscribe((count) => {
+				this.newMessagesCount = count;
+				this.haveMessages = count > 0;
+			});
+		}
 	}
 
 	async logout() {

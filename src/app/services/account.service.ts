@@ -38,9 +38,27 @@ export class AccountService {
 	}
 
 	logout() {
-		localStorage.removeItem('user');
-		this.currentUser.set(null);
-		this.presenceService.stopHubConnection();
+		const token = JSON.parse(localStorage.getItem('user') || '{}').token;
+
+		if (token) {
+			this.http
+				.post(this.baseUrl + 'Account/logout', { token })
+				.subscribe({
+					next: () => {
+						localStorage.removeItem('user');
+						this.currentUser.set(null);
+						this.presenceService.stopHubConnection();
+						console.log('Logout successful');
+					},
+					error: (err) => {
+						console.error('Logout failed', err);
+					},
+				});
+		} else {
+			localStorage.removeItem('user');
+			this.currentUser.set(null);
+			this.presenceService.stopHubConnection();
+		}
 	}
 
 	setCurrentUser(user: User) {
