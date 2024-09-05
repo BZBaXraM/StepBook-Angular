@@ -77,15 +77,21 @@ export class MembersService {
 	}
 
 	updateMember(member: Member) {
-		return this.http.put(this.baseUrl + 'Users', member).pipe(
-			tap(() => {
-				this.members.update((members) =>
-					members.map((x) =>
-						x.Username === member.Username ? member : x
-					)
-				);
+		return this.http
+			.put(this.baseUrl + 'Users', member, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
 			})
-		);
+			.pipe(
+				tap(() => {
+					this.members.update((members) =>
+						members.map((x) =>
+							x.Username === member.Username ? member : x
+						)
+					);
+				})
+			);
 	}
 
 	setMainPhoto(photo: Photo) {
