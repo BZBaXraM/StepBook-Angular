@@ -23,6 +23,7 @@
 		"@microsoft/signalr": "^8.0.7",
 		"@ng-bootstrap/ng-bootstrap": "^17.0.0",
 		"@popperjs/core": "^2.11.8",
+		"@types/prismjs": "^1.26.4",
 		"bootstrap": "^5.3.3",
 		"bootswatch": "^5.3.3",
 		"font-awesome": "^4.7.0",
@@ -32,6 +33,7 @@
 		"ngx-spinner": "^17.0.0",
 		"ngx-timeago": "^3.0.0",
 		"ngx-toastr": "^19.0.0",
+		"prismjs": "^1.29.0",
 		"rxjs": "~7.8.1",
 		"tslib": "^2.7.0",
 		"zone.js": "~0.15.0"

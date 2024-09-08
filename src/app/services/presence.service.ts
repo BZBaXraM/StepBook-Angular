@@ -1,7 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import {
-	HttpClient,
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
@@ -10,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from '../models/user.model';
 import { Subject, take } from 'rxjs';
 import { Router } from '@angular/router';
-import { MessageService } from './message.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,7 +19,6 @@ export class PresenceService {
 	private connection!: HubConnection;
 	private router = inject(Router);
 	private toastr = inject(ToastrService);
-	private messageService = inject(MessageService);
 	onlineUsers = signal<string[]>([]);
 	count = 0;
 	haveMessages = false;
@@ -81,11 +78,4 @@ export class PresenceService {
 			});
 		}
 	}
-
-	// getNewMessagesCount(): void {
-	// 	this.messageService.getNewMessagesCount().subscribe((count) => {
-	// 		this.newMessagesCount = count;
-	// 		this.haveMessages = count > 0;
-	// 	});
-	// }
 }

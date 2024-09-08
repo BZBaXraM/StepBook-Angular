@@ -14,4 +14,6 @@ export interface Message {
 	dateRead?: Date;
 	messageSent: Date;
 	MessageSent: Date;
+	fileUrl?: string;
+	FileUrl?: string;
 }

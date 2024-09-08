@@ -1,16 +1,16 @@
 <div class="card">
 	<div class="card-body">
 		@if (messageService.messageThread().length === 0) {
-			<p>No messages yet</p>
+		<p>No messages yet</p>
 		} @else {
-			<ul
-				class="chat"
-				#scrollMe
-				style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
-			>
-				@for (message of messageService.messageThread(); track message.id) {
-					<li>
-						<div>
+		<ul
+			class="chat"
+			#scrollMe
+			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
+		>
+			@for (message of messageService.messageThread(); track message.id) {
+			<li>
+				<div>
 					<span class="chat-img float-end">
 						<img
 							class="rounded-circle"
@@ -18,9 +18,9 @@
 							alt="Image of message sender"
 						/>
 					</span>
-							<div class="chat-body">
-								<div class="header">
-									<small class="text-muted">
+					<div class="chat-body">
+						<div class="header">
+							<small class="text-muted">
 								<span class="fa fa-clock-o">
 									{{
 										message.messageSent
@@ -28,44 +28,46 @@
 											: "Unknown time"
 									}}
 								</span>
-										@if (!message.dateRead && message.senderUsername
-										!== username()) {
-											<span class="text-danger">(unread)</span>
-										}
-										@if (message.dateRead &&
-										message.senderUsername !== username()) {
-											<span class="text-success"
-											>(read
-												{{ message.dateRead | timeago }})</span
-											>
-										}
-									</small>
-								</div>
-								<p>{{ message.content }}</p>
-								<div class="clearfix">
-									@if (message.recipientUsername === username()) {
-										<button
-											class="btn border-t-neutral-50 btn-sm float-end"
-											(click)="deleteMessage(message.id)"
-										>
-											Delete
-										</button>
-									}
-									@if (message.senderUsername === username()) {
-										<button
-											class="btn border-t-neutral-50 btn-sm float-end"
-											(click)="deleteMessage(message.id)"
-										>
-											Delete
-										</button>
-									}
-
-								</div>
-							</div>
+								@if (!message.dateRead && message.senderUsername
+								!== username()) {
+								<span class="text-danger">(unread)</span>
+								} @if (message.dateRead &&
+								message.senderUsername !== username()) {
+								<span class="text-success"
+									>(read
+									{{ message.dateRead | timeago }})</span
+								>
+								}
+							</small>
 						</div>
-					</li>
-				}
-			</ul>
+						<ng-container
+							*ngIf="
+								isCodeMessage(message.content);
+								else plainText
+							"
+						>
+							<pre><code class="language-js" [innerHTML]="highlightedCode(message.content)"></code></pre>
+						</ng-container>
+						<ng-template #plainText>
+							<p>{{ message.content }}</p>
+						</ng-template>
+						<div class="clearfix">
+							@if (message.recipientUsername === username() ||
+							message.senderUsername === username()) {
+							<button
+								class="btn border-t-neutral-50 btn-sm float-end"
+								(click)="deleteMessage(message.id)"
+							>
+								Delete
+							</button>
+							}
+						</div>
+					</div>
+				</div>
+			</li>
+			}
+		</ul>
+
 		}
 	</div>
 

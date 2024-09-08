@@ -101,7 +101,7 @@ export class MessageService {
 			});
 		} catch (error) {
 			console.error('Failed to send message:', error);
-			throw error; // Re-throw the error if you want to handle it further up the call stack
+			throw error;
 		}
 	}
 

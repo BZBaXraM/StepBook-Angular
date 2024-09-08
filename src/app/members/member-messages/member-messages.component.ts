@@ -9,11 +9,13 @@ import {
 import { MessageService } from '../../services/message.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
+import Prism from 'prismjs';
+import { NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-member-messages',
 	standalone: true,
-	imports: [TimeagoModule, FormsModule],
+	imports: [TimeagoModule, FormsModule, NgIf],
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
@@ -24,6 +26,22 @@ export class MemberMessagesComponent implements AfterViewChecked {
 	messageService = inject(MessageService);
 	messageContent = '';
 	private cdr = inject(ChangeDetectorRef);
+
+	highlightSyntax() {
+		Prism.highlightAll();
+	}
+
+	isCodeMessage(content: string): boolean {
+		// Простая проверка на наличие кода. Например, ищем символы, характерные для кода.
+		const codeRegex = /[{}();<>]/; // или используйте что-то более точное
+		return codeRegex.test(content);
+	  }
+
+	  highlightedCode(content: string): string {
+		// Подсветка кода с помощью Prism.js
+		return Prism.highlight(content, Prism.languages['javascript'], 'javascript');
+	  }
+
 
 	sendMessage() {
 		this.messageService
@@ -52,20 +70,15 @@ export class MemberMessagesComponent implements AfterViewChecked {
 					return prev;
 				});
 
-				this.updateComponentState();
+				this.cdr.detectChanges();
 				this.getMessages();
 			},
 		});
 	}
 
-	// Метод для обновления состояния компонента
-	updateComponentState() {
-		// Логика обновления состояния компонента
-		this.cdr.detectChanges();
-	}
-
 	ngAfterViewChecked(): void {
 		this.scrollToBottom();
+		this.highlightSyntax();
 	}
 
 	private scrollToBottom() {

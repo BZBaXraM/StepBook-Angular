@@ -1,11 +1,11 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MessageService} from '../services/message.service';
-import {ButtonsModule} from 'ngx-bootstrap/buttons';
-import {FormsModule} from '@angular/forms';
-import {TimeagoModule} from 'ngx-timeago';
-import {Message} from '../models/message.model';
-import {RouterLink} from '@angular/router';
-import {PaginationModule} from 'ngx-bootstrap/pagination';
+import { Component, inject, OnInit } from '@angular/core';
+import { MessageService } from '../services/message.service';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FormsModule } from '@angular/forms';
+import { TimeagoModule } from 'ngx-timeago';
+import { Message } from '../models/message.model';
+import { RouterLink } from '@angular/router';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
 	selector: 'app-messages',
@@ -46,7 +46,8 @@ export class MessagesComponent implements OnInit {
 					if (prev && prev.items) {
 						prev.items.splice(
 							prev.items.findIndex((m) => m.id === id),
-							1);
+							1
+						);
 						return prev;
 					}
 					return prev;
@@ -69,5 +70,4 @@ export class MessagesComponent implements OnInit {
 			return `/members/${message.SenderUsername}`;
 		}
 	}
-
 }

@@ -22,7 +22,7 @@ export class AccountService {
 	private presenceService = inject(PresenceService);
 
 	login(model: Login) {
-		return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(
+		return this.http.post<User>(this.baseUrl + 'Auth/login', model).pipe(
 			map((user) => {
 				if (user) {
 					this.setCurrentUser(user);
@@ -38,11 +38,12 @@ export class AccountService {
 	}
 
 	logout() {
-		const token = JSON.parse(localStorage.getItem('user') || '{}').token;
-
-		if (token) {
+		if (JSON.parse(localStorage.getItem('user') || '{}').token) {
 			this.http
-				.post(this.baseUrl + 'Account/logout', { token })
+				.post(this.baseUrl + 'Auth/logout', {
+					token: JSON.parse(localStorage.getItem('user') || '{}')
+						.token,
+				})
 				.subscribe({
 					next: () => {
 						localStorage.removeItem('user');
