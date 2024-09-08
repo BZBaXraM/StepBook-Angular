@@ -33,8 +33,7 @@
 							"node_modules/ngx-toastr/toastr.css",
 							"node_modules/tailwindcss/tailwind.css",
 							"node_modules/ngx-spinner/animations/ball-scale-multiple.css",
-							"node_modules/highlight.js/styles/atom-one-dark.css",
-							"node_modules/prismjs/themes/prism.css",
+							"node_modules/prismjs/themes/prism.min.css",
 							"src/styles.css"
 						],
 						"scripts": [
