@@ -1,8 +1,8 @@
-<div class="container mt-3">
+<div class="container mx-auto mt-3">
 	<div class="flex justify-start">
-		<div class="inline-flex">
+		<div class="inline-flex space-x-2">
 			<button
-				class="bg-blue-500 text-white py-2 px-4 rounded-l-lg focus:outline-none hover:bg-blue-600"
+				class="bg-blue-500 text-white px-4 py-2 rounded-l-lg focus:outline-none hover:bg-blue-600"
 				btnRadio="Unread"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -10,7 +10,7 @@
 				Unread
 			</button>
 			<button
-				class="bg-blue-500 text-white py-2 px-4 focus:outline-none hover:bg-blue-600"
+				class="bg-blue-500 text-white px-4 py-2 focus:outline-none hover:bg-blue-600"
 				btnRadio="Inbox"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -18,7 +18,7 @@
 				Inbox
 			</button>
 			<button
-				class="bg-blue-500 text-white py-2 px-4 rounded-r-lg focus:outline-none hover:bg-blue-600"
+				class="bg-blue-500 text-white px-4 py-2 rounded-r-lg focus:outline-none hover:bg-blue-600"
 				btnRadio="Outbox"
 				[(ngModel)]="container"
 				(click)="getMessages()"
@@ -33,7 +33,7 @@
 messageService.paginatedResult()?.items?.length === 0) {
 <h3 class="mt-3">No messages</h3>
 } @else {
-<table class="table-auto w-full mt-3 cursor-pointer">
+<table class="table-auto w-full mt-3">
 	<thead>
 		<tr class="bg-gray-100">
 			<th class="py-2 px-4 w-2/5">Message</th>
@@ -45,7 +45,7 @@ messageService.paginatedResult()?.items?.length === 0) {
 	<tbody class="align-middle">
 		@for (item of messageService.paginatedResult()?.items; track item.id) {
 		<tr
-			class="hover:bg-gray-200"
+			class="hover:bg-gray-200 cursor-pointer"
 			routerLink="{{ getRoute(item) }}"
 			[queryParams]="{ tab: 'Messages' }"
 		>
@@ -89,6 +89,7 @@ messageService.paginatedResult()?.items?.length === 0) {
 messageService.paginatedResult()?.pagination?.totalItems! > 0) {
 <div class="flex justify-center mt-4">
 	<pagination
+		class="flex justify-center"
 		[boundaryLinks]="true"
 		[totalItems]="
 			(messageService.paginatedResult()?.pagination)!.totalItems
@@ -109,3 +110,4 @@ messageService.paginatedResult()?.pagination?.totalItems! > 0) {
 	</pagination>
 </div>
 }
+

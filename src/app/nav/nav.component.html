@@ -1,63 +1,114 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top my-nav">
-	<div class="container-fluid">
-		<a class="navbar-brand" routerLinkActive="active">{{ title }}</a>
+<nav class="bg-gray-900 shadow-lg">
+	<div class="container mx-auto px-6 py-3">
+		<div class="flex items-center justify-between">
+			<a
+				class="text-3xl font-bold text-white"
+				routerLinkActive="active"
+				>{{ title }}</a
+			>
 
-		<ul class="navbar-nav me-auto mb-2 mb-md-0">
-			@if (accountService.currentUser()) {
-				<li class="nav-item">
+			<ul class="hidden md:flex space-x-6">
+				@if (accountService.currentUser()) {
+				<li>
 					<a
+						class="text-white hover:text-gray-300"
 						routerLink="/members"
 						routerLinkActive="active"
-						class="nav-link"
-					>Friends From STEP IT</a
+						>Friends From STEP IT</a
 					>
 				</li>
-				<li class="nav-item">
+				<li>
 					<a
+						class="text-white hover:text-gray-300"
 						routerLink="/lists"
 						routerLinkActive="active"
-						class="nav-link"
-					>Lists</a
+						>Lists</a
 					>
 				</li>
-				<li class="nav-item">
+				<li>
 					<a
+						class="text-white hover:text-gray-300"
 						routerLink="/messages"
 						routerLinkActive="active"
-						class="nav-link"
-					>Messages</a
+						>Messages</a
 					>
 				</li>
-				<li class="nav-item">
+				<li>
 					@if (haveMessages) {
-						<span class="badge bg-inherit rounded-none">{{
-								newMessagesCount
-							}}</span>
+					<span class="badge bg-inherit rounded-none">
+						{{ newMessagesCount }}</span
+					>
 
 					}
 				</li>
-			}
-		</ul>
-		@if (accountService.currentUser()) {
-			<div dropdown class="dropdown">
-				<img
-					class="me-2"
-					src="{{ accountService.currentUser()?.PhotoUrl || 'user.png' }}"
-					alt="Main photo"
-				/>
-				<a
-					dropdownToggle
-					class="dropdown-toggle text-light text-decoration-none"
-				>Welcome {{ accountService.currentUser()?.KnownAs }}</a
+				}
+			</ul>
+
+			@if (accountService.currentUser()) {
+			<div class="relative" (click)="toggleDropdown()">
+				<button
+					class="flex items-center justify-between px-4 py-2 text-white bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+					id="dropdownDefault"
 				>
-				<div *dropdownMenu class="dropdown-menu">
-					<a routerLink="/member/edit" class="dropdown-item"
-					>Edit profile</a
+					<img
+						class="w-8 h-8 mr-2 rounded-full"
+						src="{{
+							accountService.currentUser()?.PhotoUrl || 'user.png'
+						}}"
+						alt="Main photo"
+					/>
+					<span class="text-sm font-semibold">
+						Welcome {{ accountService.currentUser()?.KnownAs }}
+					</span>
+					<svg
+						class="w-4 h-4 ml-2"
+						aria-hidden="true"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
 					>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" (click)="logout()">Logout</a>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M19 9l-7 7-7-7"
+						/>
+					</svg>
+				</button>
+				<div
+					*ngIf="isDropdownOpen"
+					class="absolute z-10 w-48 bg-red-300 rounded-md shadow-lg dark:bg-gray-700"
+				>
+					<ul class="py-1 text-sm text-gray-700 dark:text-gray-200">
+						<li>
+							<a
+								class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+								routerLink="/member/edit"
+								>Edit profile</a
+							>
+						</li>
+						<li>
+							<a
+								class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+								routerLink="/account-settings"
+								>Account Settings</a
+							>
+						</li>
+						<li>
+							<hr class="my-1" />
+						</li>
+						<li>
+							<a
+								class="block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-600 dark:hover:text-white"
+								(click)="logout()"
+								>Logout</a
+							>
+						</li>
+					</ul>
 				</div>
 			</div>
-		}
+
+			}
+		</div>
 	</div>
 </nav>

@@ -46,7 +46,14 @@
 								else plainText
 							"
 						>
-							<p style="padding: 400;"><code class="language-js" [innerHTML]="highlightedCode(message.content)"></code></p>
+							<p style="padding: 400">
+								<code
+									class="language-js"
+									[innerHTML]="
+										highlightedCode(message.content)
+									"
+								></code>
+							</p>
 						</ng-container>
 						<ng-template #plainText>
 							<p>{{ message.content }}</p>

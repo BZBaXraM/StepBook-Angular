@@ -8,6 +8,7 @@ import { MessageService } from '../services/message.service';
 import { MatIcon } from '@angular/material/icon';
 import { PresenceService } from '../services/presence.service';
 import { Subscription } from 'rxjs';
+import { NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-nav',
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
 		RouterLink,
 		RouterLinkActive,
 		MatIcon,
+		NgIf,
 	],
 	templateUrl: './nav.component.html',
 	styleUrls: ['./nav.component.css'],
@@ -34,6 +36,7 @@ export class NavComponent implements OnInit {
 	notificationMessage: string = '';
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
+	isDropdownOpen = false;
 
 	ngOnInit() {
 		this.eventSubscription =
@@ -62,5 +65,9 @@ export class NavComponent implements OnInit {
 	async logout() {
 		this.accountService.logout();
 		await this.router.navigateByUrl('/');
+	}
+
+	toggleDropdown() {
+		this.isDropdownOpen = !this.isDropdownOpen;
 	}
 }

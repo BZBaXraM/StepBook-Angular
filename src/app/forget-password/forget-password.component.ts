@@ -23,7 +23,6 @@ export class ForgetPasswordComponent {
 	});
 	loading = false;
 	success = false;
-	private router = inject(Router);
 	private toast = inject(ToastrService);
 
 	async forgetPassword() {
@@ -36,11 +35,6 @@ export class ForgetPasswordComponent {
 				this.toast.success(
 					'Please check your email for password reset instructions'
 				);
-				// this.router.navigateByUrl('/reset-password').then(() => {
-				// 	console.log('Navigation to /reset-password successful');
-				// }).catch((err) => {
-				// 	console.error('Navigation error:', err);
-				// });
 			},
 			error: (error) => {
 				console.error('Error occurred:', error);

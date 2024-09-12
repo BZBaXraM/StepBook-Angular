@@ -1,24 +1,24 @@
-<div class="text-center mt-3">
-	<h2>{{ getTitle() }}</h2>
+<div class="text-center mt-12 mb-4">
+	<h2 class="text-4xl font-bold">{{ getTitle() }}</h2>
 </div>
 
-<div class="container mt-3">
-	<div class="flex">
-		<div class="flex space-x-2">
-			<button class="btn btn-primary" btnRadio="liked" [(ngModel)]="predicate" (click)="getLikes()">Members I
+<div class="container mx-auto px-4 mb-12">
+	<div class="flex justify-center mb-4">
+		<div class="flex space-x-4">
+			<button class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white" btnRadio="liked" [(ngModel)]="predicate" (click)="getLikes()">Members I
 				like
 			</button>
-			<button class="btn btn-primary" btnRadio="likedBy" [(ngModel)]="predicate" (click)="getLikes()">Members who
+			<button class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white" btnRadio="likedBy" [(ngModel)]="predicate" (click)="getLikes()">Members who
 				like me
 			</button>
-			<button class="btn btn-primary" btnRadio="mutual" [(ngModel)]="predicate" (click)="getLikes()">Mutual
+			<button class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white" btnRadio="mutual" [(ngModel)]="predicate" (click)="getLikes()">Mutual
 			</button>
 		</div>
 	</div>
 
-	<div class="row mt-3">
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 		@for (item of likeService.paginatedResult()?.items; track item.Id) {
-			<div class="w-1/6">
+			<div>
 				<app-member-card [member]="item"></app-member-card>
 			</div>
 		}
@@ -26,7 +26,7 @@
 </div>
 
 @if (likeService.paginatedResult()?.pagination) {
-	<div class="flex justify-center mt-4">
+	<div class="flex justify-center mt-6">
 		<pagination
 			[boundaryLinks]="true"
 			[totalItems]="(likeService.paginatedResult()?.pagination)!.totalItems"
@@ -43,3 +43,4 @@
 		></pagination>
 	</div>
 }
+

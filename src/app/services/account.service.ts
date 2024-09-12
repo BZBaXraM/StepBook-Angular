@@ -10,6 +10,7 @@ import { ForgetPassword } from '../models/forget.password.model';
 import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
 import { PresenceService } from './presence.service';
+import { ChangeUsername } from '../models/change-username.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -94,7 +95,13 @@ export class AccountService {
 	}
 
 	changePassword(model: ChangePassword) {
-		return this.http.post(this.baseUrl + 'Account/change-password', model, {
+		return this.http.put(this.baseUrl + 'Account/change-password', model, {
+			responseType: 'text',
+		});
+	}
+
+	changeUsername(model: ChangeUsername) {
+		return this.http.put(this.baseUrl + 'Account/change-username', model, {
 			responseType: 'text',
 		});
 	}

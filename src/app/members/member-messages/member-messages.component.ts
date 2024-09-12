@@ -32,16 +32,17 @@ export class MemberMessagesComponent implements AfterViewChecked {
 	}
 
 	isCodeMessage(content: string): boolean {
-		// Простая проверка на наличие кода. Например, ищем символы, характерные для кода.
-		const codeRegex = /[{}();<>]/; // или используйте что-то более точное
+		const codeRegex = /[{}();<>]/;
 		return codeRegex.test(content);
-	  }
+	}
 
-	  highlightedCode(content: string): string {
-		// Подсветка кода с помощью Prism.js
-		return Prism.highlight(content, Prism.languages['javascript'], 'javascript');
-	  }
-
+	highlightedCode(content: string): string {
+		return Prism.highlight(
+			content,
+			Prism.languages['javascript'],
+			'javascript'
+		);
+	}
 
 	sendMessage() {
 		this.messageService
