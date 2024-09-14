@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconButton } from '@angular/material/button';
@@ -14,6 +15,7 @@ import { RouterLink } from '@angular/router';
 		MatIconModule,
 		RouterLink,
 		RegisterComponent,
+		NgIf
 	],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.css',

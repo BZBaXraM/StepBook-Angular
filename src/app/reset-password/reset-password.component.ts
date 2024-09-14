@@ -1,22 +1,18 @@
-import {Component, inject, signal} from '@angular/core';
-import {AccountService} from "../services/account.service";
-import {Router} from "@angular/router";
-import {MatInput} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
-import {ResetPassword} from "../models/reset-password.model";
-import {ToastrService} from "ngx-toastr";
+import { Component, inject, signal } from '@angular/core';
+import { AccountService } from '../services/account.service';
+import { Router } from '@angular/router';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { NgIf } from '@angular/common';
+import { ResetPassword } from '../models/reset-password.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-reset-password',
 	standalone: true,
-	imports: [
-		MatInput,
-		FormsModule,
-		NgIf
-	],
+	imports: [MatInput, FormsModule, NgIf],
 	templateUrl: './reset-password.component.html',
-	styleUrl: './reset-password.component.css'
+	styleUrl: './reset-password.component.css',
 })
 export class ResetPasswordComponent {
 	private accountService = inject(AccountService);
@@ -44,7 +40,7 @@ export class ResetPasswordComponent {
 			error: (_) => {
 				this.loading = false;
 				this.toast.error('An error occurred');
-			}
+			},
 		});
 	}
 
@@ -54,6 +50,7 @@ export class ResetPasswordComponent {
 	}
 
 	togglePasswordVisibility() {
-		this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+		this.passwordFieldType =
+			this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }

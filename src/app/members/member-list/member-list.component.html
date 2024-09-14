@@ -1,90 +1,91 @@
-<div class="flex flex-col">
-	<div class="text-center mt-3">
-		<h2>
-			Your matches -
-			{{ memberService.paginatedResult()?.pagination?.totalItems }}
-		</h2>
-	</div>
+<div class="container mx-auto px-4 py-8 space-y-4">
+	<h2 class="text-3xl font-bold text-center">
+		Your matches -
+		{{ memberService.paginatedResult()?.pagination?.totalItems }}
+	</h2>
 
-	<div class="container mt-3">
-		<form
-			class="flex flex-wrap mb-3"
-			#form="ngForm"
-			(ngSubmit)="getMembers()"
-		>
-			<div class="flex items-center mx-2">
-				<label class="mr-2">Age from: </label>
-				<input
-					type="number"
-					class="form-control w-16"
-					name="minAge"
-					[(ngModel)]="memberService.userParams().MinAge"
-				/>
-			</div>
-			<div class="flex items-center mx-2">
-				<label class="mr-2">Age to: </label>
-				<input
-					type="number"
-					class="form-control w-16"
-					name="maxAge"
-					[(ngModel)]="memberService.userParams().MaxAge"
-				/>
-			</div>
+	<form
+		class="flex flex-wrap items-center space-x-4"
+		#form="ngForm"
+		(ngSubmit)="getMembers()"
+	>
+		<div class="flex items-center space-x-2">
+			<label class="text-sm" for="minAge">Age from:</label>
+			<input
+				type="number"
+				class="px-2 py-1 border rounded-md w-16"
+				id="minAge"
+				name="minAge"
+				[(ngModel)]="memberService.userParams().MinAge"
+			/>
+		</div>
 
-			<div class="flex items-center mx-2">
-				<label class="mr-2">Show: </label>
-				<select
-					name="user role"
-					class="form-select w-32"
-					[(ngModel)]="memberService.userParams().Gender"
-				>
-					@for (item of genderList; track item.value) {
-					<option [value]="item.value">{{ item.display }}</option>
-					}
-				</select>
-			</div>
-			<button
-				type="submit"
-				class="btn bg-blue-500 text-white hover:bg-blue-600 ml-2"
+		<div class="flex items-center space-x-2">
+			<label class="text-sm" for="maxAge">Age to:</label>
+			<input
+				type="number"
+				class="px-2 py-1 border rounded-md w-16"
+				id="maxAge"
+				name="maxAge"
+				[(ngModel)]="memberService.userParams().MaxAge"
+			/>
+		</div>
+
+		<div class="flex items-center space-x-2">
+			<label class="text-sm" for="userRole">Show:</label>
+			<select
+				class="px-2 py-1 border rounded-md w-32"
+				id="userRole"
+				name="user role"
+				[(ngModel)]="memberService.userParams().Gender"
 			>
-				Apply filters
-			</button>
+				@for (item of genderList; track item.value) {
+				<option [value]="item.value">{{ item.display }}</option>
+				}
+			</select>
+		</div>
+
+		<button
+			type="submit"
+			class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+		>
+			Apply filters
+		</button>
+
+		<button
+			type="button"
+			class="px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600"
+			(click)="resetFilters()"
+		>
+			Reset filters
+		</button>
+
+		<div class="flex items-center space-x-2 ml-auto">
 			<button
 				type="button"
-				class="btn bg-teal-500 text-white hover:bg-teal-600 ml-2"
-				(click)="resetFilters()"
+				class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+				name="orderBy"
+				(click)="getMembers()"
+				btnRadio="lastActive"
+				[(ngModel)]="memberService.userParams().OrderBy"
 			>
-				Reset filters
+				Last Active
 			</button>
 
-			<div class="ml-auto">
-				<div class="inline-flex">
-					<button
-						type="button"
-						class="btn bg-blue-500 text-white hover:bg-blue-600"
-						name="orderBy"
-						(click)="getMembers()"
-						btnRadio="lastActive"
-						[(ngModel)]="memberService.userParams().OrderBy"
-					>
-						Last Active
-					</button>
-					<button
-						type="button"
-						class="btn bg-blue-500 text-white hover:bg-blue-600 ml-2"
-						name="orderBy"
-						(click)="getMembers()"
-						btnRadio="created"
-						[(ngModel)]="memberService.userParams().OrderBy"
-					>
-						Newest Members
-					</button>
-				</div>
-			</div>
-		</form>
-	</div>
+			<button
+				type="button"
+				class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+				name="orderBy"
+				(click)="getMembers()"
+				btnRadio="created"
+				[(ngModel)]="memberService.userParams().OrderBy"
+			>
+				Newest Members
+			</button>
+		</div>
+	</form>
 
-	<div class="flex flex-wrap -mx-2">
+	<div class="grid grid-cols-1">
 		@for (member of memberService.paginatedResult()?.items; track member.Id)
 		{
 		<div class="w-1/6 px-2">
@@ -92,23 +93,27 @@
 		</div>
 		}
 	</div>
-</div>
 
-@if (memberService.paginatedResult()?.pagination) {
-<div class="flex justify-center mt-4">
-	<pagination
-		[boundaryLinks]="true"
-		[totalItems]="(memberService.paginatedResult()?.pagination)!.totalItems"
-		[itemsPerPage]="
-			(memberService.paginatedResult()?.pagination)!.itemsPerPage
-		"
-		(pageChanged)="pageChanged($event)"
-		[(ngModel)]="(memberService.paginatedResult()?.pagination)!.currentPage"
-		[maxSize]="10"
-		previousText="&lsaquo;"
-		nextText="&rsaquo;"
-		firstText="&laquo;"
-		lastText="&raquo;"
-	></pagination>
+	@if (memberService.paginatedResult()?.pagination) {
+	<div class="flex justify-center mt-4">
+		<pagination
+			[boundaryLinks]="true"
+			[totalItems]="
+				(memberService.paginatedResult()?.pagination)!.totalItems
+			"
+			[itemsPerPage]="
+				(memberService.paginatedResult()?.pagination)!.itemsPerPage
+			"
+			(pageChanged)="pageChanged($event)"
+			[(ngModel)]="
+				(memberService.paginatedResult()?.pagination)!.currentPage
+			"
+			[maxSize]="10"
+			previousText="&lsaquo;"
+			nextText="&rsaquo;"
+			firstText="&laquo;"
+			lastText="&raquo;"
+		></pagination>
+	</div>
+	}
 </div>
-}

@@ -1,40 +1,79 @@
-<div class="flex flex-col  px-6 py-12 lg:px-8">
-	<h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-black">Login
-		<mat-icon class="text-pretty">login</mat-icon>
+<div class="bg-white py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+	<h2 class="text-3xl font-extrabold text-center text-gray-900">
+		Login
+		<mat-icon class="text-blue-600">login</mat-icon>
 	</h2>
 
-	<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+	<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
 		<form class="space-y-6" (ngSubmit)="login()" autocomplete="off">
 			<div>
-				<label for="usernameoremail" class="block text-sm font-medium leading-6 text-black">Username or
-					Email</label>
-				<div class="mt-2">
-					<input id="usernameoremail" name="usernameoremail" [(ngModel)]="model().UsernameOrEmail" required
-						   class="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300">
+				<label
+					for="usernameoremail"
+					class="block text-sm font-medium text-gray-700"
+					>Username or Email</label
+				>
+				<div class="mt-1">
+					<input
+						id="usernameoremail"
+						name="usernameoremail"
+						[(ngModel)]="model().UsernameOrEmail"
+						required
+						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+					/>
 				</div>
 			</div>
 
-			<div>
+			<div class="space-y-1">
 				<div class="flex items-center justify-between">
-					<label for="password" class="block text-sm font-medium leading-6 text-black">Password</label>
+					<label
+						for="password"
+						class="block text-sm font-medium text-gray-700"
+						>Password</label
+					>
 					<div class="text-sm">
-						<a routerLink="/forget-password" class=" text-blue-500">Forgot password?</a>
+						<a
+							routerLink="/forget-password"
+							class="text-blue-500 hover:text-blue-700"
+							>Forgot password?</a
+						>
 					</div>
 				</div>
-				<div class="mt-2">
-					<input id="password" name="password" [(ngModel)]="model().Password" [type]="passwordFieldType"
-						   required
-						   class="block w-full rounded-md border-0 py-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 ">
+				<div class="mt-1">
+					<input
+						id="password"
+						name="password"
+						[(ngModel)]="model().Password"
+						[type]="passwordFieldType"
+						required
+						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+					/>
 				</div>
-				<button class="text-blue-500 hover:text-blue-700 mt-2" type="button"
-					(click)="togglePasswordVisibility()">
-					{{ passwordFieldType === 'password' ? 'Show password' : 'Hide password' }}
+				<button
+					class="text-blue-500 hover:text-blue-700 mt-1"
+					type="button"
+					(click)="togglePasswordVisibility()"
+				>
+					{{
+						passwordFieldType === "password"
+							? "Show password"
+							: "Hide password"
+					}}
 				</button>
 			</div>
 
-			<div class="flex w-full justify-center mt-4">
-				<button type="submit" class="cool-btn">Login</button>
-				<button class="cool-btn" routerLink="/">Back to Home</button>
+			<div class="flex items-center justify-center mt-4">
+				<button
+					type="submit"
+					class="cool-btn"
+				>
+					Login
+				</button>
+				<button
+					class="cool-btn"
+					routerLink="/"
+				>
+					Back to Home
+				</button>
 			</div>
 		</form>
 	</div>

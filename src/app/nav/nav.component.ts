@@ -37,6 +37,7 @@ export class NavComponent implements OnInit {
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
+	darkMode = false;
 
 	ngOnInit() {
 		this.eventSubscription =
@@ -69,5 +70,11 @@ export class NavComponent implements OnInit {
 
 	toggleDropdown() {
 		this.isDropdownOpen = !this.isDropdownOpen;
+	}
+
+	switchDarkMode() {
+		this.darkMode = !this.darkMode;
+		document.body.classList.toggle('dark:bg-gray-900', this.darkMode);
+		this.cdr.detectChanges();
 	}
 }
