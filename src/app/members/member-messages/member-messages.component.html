@@ -3,103 +3,108 @@
 		@if (messageService.messageThread().length === 0) {
 		<p>No messages yet</p>
 		} @else {
-		<ul
-			class="chat"
-			#scrollMe
+		<div
+			class="h-96 overflow-y-auto"
 			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
+			#scrollMe
 		>
-			@for (message of messageService.messageThread(); track message.id) {
-			<li>
-				<div>
-					<span class="chat-img float-end">
+			<ul class="space-y-2">
+				@for (message of messageService.messageThread(); track
+				message.id;) {
+				<li
+					class="flex items-start"
+					[class.flex-row-reverse]="
+						message.senderUsername !== username()
+					"
+				>
+					@if (message.senderUsername === username()) {
+					<div class="chat-img ml-3">
 						<img
-							class="rounded-circle"
+							class="rounded-full h-10 w-10"
 							src="{{ message.senderPhotoUrl || 'user.png' }}"
 							alt="Image of message sender"
 						/>
-					</span>
-					<div class="chat-body">
-						<div class="header">
-							<small class="text-muted">
-								<span class="fa fa-clock-o">
-									{{
-										message.messageSent
-											? (message.messageSent | timeago)
-											: "Unknown time"
-									}}
-								</span>
-								@if (!message.dateRead && message.senderUsername
-								!== username()) {
-								<span class="text-danger">(unread)</span>
-								} @if (message.dateRead &&
-								message.senderUsername !== username()) {
-								<span class="text-success"
-									>(read
-									{{ message.dateRead | timeago }})</span
-								>
-								}
+					</div>
+					}
+					<div class="chat-body bg-white p-3 rounded-lg shadow-sm">
+						<div class="flex items-center justify-between">
+							<small class="text-xs text-gray-500">
+								<span class="fa fa-clock-o mr-1"></span>
+								{{
+									message.messageSent
+										? (message.messageSent | timeago)
+										: "Unknown time"
+								}}
 							</small>
-						</div>
-						<ng-container
-							*ngIf="
-								isCodeMessage(message.content);
-								else plainText
-							"
-						>
-							<p style="padding: 400">
-								<code
-									class="language-js"
-									[innerHTML]="
-										highlightedCode(message.content)
-									"
-								></code>
-							</p>
-						</ng-container>
-						<ng-template #plainText>
-							<p>{{ message.content }}</p>
-						</ng-template>
-						<div class="clearfix">
 							@if (message.recipientUsername === username() ||
 							message.senderUsername === username()) {
 							<button
-								class="btn border-t-neutral-50 btn-sm float-end"
+								class="btn btn-sm text-white bg-red-500 hover:bg-red-600"
 								(click)="deleteMessage(message.id)"
 							>
 								Delete
 							</button>
 							}
 						</div>
+						<div class="text-sm mt-2">
+							<ng-container
+								*ngIf="
+									isCodeMessage(message.content);
+									else plainText
+								"
+							>
+								<pre
+									class="language-js"
+									[innerHTML]="
+										highlightedCode(message.content)
+									"
+								></pre>
+							</ng-container>
+							<ng-template #plainText>
+								<p class="whitespace-pre-wrap">
+									{{ message.content }}
+								</p>
+							</ng-template>
+						</div>
 					</div>
-				</div>
-			</li>
-			}
-		</ul>
-
+					@if (message.senderUsername !== username()) {
+					<div class="chat-img ml-3">
+						<img
+							class="rounded-full h-10 w-10"
+							src="{{ message.senderPhotoUrl || 'user.png' }}"
+							alt="Image of message sender"
+						/>
+					</div>
+					}
+				</li>
+				}
+			</ul>
+		</div>
 		}
 	</div>
 
 	<div class="card-footer">
-		<form #messageForm="ngForm" (ngSubmit)="sendMessage()">
-			<div class="input-group">
-				<input
-					name="messageContent"
-					required
-					[(ngModel)]="messageContent"
-					type="text"
-					class="form-control input-sm"
-					placeholder="Send a private message"
-				/>
+		<form
+			#messageForm="ngForm"
+			(ngSubmit)="sendMessage()"
+			class="flex items-center"
+		>
+			<input
+				name="messageContent"
+				required
+				[(ngModel)]="messageContent"
+				type="text"
+				class="w-full px-4 py-2 text-sm transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+				placeholder="Send a private message"
+			/>
 
-				<div class="input-group-append">
-					<button
-						[disabled]="!messageForm.valid"
-						class="btn btn-primary"
-						type="submit"
-					>
-						Send
-					</button>
-				</div>
-			</div>
+			<button
+				[disabled]="!messageForm.valid"
+				class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+				type="submit"
+			>
+				Send
+			</button>
 		</form>
 	</div>
 </div>

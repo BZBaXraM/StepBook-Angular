@@ -3,7 +3,7 @@ import { LikesService } from '../services/likes.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
 import { MemberCardComponent } from '../members/member-card/member-card.component';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
 	selector: 'app-lists',
@@ -46,7 +46,7 @@ export class ListsComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	pageChanged(event: any) {
+	pageChanged(event: PageChangedEvent) {
 		if (this.pageNumber !== event.page) {
 			this.pageNumber = event.page;
 			this.getLikes();
@@ -56,6 +56,4 @@ export class ListsComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {
 		this.likeService.paginatedResult.set(null);
 	}
-
-	protected readonly LikesService = LikesService;
 }
