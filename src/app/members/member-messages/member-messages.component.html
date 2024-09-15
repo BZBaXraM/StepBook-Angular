@@ -89,14 +89,14 @@
 			(ngSubmit)="sendMessage()"
 			class="flex items-center"
 		>
-			<input
+			<textarea
 				name="messageContent"
 				required
 				[(ngModel)]="messageContent"
 				type="text"
-				class="w-full px-4 py-2 text-sm transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+				class="w-full resize-none px-4 py-2 text-wrap text-sm transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
 				placeholder="Send a private message"
-			/>
+			></textarea>
 
 			<button
 				[disabled]="!messageForm.valid"
