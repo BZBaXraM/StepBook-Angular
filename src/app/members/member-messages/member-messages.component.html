@@ -10,7 +10,7 @@
 		>
 			<ul class="space-y-2">
 				@for (message of messageService.messageThread(); track
-				message.id;) {
+				message.id) {
 				<li
 					class="flex items-start"
 					[class.flex-row-reverse]="
@@ -53,12 +53,13 @@
 									else plainText
 								"
 							>
-								<pre
-									class="language-js"
-									[innerHTML]="
-										highlightedCode(message.content)
-									"
-								></pre>
+								<pre><code
+								class="language-clike"
+								[innerHTML]="
+									highlightedCode(message.content)">
+									{{ message.content }}
+							</code>
+						</pre>
 							</ng-container>
 							<ng-template #plainText>
 								<p class="whitespace-pre-wrap">
@@ -93,7 +94,7 @@
 				name="messageContent"
 				required
 				[(ngModel)]="messageContent"
-				type="text"
+				rows="7"
 				class="w-full resize-none px-4 py-2 text-wrap text-sm transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
 				placeholder="Send a private message"
 			></textarea>

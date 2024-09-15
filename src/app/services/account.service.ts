@@ -38,6 +38,10 @@ export class AccountService {
 		});
 	}
 
+	isLoggedIn() {
+		return !!localStorage.getItem('user');
+	}
+
 	logout() {
 		if (JSON.parse(localStorage.getItem('user') || '{}').token) {
 			this.http

@@ -1,10 +1,10 @@
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RegisterComponent } from '../register/register.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AccountService } from '../services/account.service';
 
 @Component({
 	selector: 'app-home',
@@ -15,13 +15,20 @@ import { RouterLink } from '@angular/router';
 		MatIconModule,
 		RouterLink,
 		RegisterComponent,
-		NgIf
 	],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.css',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 	registerMode = false;
+	private router = inject(Router);
+	private accountService = inject(AccountService);
+
+	ngOnInit() {
+		if (this.accountService.isLoggedIn()) {
+			this.router.navigate(['/members']);
+		}
+	}
 
 	registerToggle() {
 		this.registerMode = !this.registerMode;
