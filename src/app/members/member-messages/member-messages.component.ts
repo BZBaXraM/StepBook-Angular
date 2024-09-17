@@ -2,6 +2,7 @@ import {
 	AfterViewChecked,
 	ChangeDetectorRef,
 	Component,
+	ElementRef,
 	inject,
 	input,
 	ViewChild,
@@ -10,7 +11,7 @@ import { MessageService } from '../../services/message.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
 import Prism from 'prismjs';
-import { NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { BucketService } from '../../bucket.service';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
@@ -18,19 +19,20 @@ import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 @Component({
 	selector: 'app-member-messages',
 	standalone: true,
-	imports: [TimeagoModule, FormsModule, NgIf, PickerComponent],
+	imports: [TimeagoModule, FormsModule, NgIf, PickerComponent, NgFor],
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
 export class MemberMessagesComponent implements AfterViewChecked {
 	@ViewChild('messageForm') messageForm?: NgForm;
-	@ViewChild('scrollMe') scrollMe?: any;
+	@ViewChild('scrollMe') scrollMe?: ElementRef<HTMLElement>;
 	username = input.required<string>();
 	messageService = inject(MessageService);
 	bucketService = inject(BucketService);
 	messageContent = '';
 	private cdr = inject(ChangeDetectorRef);
 	showEmojiMenu = false;
+	shouldScrollToBottom = true;
 
 	highlightSyntax() {
 		Prism.highlightAll();
@@ -54,7 +56,10 @@ export class MemberMessagesComponent implements AfterViewChecked {
 	}
 
 	addEmoji(event: EmojiEvent) {
-		this.messageContent += event.emoji.native;
+		if (event && event.emoji && event.emoji.native) {
+			this.messageContent = this.messageContent || '';
+			this.messageContent += event.emoji.native;
+		}
 	}
 
 	sendMessage() {
@@ -117,6 +122,10 @@ export class MemberMessagesComponent implements AfterViewChecked {
 
 	ngAfterViewChecked(): void {
 		this.scrollToBottom();
+		// if (this.shouldScrollToBottom) {
+		// 	this.scrollToBottom();
+		// 	this.shouldScrollToBottom = false;
+		// }
 		this.highlightSyntax();
 	}
 

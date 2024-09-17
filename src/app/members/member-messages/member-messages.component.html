@@ -5,7 +5,7 @@
 		} @else {
 		<div
 			class="h-96 overflow-y-auto"
-			style="overflow: scroll; max-height: 500px; scroll-behavior: smooth"
+			style="overflow: scroll; max-height: 400px; scroll-behavior: smooth"
 			#scrollMe
 		>
 			<ul class="space-y-2">
@@ -97,11 +97,7 @@
 	</div>
 
 	<div class="card-footer">
-		<form
-			#messageForm="ngForm"
-			(ngSubmit)="sendMessage()"
-			class="flex items-center"
-		>
+		<form #messageForm="ngForm" (ngSubmit)="sendMessage()">
 			<textarea
 				name="messageContent"
 				required
@@ -114,8 +110,8 @@
 						? messageContent.split('\n').length * 20 + 'px'
 						: 'auto'
 				"
+				(keydown.enter)="sendMessage()"
 			></textarea>
-
 			<div class="flex justify-center space-x-2">
 				<button
 					[disabled]="!messageForm.valid"
@@ -124,7 +120,6 @@
 				>
 					Send
 				</button>
-
 				<div class="flex items-center space-x-2">
 					<button
 						class="text-blue-600 hover:text-blue-700 flex items-center"
