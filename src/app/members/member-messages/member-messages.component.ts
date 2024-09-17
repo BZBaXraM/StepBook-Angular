@@ -11,11 +11,14 @@ import { TimeagoModule } from 'ngx-timeago';
 import { FormsModule, NgForm } from '@angular/forms';
 import Prism from 'prismjs';
 import { NgIf } from '@angular/common';
+import { BucketService } from '../../bucket.service';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
 	selector: 'app-member-messages',
 	standalone: true,
-	imports: [TimeagoModule, FormsModule, NgIf],
+	imports: [TimeagoModule, FormsModule, NgIf, PickerComponent],
 	templateUrl: './member-messages.component.html',
 	styleUrl: './member-messages.component.css',
 })
@@ -24,11 +27,17 @@ export class MemberMessagesComponent implements AfterViewChecked {
 	@ViewChild('scrollMe') scrollMe?: any;
 	username = input.required<string>();
 	messageService = inject(MessageService);
+	bucketService = inject(BucketService);
 	messageContent = '';
 	private cdr = inject(ChangeDetectorRef);
+	showEmojiMenu = false;
 
 	highlightSyntax() {
 		Prism.highlightAll();
+	}
+
+	toggleEmojiMenu() {
+		return (this.showEmojiMenu = !this.showEmojiMenu);
 	}
 
 	isCodeMessage(content: string): boolean {
@@ -44,6 +53,10 @@ export class MemberMessagesComponent implements AfterViewChecked {
 		);
 	}
 
+	addEmoji(event: EmojiEvent) {
+		this.messageContent += event.emoji.native;
+	}
+
 	sendMessage() {
 		this.messageService
 			.sendMessage(this.username(), this.messageContent)
@@ -51,6 +64,31 @@ export class MemberMessagesComponent implements AfterViewChecked {
 				this.messageForm?.reset();
 				this.scrollToBottom();
 			});
+	}
+
+	sendFile(file: File) {
+		this.bucketService.addFile(file).subscribe((response: string) => {
+			const fileUrl = response;
+			this.messageService
+				.sendMessage(this.username(), '', fileUrl)
+				.then(() => {
+					this.scrollToBottom();
+					this.cdr.detectChanges();
+				});
+		});
+	}
+
+	onFileChange(event: any) {
+		if (event.target.files.length > 0) {
+			const file = event.target.files[0];
+			this.sendFile(file);
+		}
+	}
+
+	isImageFile(url: string): boolean {
+		const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+		const extension = url.split('.').pop()?.toLowerCase();
+		return imageExtensions.includes(extension || '');
 	}
 
 	getMessages() {

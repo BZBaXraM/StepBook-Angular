@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
 import { Message } from '../models/message.model';
 import { RouterLink } from '@angular/router';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PageChangedEvent, PaginationModule } from 'ngx-bootstrap/pagination';
 
 @Component({
 	selector: 'app-messages',
@@ -56,7 +56,7 @@ export class MessagesComponent implements OnInit {
 		});
 	}
 
-	pageChanged(event: any) {
+	pageChanged(event: PageChangedEvent) {
 		if (this.pageNumber !== event.page) {
 			this.pageNumber = event.page;
 			this.getMessages();

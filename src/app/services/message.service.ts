@@ -93,11 +93,12 @@ export class MessageService {
 		);
 	}
 
-	async sendMessage(username: string, content: string) {
+	async sendMessage(username: string, content: string, fileUrl?: string) {
 		try {
 			return await this.hubConnection?.invoke('SendMessage', {
 				recipientUsername: username,
 				content,
+				fileUrl,
 			});
 		} catch (error) {
 			console.error('Failed to send message:', error);

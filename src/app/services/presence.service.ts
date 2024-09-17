@@ -24,13 +24,10 @@ export class PresenceService {
 	haveMessages = false;
 	newMessagesCount = 0;
 
+
 	private eventSubject = new Subject<any>();
 
 	eventObservable$ = this.eventSubject.asObservable();
-
-	triggerEvent(data: any) {
-		this.eventSubject.next(data);
-	}
 
 	createConnection(user: User) {
 		this.connection = new HubConnectionBuilder()
@@ -59,7 +56,6 @@ export class PresenceService {
 		});
 
 		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
-			this.triggerEvent({ message: 'Hello from Component A!' });
 			this.toastr
 				.info('You have a new message from ' + knownAs)
 				.onTap.pipe(take(1))

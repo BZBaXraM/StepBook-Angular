@@ -13,10 +13,9 @@ export class BucketService {
 		const formData = new FormData();
 		formData.append('file', file);
 
-		return this.http.post<string>(
-			this.baseUrl + 'buckets/upload-file',
-			formData
-		);
+		return this.http.post(this.baseUrl + 'buckets/upload-file', formData, {
+			responseType: 'text',
+		});
 	}
 
 	getFiles() {
