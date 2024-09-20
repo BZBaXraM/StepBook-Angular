@@ -1,0 +1,80 @@
+<form #messageForm="ngForm" (ngSubmit)="sendMessage()">
+	<textarea
+		name="messageContent"
+		required
+		[(ngModel)]="messageContent"
+		rows="7"
+		class="w-full h-24 px-4 py-2 text-wrap text-sm transition border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300"
+		placeholder="Send a private message"
+		(style.height.pt)="
+			messageContent
+				? messageContent.split('\n').length * 20 + 'px'
+				: 'auto'
+		"
+		(keydown.enter)="sendMessage()"
+	></textarea>
+	<div class="flex justify-center space-x-2">
+		<button
+			[disabled]="!messageForm.valid"
+			class="ml-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+			type="submit"
+		>
+			Send
+		</button>
+		<div class="flex items-center space-x-2">
+			<button
+				class="text-blue-600 hover:text-blue-700 flex items-center"
+				type="button"
+				(click)="fileInput?.click()"
+			>
+				<span class="text-sm">Send a file</span>
+				<svg
+					class="h-5 w-5 ml-1"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a2 2 0 000 2h2v2a1 1 0 102 0v-2h2a2 2 0 100-2h-2V7a1 1 0 10-2 0v2z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</button>
+			<input
+				type="file"
+				(change)="onFileChange($event)"
+				class="hidden"
+				id="fileInput"
+				#fileInput
+			/>
+			<div class="relative">
+				<button
+					class="flex items-center space-x-1 text-blue-600 hover:text-blue-700"
+					type="button"
+					(click)="toggleEmojiMenu()"
+				>
+					<svg
+						class="h-5 w-5"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a2 2 0 000 2h2v2a1 1 0 102 0v-2h2a2 2 0 100-2h-2V7a1 1 0 10-2 0v2z"
+							clip-rule="evenodd"
+						/>
+					</svg>
+					<span class="text-sm">Add emoji</span>
+				</button>
+				<emoji-mart
+					*ngIf="showEmojiMenu"
+					[style]="{ width: '300px' }"
+					[enableSearch]="false"
+					(emojiClick)="addEmoji($event)"
+				></emoji-mart>
+			</div>
+		</div>
+	</div>
+</form>
