@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -37,7 +43,6 @@ export class NavComponent implements OnInit, OnDestroy {
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
-	darkMode = false;
 
 	ngOnInit() {
 		this.eventSubscription =
@@ -70,11 +75,5 @@ export class NavComponent implements OnInit, OnDestroy {
 
 	toggleDropdown() {
 		this.isDropdownOpen = !this.isDropdownOpen;
-	}
-
-	switchDarkMode() {
-		this.darkMode = !this.darkMode;
-		document.body.classList.toggle('dark:bg-gray-900', this.darkMode);
-		this.cdr.detectChanges();
 	}
 }

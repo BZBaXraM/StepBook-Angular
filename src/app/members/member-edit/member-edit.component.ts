@@ -39,9 +39,10 @@ export class MemberEditComponent implements OnInit {
 	private memberService = inject(MembersService);
 	private toastr = inject(ToastrService);
 
-	@HostListener('window:beforeunload', ['$event']) notify($event: any) {
+	@HostListener('window:beforeunload', ['$event'])
+	notify($event: BeforeUnloadEvent) {
 		if (this.editForm?.dirty) {
-			$event.returnValue = true;
+			$event.preventDefault();
 		}
 	}
 

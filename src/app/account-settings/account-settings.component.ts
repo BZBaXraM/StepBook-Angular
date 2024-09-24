@@ -20,17 +20,19 @@ export class AccountSettingsComponent {
 	newUsername = signal<ChangeUsername>({
 		newUsername: '',
 	});
-
 	newPassword = signal<ChangePassword>({
-		currentPassword: '',
-		newPassword: '',
-		confirmPassword: '',
+		CurrentPassword: '',
+		NewPassword: '',
+		ConfirmNewPassword: '',
 	});
+	passwordFieldType = 'password';
 
 	changeUsername() {
 		this.accountService.changeUsername(this.newUsername()).subscribe({
 			next: (_) => {
 				this.toastr.success('Username changed successfully');
+				this.newUsername.set({ newUsername: '' });
+				this.router.navigateByUrl('/');
 			},
 		});
 	}
@@ -49,5 +51,10 @@ export class AccountSettingsComponent {
 				this.router.navigateByUrl('/login');
 			},
 		});
+	}
+
+	togglePasswordFieldType() {
+		this.passwordFieldType =
+			this.passwordFieldType === 'password' ? 'text' : 'password';
 	}
 }

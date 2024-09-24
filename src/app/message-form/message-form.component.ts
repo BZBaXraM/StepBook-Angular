@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, input, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-import { BucketService } from '../bucket.service';
+import { BucketService } from '../services/bucket.service';
 import { MessageService } from '../services/message.service';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
