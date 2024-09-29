@@ -17,6 +17,7 @@ import { ConfirmationEmailSentComponent } from './confirmation-email-sent/confir
 import { MessagesComponent } from './messages/messages.component';
 import { memberDetailedResolver } from './member-detailed.resolver';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
 	{
@@ -70,6 +71,7 @@ export const routes: Routes = [
 	{ path: 'errors', component: TestErrorsComponent },
 	{ path: 'not-found', component: NotFoundComponent },
 	{ path: 'server-error', component: ServerErrorComponent },
+	{path:"admin", component: AdminComponent},
 	{
 		path: '**',
 		component: HomeComponent,
