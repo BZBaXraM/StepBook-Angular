@@ -11,6 +11,7 @@ import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
 import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
+import { ConfirmCode } from '../models/confirm-code.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -32,8 +33,14 @@ export class AccountService {
 		);
 	}
 
-	register(model: Register): Observable<string | User> {
+	register(model: Register): Observable<string> {
 		return this.http.post(this.baseUrl + 'Account/register', model, {
+			responseType: 'text',
+		});
+	}
+
+	confirmEmailCode(model: ConfirmCode): Observable<string> {
+		return this.http.post(this.baseUrl + 'Account/confirm-email-code', model, {
 			responseType: 'text',
 		});
 	}

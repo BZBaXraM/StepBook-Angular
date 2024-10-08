@@ -18,6 +18,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { memberDetailedResolver } from './member-detailed.resolver';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { AdminComponent } from './admin/admin.component';
+import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 
 export const routes: Routes = [
 	{
@@ -66,12 +67,16 @@ export const routes: Routes = [
 		path: 'login',
 		component: LoginComponent,
 	},
+	{
+		path: 'confirm-email',
+		component: ConfirmEmailComponent,
+	},
 	{ path: 'forget-password', component: ForgetPasswordComponent },
 	{ path: 'reset-password', component: ResetPasswordComponent },
 	{ path: 'errors', component: TestErrorsComponent },
 	{ path: 'not-found', component: NotFoundComponent },
 	{ path: 'server-error', component: ServerErrorComponent },
-	{path:"admin", component: AdminComponent},
+	{ path: 'admin', component: AdminComponent },
 	{
 		path: '**',
 		component: HomeComponent,
