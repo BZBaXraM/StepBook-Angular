@@ -1,0 +1,10 @@
+<h1>
+	Hello World
+	<span class="text-pretty">
+		@if (accountService.currentUser()) {
+		<span class="text-pretty"
+			>Welcome {{ accountService.currentUser()?.KnownAs }}</span
+		>
+		}
+	</span>
+</h1>

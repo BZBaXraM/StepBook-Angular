@@ -4,6 +4,7 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
+	signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
@@ -15,6 +16,7 @@ import { MatIcon } from '@angular/material/icon';
 import { PresenceService } from '../services/presence.service';
 import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
+import { Token } from '../models/token.model';
 
 @Component({
 	selector: 'app-nav',
@@ -43,14 +45,15 @@ export class NavComponent implements OnInit, OnDestroy {
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
+	token = signal<Token | null>(null);
 
 	ngOnInit() {
-		this.eventSubscription =
-			this.presenceService.eventObservable$.subscribe(() => {
-				this.getNewMessagesCount();
-			});
-		this.getNewMessagesCount();
-		this.cdr.detectChanges();
+		// this.eventSubscription =
+		// 	this.presenceService.eventObservable$.subscribe(() => {
+		// 		this.getNewMessagesCount();
+		// 	});
+		// this.getNewMessagesCount();
+		// this.cdr.detectChanges();
 	}
 
 	ngOnDestroy() {
@@ -59,17 +62,20 @@ export class NavComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	getNewMessagesCount() {
-		if (this.accountService.currentUser()) {
-			this.messageService.getNewMessagesCount().subscribe((count) => {
-				this.newMessagesCount = count;
-				this.haveMessages = count > 0;
-			});
-		}
-	}
+	// getNewMessagesCount() {
+	// 	if (this.accountService.currentUser()) {
+	// 		this.messageService.getNewMessagesCount().subscribe((count) => {
+	// 			this.newMessagesCount = count;
+	// 			this.haveMessages = count > 0;
+	// 		});
+	// 	}
+	// }
 
 	async logout() {
-		this.accountService.logout();
+		const currentToken = this.token();
+		if (currentToken) {
+			this.accountService.logout();
+		}
 		await this.router.navigateByUrl('/');
 	}
 

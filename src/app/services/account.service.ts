@@ -21,7 +21,7 @@ export class AccountService {
 	private http = inject(HttpClient);
 	private likeService = inject(LikesService);
 	public currentUser = signal<User | null>(null);
-	private presenceService = inject(PresenceService);
+	// private presenceService = inject(PresenceService);
 
 	login(model: Login) {
 		return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(
@@ -40,9 +40,13 @@ export class AccountService {
 	}
 
 	confirmEmailCode(model: ConfirmCode): Observable<string> {
-		return this.http.post(this.baseUrl + 'Account/confirm-email-code', model, {
-			responseType: 'text',
-		});
+		return this.http.post(
+			this.baseUrl + 'Account/confirm-email-code',
+			model,
+			{
+				responseType: 'text',
+			}
+		);
 	}
 
 	isLoggedIn() {
@@ -50,35 +54,34 @@ export class AccountService {
 	}
 
 	logout() {
-		if (JSON.parse(localStorage.getItem('user') || '{}').token) {
+		const token = localStorage.getItem('token');
+		if (token) {
 			this.http
-				.post(this.baseUrl + 'Account/logout', {
-					token: JSON.parse(localStorage.getItem('user') || '{}')
-						.token,
-				})
+				.post('https://localhost:5050/api/Account/logout', { token })
 				.subscribe({
 					next: () => {
-						localStorage.removeItem('user');
+						localStorage.removeItem('token');
 						this.currentUser.set(null);
-						this.presenceService.stopHubConnection();
-						console.log('Logout successful');
+						this.likeService.getLikeIds();
+						// this.presenceService.stopHubConnection();
+						console.log('Logged out successfully');
 					},
 					error: (err) => {
 						console.error('Logout failed', err);
 					},
 				});
 		} else {
-			localStorage.removeItem('user');
-			this.currentUser.set(null);
-			this.presenceService.stopHubConnection();
+			console.warn('No token found in localStorage');
 		}
 	}
 
 	setCurrentUser(user: User) {
-		localStorage.setItem('user', JSON.stringify(user));
+		const token = user.token || user.Token || user.accessToken; // Adjust based on actual response
+		console.log(`Bearer Token: ${token}`);
+		localStorage.setItem('token', token);
 		this.currentUser.set(user);
 		this.likeService.getLikeIds();
-		this.presenceService.createConnection(user);
+		// this.presenceService.createConnection(user);
 	}
 
 	forgetPassword(model: ForgetPassword) {
@@ -91,14 +94,6 @@ export class AccountService {
 		return this.http.post(this.baseUrl + 'Account/reset-password', model, {
 			responseType: 'text',
 		});
-	}
-
-	sigInWithGoogle() {
-		return this.http.get(this.baseUrl + 'Account/signin-google', {});
-	}
-
-	loginWithGoogle() {
-		return this.http.get(this.baseUrl + 'Account/login-google', {});
 	}
 
 	deleteAccount() {

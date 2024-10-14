@@ -19,6 +19,7 @@ import { memberDetailedResolver } from './member-detailed.resolver';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { AdminComponent } from './admin/admin.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
+import { HelloWorldComponent } from './hello-world/hello-world.component';
 
 export const routes: Routes = [
 	{
@@ -52,6 +53,7 @@ export const routes: Routes = [
 				path: 'messages',
 				component: MessagesComponent,
 			},
+			{ path: 'hello', component: HelloWorldComponent },
 			{ path: 'account-settings', component: AccountSettingsComponent },
 		],
 	},
