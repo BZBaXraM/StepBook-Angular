@@ -44,6 +44,13 @@ export class ChatComponent implements AfterViewChecked {
 		);
 	}
 
+	deleteMessage(id: number) {
+		this.messageService.deleteMessage(id).subscribe(() => {
+			this.messageService.removeMessage(id);
+			this.cdr.detectChanges();
+		});
+	}
+
 	isImageFile(url: string): boolean {
 		const imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 		const extension = url.split('.').pop()?.toLowerCase();

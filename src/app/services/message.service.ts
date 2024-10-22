@@ -110,6 +110,12 @@ export class MessageService {
 		return this.http.delete(this.baseUrl + 'messages/' + id);
 	}
 
+	removeMessage(id: number) {
+		this.messageThread.update((messages) =>
+			messages.filter((m) => m.id !== id)
+		);
+	}
+
 	getNewMessagesCount() {
 		return this.http.get<number>(
 			this.baseUrl + 'messages/new-messages-count'
