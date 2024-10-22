@@ -45,7 +45,6 @@ export class NavComponent implements OnInit, OnDestroy {
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
-	token = signal<Token | null>(null);
 
 	ngOnInit() {
 		this.eventSubscription =
