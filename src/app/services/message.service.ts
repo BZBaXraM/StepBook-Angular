@@ -11,6 +11,7 @@ import {
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
+	LogLevel,
 } from '@microsoft/signalr';
 import { User } from '../models/user.model';
 import { Group } from '../models/group.model';
@@ -33,6 +34,7 @@ export class MessageService {
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl(this.hubUrl + 'message?user=' + otherUsername, {
 				accessTokenFactory: () => user.Token,
+				logger: LogLevel.None,
 			})
 			.withAutomaticReconnect()
 			.build();

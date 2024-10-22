@@ -4,6 +4,7 @@ import {
 	HubConnection,
 	HubConnectionBuilder,
 	HubConnectionState,
+	LogLevel,
 } from '@microsoft/signalr';
 import { ToastrService } from 'ngx-toastr';
 import { User } from '../models/user.model';
@@ -24,7 +25,6 @@ export class PresenceService {
 	haveMessages = false;
 	newMessagesCount = 0;
 
-
 	private eventSubject = new Subject<any>();
 
 	eventObservable$ = this.eventSubject.asObservable();
@@ -33,6 +33,7 @@ export class PresenceService {
 		this.connection = new HubConnectionBuilder()
 			.withUrl(`${this.hubUrl}presence`, {
 				accessTokenFactory: () => user.Token,
+				logger: LogLevel.None,
 			})
 			.withAutomaticReconnect()
 			.build();

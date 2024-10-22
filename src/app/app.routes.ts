@@ -20,6 +20,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { AdminComponent } from './admin/admin.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
+import { SearchMemberComponent } from './members/search-member/search-member.component';
 
 export const routes: Routes = [
 	{
@@ -53,7 +54,10 @@ export const routes: Routes = [
 				path: 'messages',
 				component: MessagesComponent,
 			},
-			{ path: 'hello', component: HelloWorldComponent },
+			{
+				path: 'search',
+				component: SearchMemberComponent,
+			},
 			{ path: 'account-settings', component: AccountSettingsComponent },
 		],
 	},
