@@ -19,7 +19,6 @@ import { memberDetailedResolver } from './member-detailed.resolver';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { AdminComponent } from './admin/admin.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
-import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { SearchMemberComponent } from './members/search-member/search-member.component';
 
 export const routes: Routes = [
