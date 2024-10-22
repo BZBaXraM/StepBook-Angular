@@ -6,7 +6,7 @@ import {PaginatedResult} from '../models/pagination.model';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
-} from '../../../_helpers/paginationHelper';
+} from '../../helpers/paginationHelper';
 
 @Injectable({
 	providedIn: 'root',

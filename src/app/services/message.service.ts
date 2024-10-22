@@ -6,7 +6,7 @@ import { Message } from '../models/message.model';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
-} from '../../../_helpers/paginationHelper';
+} from '../../helpers/paginationHelper';
 import {
 	HubConnection,
 	HubConnectionBuilder,

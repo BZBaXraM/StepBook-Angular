@@ -10,7 +10,7 @@ import { AccountService } from './account.service';
 import {
 	setPaginatedResponse,
 	setPaginationHeaders,
-} from '../../../_helpers/paginationHelper';
+} from '../../helpers/paginationHelper';
 
 @Injectable({
 	providedIn: 'root',
