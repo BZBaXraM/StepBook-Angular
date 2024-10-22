@@ -8,7 +8,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
 	if (currentUser) {
 		const token =
-			currentUser.token || currentUser.Token || currentUser.accessToken; // Ensure consistency with setCurrentUser
+			currentUser.token || currentUser.Token || currentUser.accessToken;
 		if (token) {
 			req = req.clone({
 				setHeaders: {

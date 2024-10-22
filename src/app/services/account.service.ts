@@ -21,7 +21,7 @@ export class AccountService {
 	private http = inject(HttpClient);
 	private likeService = inject(LikesService);
 	public currentUser = signal<User | null>(null);
-	// private presenceService = inject(PresenceService);
+	private presenceService = inject(PresenceService);
 
 	login(model: Login) {
 		return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(
@@ -54,34 +54,17 @@ export class AccountService {
 	}
 
 	logout() {
-		const token = localStorage.getItem('token');
-		if (token) {
-			this.http
-				.post('https://localhost:5050/api/Account/logout', { token })
-				.subscribe({
-					next: () => {
-						localStorage.removeItem('token');
-						this.currentUser.set(null);
-						this.likeService.getLikeIds();
-						// this.presenceService.stopHubConnection();
-						console.log('Logged out successfully');
-					},
-					error: (err) => {
-						console.error('Logout failed', err);
-					},
-				});
-		} else {
-			console.warn('No token found in localStorage');
-		}
+		localStorage.removeItem('user');
+		localStorage.removeItem('token');
+		this.currentUser.set(null);
 	}
 
 	setCurrentUser(user: User) {
-		const token = user.token || user.Token || user.accessToken; // Adjust based on actual response
-		console.log(`Bearer Token: ${token}`);
+		const token = user.token || user.Token || user.accessToken;
 		localStorage.setItem('token', token);
 		this.currentUser.set(user);
 		this.likeService.getLikeIds();
-		// this.presenceService.createConnection(user);
+		this.presenceService.createConnection(user);
 	}
 
 	forgetPassword(model: ForgetPassword) {

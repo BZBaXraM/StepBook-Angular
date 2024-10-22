@@ -48,12 +48,12 @@ export class NavComponent implements OnInit, OnDestroy {
 	token = signal<Token | null>(null);
 
 	ngOnInit() {
-		// this.eventSubscription =
-		// 	this.presenceService.eventObservable$.subscribe(() => {
-		// 		this.getNewMessagesCount();
-		// 	});
-		// this.getNewMessagesCount();
-		// this.cdr.detectChanges();
+		this.eventSubscription =
+			this.presenceService.eventObservable$.subscribe(() => {
+				this.getNewMessagesCount();
+			});
+		this.getNewMessagesCount();
+		this.cdr.detectChanges();
 	}
 
 	ngOnDestroy() {
@@ -62,20 +62,18 @@ export class NavComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	// getNewMessagesCount() {
-	// 	if (this.accountService.currentUser()) {
-	// 		this.messageService.getNewMessagesCount().subscribe((count) => {
-	// 			this.newMessagesCount = count;
-	// 			this.haveMessages = count > 0;
-	// 		});
-	// 	}
-	// }
+	getNewMessagesCount() {
+		if (this.accountService.currentUser()) {
+			this.messageService.getNewMessagesCount().subscribe((count) => {
+				this.newMessagesCount = count;
+				this.haveMessages = count > 0;
+			});
+		}
+	}
 
 	async logout() {
-		const currentToken = this.token();
-		if (currentToken) {
-			this.accountService.logout();
-		}
+		this.messageService.stopHubConnection();
+		this.accountService.logout();
 		await this.router.navigateByUrl('/');
 	}
 
