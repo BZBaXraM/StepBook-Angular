@@ -1,5 +1,5 @@
 export const environment = {
 	production: false,
-	apiUrl: 'https://stepbook.azurewebsites.net/api/',
-	hubsUrl: 'https://stepbook.azurewebsites.net/hubs/',
+	apiUrl: 'https://localhost:7035/api/',
+	hubsUrl: 'https://localhost:7035/hubs/',
 };
