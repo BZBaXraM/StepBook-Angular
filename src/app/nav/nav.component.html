@@ -61,12 +61,12 @@
 					<img
 						class="w-8 h-8 mr-2 rounded-full"
 						src="{{
-							accountService.currentUser()?.PhotoUrl || 'user.png'
+							accountService.currentUser()?.photoUrl || 'user.png'
 						}}"
 						alt="Main photo"
 					/>
 					<span class="text-sm font-semibold">
-						Welcome {{ accountService.currentUser()?.KnownAs }}
+						Welcome {{ accountService.currentUser()?.knownAs }}
 					</span>
 					<svg
 						class="w-4 h-4 ml-2"

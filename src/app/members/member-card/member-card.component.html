@@ -2,13 +2,13 @@
 	<div class="card-img-wrapper">
 		<img
 			class="card-img-top"
-			src="{{ member().PhotoUrl || 'user.png' }}"
-			alt="{{ member().KnownAs }}"
+			src="{{ member().photoUrl || 'user.png' }}"
+			alt="{{ member().knownAs }}"
 		/>
 		<ul class="list-inline member-icons animate text-center">
 			<li class="list-inline-item">
 				<button
-					routerLink="/members/{{ member().Username }}"
+					routerLink="/members/{{ member().username }}"
 					class="btn btn-primary"
 				>
 					<i class="fa fa-user"></i>
@@ -21,7 +21,7 @@
 			</li>
 			<li class="list-inline-item">
 				<button
-					routerLink="/members/{{ member().Username }}"
+					routerLink="/members/{{ member().username }}"
 					[queryParams]="{ tab: 'Messages' }"
 					class="btn btn-primary"
 				>
@@ -35,13 +35,13 @@
 			<span [class.is-online]="isOnline()">
 				<i class="fa fa-user me-2"></i>
 			</span>
-			{{ member().KnownAs }}, {{ member().Age }}
+			{{ member().knownAs }}, {{ member().age }}
 			@if (hasLiked()) {
 			<i class="fa fa-heart ms-2" style="color: rgb(0, 213, 255)"></i>
 			}
 		</h6>
 		<p class="card-text text-muted text-center">
-			{{ member().City }}, {{ member().Country }}
+			{{ member().city }}, {{ member().country }}
 		</p>
 	</div>
 </div>

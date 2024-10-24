@@ -87,7 +87,7 @@ export class MembersService {
 				tap(() => {
 					this.members.update((members) =>
 						members.map((x) =>
-							x.Username === member.Username ? member : x
+							x.username === member.username ? member : x
 						)
 					);
 				})
