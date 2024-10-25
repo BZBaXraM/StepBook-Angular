@@ -1,6 +1,11 @@
-<div class="card">
-	<app-chat [username]="username()"></app-chat>
-	<div class="card-footer">
-		<app-message-form [username]="username()"></app-message-form>
+<div class="bg-white rounded-lg shadow-lg overflow-hidden">
+	<div class="p-4">
+		<app-chat [username]="username()" class="mb-4"></app-chat>
+	</div>
+	<div class="bg-gray-100 p-4 border-t border-gray-200">
+		<app-message-form
+			[username]="username()"
+			class="w-full"
+		></app-message-form>
 	</div>
 </div>

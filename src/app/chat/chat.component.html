@@ -1,90 +1,85 @@
-<div class="card-body">
+<div class="bg-gray-100 rounded-lg shadow-lg p-6">
 	@if (messageService.messageThread().length === 0) {
-	<p>No messages yet</p>
+	<p class="text-center text-gray-500 italic">No messages yet</p>
 	} @else {
 	<div
-		class="h-96 overflow-y-auto"
-		style="overflow: scroll; max-height: 400px; scroll-behavior: smooth"
+		class="h-[32rem] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-blue-100"
 		#scrollMe
+		(scroll)="onScroll($event)"
 	>
-		<ul class="space-y-2">
+		<ul class="space-y-4">
 			@for (message of messageService.messageThread(); track message.id) {
 			<li
 				class="flex items-start"
-				[class.flex-row-reverse]="message.senderUsername !== username()"
+				[class.justify-end]="message.senderUsername !== username()"
 			>
-				@if (message.senderUsername === username()) {
-				<div class="text-sm font-semibold ml-3">
-					{{ message.senderUsername }}
-				</div>
-				}
-				<div class="max-w-full bg-white p-3 rounded-lg shadow-sm">
-					<div class="flex items-center justify-between">
-						<small class="text-xs text-gray-500">
-							<span class="fa fa-clock-o mr-1"></span>
-							{{
-								message.messageSent
-									? (message.messageSent | timeago)
-									: "Unknown time"
-							}}
-						</small>
-						@if (message.recipientUsername === username() ||
-						message.senderUsername === username()) {
-						<button
-							class="btn btn-sm text-white bg-red-500 hover:bg-red-600"
-							(click)="deleteMessage(message.id)"
-						>
-							Delete
-						</button>
-						}
+				<div
+					class="flex flex-col max-w-[70%]"
+					[class.items-end]="message.senderUsername !== username()"
+				>
+					<div class="text-xs text-gray-500 mb-1">
+						{{ message.senderUsername }}
 					</div>
-					<div class="text-sm mt-2">
-						<ng-container
-							*ngIf="
-								isCodeMessage(message.content);
-								else plainText
-							"
-						>
-							<pre
-								style="
-									white-space: pre-wrap;
-									word-wrap: break-word;
+					<div
+						class="rounded-2xl p-3 shadow-md"
+						[class]="
+							message.senderUsername === username()
+								? 'bg-blue-500 text-white'
+								: 'bg-white'
+						"
+					>
+						<div class="flex items-center justify-between mb-1">
+							<small class="text-xs opacity-75">
+								<span class="fa fa-clock-o mr-1"></span>
+								{{
+									message.messageSent
+										? (message.messageSent | timeago)
+										: "Unknown time"
+								}}
+							</small>
+							@if (message.recipientUsername === username() ||
+							message.senderUsername === username()) {
+							<button
+								class="text-xs px-2 py-1 rounded transition-colors duration-200"
+								[class]="
+									message.senderUsername === username()
+										? 'text-white hover:bg-blue-600'
+										: 'text-red-500 hover:bg-red-100'
 								"
-							><code
-							class="language-clike"
-							[innerHTML]="
-								highlightedCode(message.content)">
-								{{ message.content }}
-						</code>
-					</pre>
-						</ng-container>
-						<ng-template #plainText>
-							@if (message.fileUrl) {
-							<img
-								*ngIf="isImageFile(message.fileUrl)"
-								[src]="message.fileUrl"
-								alt="File"
-								class="max-w-full"
-							/>
-							} @else {
-							<p
-								class="whitespace-pre-wrap"
-								style="
-									white-space: pre-wrap;
-									word-wrap: break-word;
+								(click)="deleteMessage(message.id)"
+							>
+								Delete
+							</button>
+							}
+						</div>
+						<div class="text-sm">
+							<ng-container
+								*ngIf="
+									isCodeMessage(message.content);
+									else plainText
 								"
 							>
-								{{ message.content }}
-							</p>
-							}
-						</ng-template>
+								<pre
+									class="bg-gray-800 text-gray-100 rounded p-2 overflow-x-auto"
+								><code class="language-clike" [innerHTML]="highlightedCode(message.content)">{{ message.content }}</code></pre>
+							</ng-container>
+							<ng-template #plainText>
+								@if (message.fileUrl) {
+								<img
+									*ngIf="isImageFile(message.fileUrl)"
+									[src]="message.fileUrl"
+									alt="File"
+									class="max-w-full rounded-lg shadow-sm"
+								/>
+								} @else {
+								<p class="whitespace-pre-wrap break-words">
+									{{ message.content }}
+								</p>
+								}
+							</ng-template>
+						</div>
 					</div>
 				</div>
-				@if (message.senderUsername !== username()) {
-				<div class="text-sm font-semibold ml-3">
-					{{ message.senderUsername }}
-				</div>
-				}
 			</li>
 			}
 		</ul>

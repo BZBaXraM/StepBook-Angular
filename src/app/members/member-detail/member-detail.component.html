@@ -1,88 +1,114 @@
-<div class="flex flex-wrap">
-	<div class="w-full md:w-1/3 mb-4">
-		<div class="bg-white shadow-md rounded-lg overflow-hidden">
+<div class="flex flex-wrap bg-gray-100 p-6">
+	<div class="w-full md:w-1/3 mb-6 md:mb-0 md:pr-4">
+		<div
+			class="bg-white shadow-lg rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105"
+		>
 			<img
 				src="{{ member.PhotoUrl || 'user.png' }}"
-				class="card-img img-thumbnail"
+				class="w-full h-64 object-cover object-center"
 				alt="{{ member.Username }}"
 			/>
-			<div class="p-4">
+			<div class="p-6">
 				@if (presenceService.onlineUsers().includes(member.Username)) {
-				<div class="mb-2">
-					<i class="fa fa-user-circle text-green-500"></i> Online now
+				<div class="mb-4 flex items-center text-green-500">
+					<i class="fa fa-user-circle mr-2"></i>
+					<span class="font-semibold">Online now</span>
 				</div>
 				}
-				<div class="mb-2">
-					<strong>Username:</strong>
-					<p>{{ member.Username }}</p>
-				</div>
-				<div class="mb-2">
-					<strong>Known As:</strong>
-					<p>{{ member.KnownAs }}</p>
-				</div>
-				<div class="mb-2">
-					<strong>Location:</strong>
-					<p>{{ member.City }}, {{ member.Country }}</p>
-				</div>
-				<div class="mb-2">
-					<strong>Age:</strong>
-					<p>{{ member.Age }}</p>
-				</div>
-				<div class="mb-2">
-					<strong>Last Active:</strong>
-					<p>{{ member.LastActive | timeago }}</p>
-				</div>
-				<div class="mb-2">
-					<strong>Member Since:</strong>
-					<p>{{ member.Created | date : "dd MMM yyyy" }}</p>
+				<div class="space-y-3">
+					<div>
+						<h3 class="text-lg font-bold text-gray-700">
+							{{ member.Username }}
+						</h3>
+						<p class="text-sm text-gray-500">
+							Known as {{ member.KnownAs }}
+						</p>
+					</div>
+					<div class="flex items-center">
+						<i class="fa fa-map-marker-alt text-red-500 mr-2"></i>
+						<span>{{ member.City }}, {{ member.Country }}</span>
+					</div>
+					<div class="flex items-center">
+						<i class="fa fa-birthday-cake text-purple-500 mr-2"></i>
+						<span>{{ member.Age }} years old</span>
+					</div>
+					<div class="flex items-center">
+						<i class="fa fa-clock text-blue-500 mr-2"></i>
+						<span
+							>Last active {{ member.LastActive | timeago }}</span
+						>
+					</div>
+					<div class="flex items-center">
+						<i class="fa fa-calendar-alt text-indigo-500 mr-2"></i>
+						<span
+							>Joined
+							{{ member.Created | date : "dd MMM yyyy" }}</span
+						>
+					</div>
 				</div>
 			</div>
-			<div class="bg-gray-100 p-4">
-				<div class="flex justify-center">
-					<button
-						(click)="selectTab('Messages')"
-						class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-					>
-						Message
-					</button>
-				</div>
+			<div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+				<button
+					(click)="selectTab('Messages')"
+					class="w-full bg-white text-blue-600 font-bold py-2 px-4 rounded-full hover:bg-blue-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+				>
+					<i class="fa fa-envelope mr-2"></i> Message
+				</button>
 			</div>
 		</div>
 	</div>
 
 	<div class="w-full md:w-2/3">
-		<tabset class="member-tabset" #memberTabs>
-			<tab
-				heading="About {{ member.KnownAs }}"
-				(selectTab)="onTabActivated($event)"
-			>
-				<h4 class="font-bold text-lg mb-2">Description</h4>
-				<p class="mb-4">{{ member.Introduction }}</p>
-				<h4 class="font-bold text-lg mb-2">Looking For</h4>
-				<p>{{ member.LookingFor }}</p>
-			</tab>
-			<tab heading="Interests" (selectTab)="onTabActivated($event)">
-				<h4 class="font-bold text-lg mb-2">Interests</h4>
-				<p>{{ member.Interests }}</p>
-			</tab>
-			<tab
-				heading="Photos"
-				#photoTab="tab"
-				(selectTab)="onTabActivated($event)"
-			>
-				@if (photoTab.active) {
-				<gallery
-					[items]="images"
-					class="gallery"
-					[itemAutosize]="true"
-				/>
-				}
-			</tab>
-			<tab heading="Messages" (selectTab)="onTabActivated($event)">
-				<app-member-messages
-					[username]="member.Username"
-				></app-member-messages>
-			</tab>
-		</tabset>
+		<div class="bg-white shadow-lg rounded-xl overflow-hidden">
+			<tabset class="member-tabset" #memberTabs>
+				<tab
+					heading="About {{ member.KnownAs }}"
+					(selectTab)="onTabActivated($event)"
+				>
+					<div class="p-6">
+						<h4 class="font-bold text-xl mb-4 text-gray-800">
+							Description
+						</h4>
+						<p class="mb-6 text-gray-600">
+							{{ member.Introduction }}
+						</p>
+						<h4 class="font-bold text-xl mb-4 text-gray-800">
+							Looking For
+						</h4>
+						<p class="text-gray-600">{{ member.LookingFor }}</p>
+					</div>
+				</tab>
+				<tab heading="Interests" (selectTab)="onTabActivated($event)">
+					<div class="p-6">
+						<h4 class="font-bold text-xl mb-4 text-gray-800">
+							Interests
+						</h4>
+						<p class="text-gray-600">{{ member.Interests }}</p>
+					</div>
+				</tab>
+				<tab
+					heading="Photos"
+					#photoTab="tab"
+					(selectTab)="onTabActivated($event)"
+				>
+					@if (photoTab.active) {
+					<div class="p-6">
+						<gallery
+							[items]="images"
+							class="gallery"
+							[itemAutosize]="true"
+						/>
+					</div>
+					}
+				</tab>
+				<tab heading="Messages" (selectTab)="onTabActivated($event)">
+					<div class="p-6">
+						<app-member-messages
+							[username]="member.Username"
+						></app-member-messages>
+					</div>
+				</tab>
+			</tabset>
+		</div>
 	</div>
 </div>

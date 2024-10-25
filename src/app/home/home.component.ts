@@ -5,6 +5,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { RegisterComponent } from '../register/register.component';
 import { Router, RouterLink } from '@angular/router';
 import { AccountService } from '../services/account.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatCardHeader } from '@angular/material/card';
 
 @Component({
 	selector: 'app-home',
@@ -15,6 +17,8 @@ import { AccountService } from '../services/account.service';
 		MatIconModule,
 		RouterLink,
 		RegisterComponent,
+		MatCardModule,
+		MatCardHeader,
 	],
 	templateUrl: './home.component.html',
 	styleUrl: './home.component.css',

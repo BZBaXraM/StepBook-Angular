@@ -6,6 +6,7 @@ import {
 	inject,
 	input,
 	ViewChild,
+	HostListener,
 } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import Prism from 'prismjs';
@@ -25,7 +26,19 @@ export class ChatComponent implements AfterViewChecked {
 	messageService = inject(MessageService);
 	messageContent = '';
 	private cdr = inject(ChangeDetectorRef);
-	shouldScrollToBottom = false;
+	shouldScrollToBottom = true;
+	private isUserScrolling = false;
+
+	@HostListener('scroll', ['$event'])
+	onScroll(event: Event) {
+		const element = event.target as HTMLElement;
+		const atBottom =
+			element.scrollHeight - element.scrollTop === element.clientHeight;
+		this.isUserScrolling = !atBottom;
+		if (atBottom) {
+			this.shouldScrollToBottom = true;
+		}
+	}
 
 	highlightSyntax() {
 		Prism.highlightAll();
@@ -58,7 +71,9 @@ export class ChatComponent implements AfterViewChecked {
 	}
 
 	ngAfterViewChecked(): void {
-		this.scrollToBottom();
+		if (this.shouldScrollToBottom && !this.isUserScrolling) {
+			this.scrollToBottom();
+		}
 		this.highlightSyntax();
 	}
 

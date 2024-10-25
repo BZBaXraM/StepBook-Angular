@@ -13,6 +13,19 @@ import { DatePickerComponent } from '../forms/date-picker/date-picker.component'
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardHeader } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardTitle } from '@angular/material/card';
+import { MatCardActions } from '@angular/material/card';
+import { MatCardContent } from '@angular/material/card';
+import { MatError } from '@angular/material/form-field';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -26,6 +39,18 @@ import { ToastrService } from 'ngx-toastr';
 		DatePickerComponent,
 		MatButton,
 		MatIcon,
+		MatCard,
+		MatRadioModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardHeader,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		MatIconModule,
+		MatButtonModule,
+		MatCardTitle,
+		MatCardActions,
+		MatCardContent,
 	],
 })
 export class RegisterComponent implements OnInit {
@@ -52,7 +77,7 @@ export class RegisterComponent implements OnInit {
 		]),
 	});
 	maxDate = new Date();
-	validationErrors: string[] | undefined;
+	validationErrors: string[] | undefined = [];
 	passwordFieldType = 'password';
 
 	ngOnInit(): void {

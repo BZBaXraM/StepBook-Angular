@@ -1,64 +1,145 @@
-<form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" [formGroup]="registerForm" (ngSubmit)="register()"
-	autocomplete="off">
-	<h2 class="text-center text-2xl font-bold mb-4 text-gray-700 flex items-center justify-center">
-		Sign up
-		<mat-icon class="ml-2 text-pretty">account_circle</mat-icon>
-	</h2>
-	<hr class="mb-4 border-b-2 border-gray-300" />
+<form
+	[formGroup]="registerForm"
+	(ngSubmit)="register()"
+	autocomplete="off"
+	class="max-w-sm mx-auto"
+>
+	<mat-card class="p-4">
+		<mat-card-header class="mb-4">
+			<mat-card-title class="text-lg">Sign up</mat-card-title>
+			<mat-icon class="ml-2">account_circle</mat-icon>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="grid grid-cols-1 gap-3">
+				<mat-radio-group
+					formControlName="Gender"
+					class="flex justify-start space-x-4"
+				>
+					<mat-label class="text-sm">I am a:</mat-label>
+					<mat-radio-button value="Male" class="text-sm"
+						>Male</mat-radio-button
+					>
+					<mat-radio-button value="Female" class="text-sm"
+						>Female</mat-radio-button
+					>
+				</mat-radio-group>
 
-	<div class="mb-4">
-		<label class="block text-black font-normal mb-2">I am a: </label>
-		<div class="flex justify-center mb-4">
-			<label class="inline-flex items-center mr-4">
-				<input type="radio" class="form-radio rounded-full h-4 w-4 border-gray-300" value="Male"
-					formControlName="Gender" />
-				<span class="ml-2">Male</span>
-			</label>
-			<label class="inline-flex items-center">
-				<input type="radio" class="form-radio rounded-full h-4 w-4 border-gray-300" value="Female"
-					formControlName="Gender" />
-				<span class="ml-2">Female</span>
-			</label>
-		</div>
-	</div>
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						formControlName="Email"
+						placeholder="Email"
+						class="text-sm"
+					/>
+				</mat-form-field>
 
-	<div class="space-y-4">
-		<app-text-input formControlName="Email" [label]="'Email'" class="w-full"></app-text-input>
-		<app-text-input formControlName="Username" [label]="'Username'" class="w-full"></app-text-input>
-		<app-text-input formControlName="KnownAs" [label]="'Known As'" class="w-full"></app-text-input>
-		<app-date-picker formControlName="DateOfBirth" [label]="'Date of Birth'" [maxDate]="maxDate"
-			class="w-full"></app-date-picker>
-		<app-text-input formControlName="City" [label]="'City'" class="w-full"></app-text-input>
-		<app-text-input formControlName="Country" [label]="'Country'" class="w-full"></app-text-input>
-		<app-text-input formControlName="Password" [label]="'Password'" [type]="passwordFieldType"
-			class="w-full"></app-text-input>
-		<app-text-input formControlName="ConfirmPassword" [label]="'Confirm password'"
-			[type]="passwordFieldType" class="w-full"></app-text-input>
-	</div>
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						formControlName="Username"
+						placeholder="Username"
+						class="text-sm"
+					/>
+				</mat-form-field>
 
-	<button class="text-blue-500 hover:text-blue-700 mb-4 w-full" type="button" (click)="togglePasswordVisibility()">
-		{{
-		passwordFieldType === 'password' ? 'Show password' : 'Hide password'
-		}}
-	</button>
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						formControlName="KnownAs"
+						placeholder="Known As"
+						class="text-sm"
+					/>
+				</mat-form-field>
 
-	<!-- @if (validationErrors()) {
-	<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-		<ul>
-			@for (error of validationErrors(); track $index) {
-			<li>{{ error }}</li>
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						[matDatepicker]="picker"
+						formControlName="DateOfBirth"
+						placeholder="Date of Birth"
+						[max]="maxDate"
+						class="text-sm"
+					/>
+					<mat-datepicker-toggle
+						matSuffix
+						[for]="picker"
+					></mat-datepicker-toggle>
+					<mat-datepicker #picker></mat-datepicker>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						formControlName="City"
+						placeholder="City"
+						class="text-sm"
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						formControlName="Country"
+						placeholder="Country"
+						class="text-sm"
+					/>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						[type]="passwordFieldType"
+						formControlName="Password"
+						placeholder="Password"
+						class="text-sm"
+					/>
+					<mat-icon
+						matSuffix
+						(click)="togglePasswordVisibility()"
+						class="cursor-pointer"
+					>
+						{{
+							passwordFieldType === "password"
+								? "visibility_off"
+								: "visibility"
+						}}
+					</mat-icon>
+				</mat-form-field>
+
+				<mat-form-field appearance="outline" class="w-full">
+					<input
+						matInput
+						[type]="passwordFieldType"
+						formControlName="ConfirmPassword"
+						placeholder="Confirm Password"
+						class="text-sm"
+					/>
+				</mat-form-field>
+			</div>
+
+			@if (validationErrors && validationErrors.length) {
+			<mat-error class="mt-2 text-xs">
+				<ul>
+					@for (error of validationErrors; track error) {
+					<li>{{ error }}</li>
+					}
+				</ul>
+			</mat-error>
 			}
-		</ul>
-	</div>
-	} -->
-
-	<div class="text-center space-x-4">
-		<button [disabled]="!registerForm.valid" class="btn cool-btn w-full" type="submit">
-			Register
-		</button>
-		<button class="btn cool-btn w-full" type="button" (click)="cancel()">
-			Cancel
-		</button>
-	</div>
+		</mat-card-content>
+		<mat-card-actions class="flex justify-end space-x-2 mt-4">
+			<button
+				mat-raised-button
+				color="primary"
+				type="submit"
+				[disabled]="!registerForm.valid"
+				class="text-sm"
+			>
+				Register
+			</button>
+			<button mat-button (click)="cancel()" class="text-sm">
+				Cancel
+			</button>
+		</mat-card-actions>
+	</mat-card>
 </form>
-

@@ -1,69 +1,81 @@
-<div class="container mx-auto px-4 py-8 space-y-4">
-	<h2 class="text-3xl font-bold text-center">
-		Your matches -
-		{{ memberService.paginatedResult()?.pagination?.totalItems }}
+<div
+	class="container mx-auto px-4 py-8 space-y-8 bg-gradient-to-r from-blue-50 to-purple-50"
+>
+	<h2 class="text-4xl font-extrabold text-center text-indigo-800 mb-8">
+		Your Matches
+		<span class="text-pink-600">
+			({{ memberService.paginatedResult()?.pagination?.totalItems }})
+		</span>
 	</h2>
 
 	<form
-		class="flex flex-wrap items-center space-x-4"
+		class="bg-white shadow-lg rounded-lg p-6 space-y-4"
 		#form="ngForm"
 		(ngSubmit)="getMembers()"
 	>
-		<div class="flex items-center space-x-2">
-			<label class="text-sm" for="minAge">Age from:</label>
-			<input
-				type="number"
-				class="px-2 py-1 border rounded-md w-16"
-				id="minAge"
-				name="minAge"
-				[(ngModel)]="memberService.userParams().MinAge"
-			/>
-		</div>
+		<div class="flex flex-wrap gap-4 items-center">
+			<div class="flex items-center space-x-2">
+				<label class="text-sm font-medium text-gray-700" for="minAge"
+					>Age from:</label
+				>
+				<input
+					type="number"
+					class="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-20"
+					id="minAge"
+					name="minAge"
+					[(ngModel)]="memberService.userParams().MinAge"
+				/>
+			</div>
 
-		<div class="flex items-center space-x-2">
-			<label class="text-sm" for="maxAge">Age to:</label>
-			<input
-				type="number"
-				class="px-2 py-1 border rounded-md w-16"
-				id="maxAge"
-				name="maxAge"
-				[(ngModel)]="memberService.userParams().MaxAge"
-			/>
-		</div>
+			<div class="flex items-center space-x-2">
+				<label class="text-sm font-medium text-gray-700" for="maxAge"
+					>Age to:</label
+				>
+				<input
+					type="number"
+					class="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-20"
+					id="maxAge"
+					name="maxAge"
+					[(ngModel)]="memberService.userParams().MaxAge"
+				/>
+			</div>
 
-		<div class="flex items-center space-x-2">
-			<label class="text-sm" for="userRole">Show:</label>
-			<select
-				class="px-2 py-1 border rounded-md w-32"
-				id="userRole"
-				name="user role"
-				[(ngModel)]="memberService.userParams().Gender"
+			<div class="flex items-center space-x-2">
+				<label class="text-sm font-medium text-gray-700" for="userRole"
+					>Show:</label
+				>
+				<select
+					class="px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-40"
+					id="userRole"
+					name="user role"
+					[(ngModel)]="memberService.userParams().Gender"
+				>
+					@for (item of genderList; track item.value) {
+					<option [value]="item.value">{{ item.display }}</option>
+					}
+				</select>
+			</div>
+
+			<button
+				type="submit"
+				class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
 			>
-				@for (item of genderList; track item.value) {
-				<option [value]="item.value">{{ item.display }}</option>
-				}
-			</select>
-		</div>
+				Apply Filters
+			</button>
 
-		<button
-			type="submit"
-			class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-		>
-			Apply filters
-		</button>
-
-		<button
-			type="button"
-			class="px-4 py-2 bg-teal-500 text-white rounded-md hover:bg-teal-600"
-			(click)="resetFilters()"
-		>
-			Reset filters
-		</button>
-
-		<div class="flex items-center space-x-2 ml-auto">
 			<button
 				type="button"
-				class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+				class="px-6 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
+				(click)="resetFilters()"
+			>
+				Reset Filters
+			</button>
+		</div>
+
+		<div class="flex items-center justify-end space-x-4 mt-4">
+			<button
+				type="button"
+				class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
 				name="orderBy"
 				(click)="getMembers()"
 				btnRadio="lastActive"
@@ -74,7 +86,7 @@
 
 			<button
 				type="button"
-				class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+				class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300"
 				name="orderBy"
 				(click)="getMembers()"
 				btnRadio="created"
@@ -85,17 +97,19 @@
 		</div>
 	</form>
 
-	<div class="grid grid-cols-1">
+	<div
+		class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6"
+	>
 		@for (member of memberService.paginatedResult()?.items; track member.Id)
 		{
-		<div class="w-1/6 px-2">
+		<div class="w-full">
 			<app-member-card [member]="member"></app-member-card>
 		</div>
 		}
 	</div>
 
 	@if (memberService.paginatedResult()?.pagination) {
-	<div class="flex justify-center mt-4">
+	<div class="flex justify-center mt-8">
 		<pagination
 			[boundaryLinks]="true"
 			[totalItems]="
@@ -113,6 +127,7 @@
 			nextText="&rsaquo;"
 			firstText="&laquo;"
 			lastText="&raquo;"
+			class="pagination-lg"
 		></pagination>
 	</div>
 	}

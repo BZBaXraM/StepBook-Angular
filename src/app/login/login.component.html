@@ -1,80 +1,76 @@
-<div class="bg-white py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
-	<h2 class="text-3xl font-extrabold text-center text-gray-900">
-		Login
-		<mat-icon class="text-blue-600">login</mat-icon>
-	</h2>
-
-	<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-		<form class="space-y-6" (ngSubmit)="login()" autocomplete="off">
-			<div>
-				<label
-					for="usernameoremail"
-					class="block text-sm font-medium text-gray-700"
-					>Username or Email</label
-				>
-				<div class="mt-1">
+<div class="max-w-md mx-auto mt-8">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-title class="flex items-center justify-center">
+				<span class="text-2xl">Login</span>
+				<mat-icon class="ml-2">login</mat-icon>
+			</mat-card-title>
+		</mat-card-header>
+		<br />
+		<mat-card-content>
+			<form
+				(ngSubmit)="login()"
+				autocomplete="off"
+				class="flex flex-col gap-3"
+			>
+				<mat-form-field class="w-full">
+					<mat-label>Username or Email</mat-label>
 					<input
+						matInput
 						id="usernameoremail"
 						name="usernameoremail"
 						[(ngModel)]="model().UsernameOrEmail"
 						required
-						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
 					/>
-				</div>
-			</div>
+				</mat-form-field>
 
-			<div class="space-y-1">
-				<div class="flex items-center justify-between">
-					<label
-						for="password"
-						class="block text-sm font-medium text-gray-700"
-						>Password</label
-					>
-					<div class="text-sm">
-						<a
-							routerLink="/forget-password"
-							class="text-blue-500 hover:text-blue-700"
-							>Forgot password?</a
-						>
-					</div>
-				</div>
-				<div class="mt-1">
+				<mat-form-field class="w-full">
+					<mat-label>Password</mat-label>
 					<input
+						matInput
 						id="password"
 						name="password"
 						[(ngModel)]="model().Password"
 						[type]="passwordFieldType"
 						required
-						class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
 					/>
-				</div>
-				<button
-					class="text-blue-500 hover:text-blue-700 mt-1"
-					type="button"
-					(click)="togglePasswordVisibility()"
-				>
-					{{
-						passwordFieldType === "password"
-							? "Show password"
-							: "Hide password"
-					}}
-				</button>
-			</div>
+					<mat-icon
+						matSuffix
+						(click)="togglePasswordVisibility()"
+						class="cursor-pointer"
+					>
+						{{
+							passwordFieldType === "password"
+								? "visibility_off"
+								: "visibility"
+						}}
+					</mat-icon>
+				</mat-form-field>
 
-			<div class="flex items-center justify-center mt-4">
-				<button
-					type="submit"
-					class="cool-btn"
-				>
-					Login
-				</button>
-				<button
-					class="cool-btn"
-					routerLink="/"
-				>
-					Back to Home
-				</button>
-			</div>
-		</form>
-	</div>
+				<div class="text-right">
+					<a
+						mat-button
+						color="primary"
+						routerLink="/forget-password"
+						class="text-sm"
+						>Forgot password?</a
+					>
+				</div>
+
+				<div class="flex justify-center gap-3 mt-3">
+					<button
+						mat-raised-button
+						color="primary"
+						type="submit"
+						class="w-1/2"
+					>
+						Login
+					</button>
+					<button mat-button routerLink="/" class="w-1/2">
+						Back to Home
+					</button>
+				</div>
+			</form>
+		</mat-card-content>
+	</mat-card>
 </div>

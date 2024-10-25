@@ -1,31 +1,35 @@
-<div class="container mt-auto">
-	<div style="text-align: center">
-		@if (!registerMode) {
-		<h1>Find your friend</h1>
-		<p class="lead">
-			Come on in to view your friends... All you need to do is sign up!
-		</p>
-		<div class="example-full-width">
-			<button class="my-btn" (click)="registerToggle()" mat-fab extended>
-				Sign Up
-				<mat-icon>account_circle</mat-icon>
-			</button>
-			<button class="my-btn" routerLink="/login" mat-fab extended>
-				Login
-				<mat-icon>login</mat-icon>
-			</button>
-		</div>
-
-		} @else {
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-4">
+<mat-card class="mat-elevation-z8 full-height">
+	<mat-card-content class="flex justify-center items-center">
+		<div class="text-center">
+			@if (!registerMode) {
+			<h1 class="mat-display-2 animated-text">Find Your Friend</h1>
+			<p class="mat-h2 mb-4">
+				Come on in to view your friends... All you need to do is sign
+				up!
+			</p>
+			<div class="button-container">
+				<button
+					mat-raised-button
+					color="primary"
+					(click)="registerToggle()"
+				>
+					Sign Up
+					<mat-icon>person_add</mat-icon>
+				</button>
+				<button mat-stroked-button color="accent" routerLink="/login">
+					Login
+					<mat-icon>login</mat-icon>
+				</button>
+			</div>
+			} @else {
+			<mat-card class="register-card">
+				<mat-card-content>
 					<app-register
 						(cancelRegister)="cancelRegisterMode($event)"
-					/>
-				</div>
-			</div>
+					></app-register>
+				</mat-card-content>
+			</mat-card>
+			}
 		</div>
-		}
-	</div>
-</div>
+	</mat-card-content>
+</mat-card>
