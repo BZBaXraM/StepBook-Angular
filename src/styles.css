@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body {
+	overflow: auto;
+}
 
 .tab-panel {
 	border: 2px solid #6a11cb;
@@ -43,8 +47,14 @@
 }
 
 @keyframes fadeIn {
-	from { opacity: 0; transform: translateY(-10px); }
-	to { opacity: 1; transform: translateY(0); }
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 }
 
 .member-tabset > .nav-tabs > li.active {

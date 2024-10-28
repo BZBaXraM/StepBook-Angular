@@ -1,5 +1,8 @@
 export interface Token {
 	Token: string;
-	RefreshToken: string;
+	token: string;
+	RefreshToken?: string;
+	refreshToken?: string;
 	RefreshTokenExpireTime: Date;
+	refreshTokenExpireTime: Date;
 }

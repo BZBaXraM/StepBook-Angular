@@ -7,4 +7,7 @@ export interface User {
 	KnownAs: string;
 	Gender: string;
 	RefreshToken: string;
+	refreshToken: string;
+	DateExpired: Date;
+	dateExpired: Date;
 }

@@ -17,6 +17,7 @@ import { PresenceService } from '../services/presence.service';
 import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { Token } from '../models/token.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'app-nav',
@@ -42,6 +43,7 @@ export class NavComponent implements OnInit, OnDestroy {
 	haveMessages = false;
 	newMessagesCount = 0;
 	notificationMessage: string = '';
+	http = inject(HttpClient);
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
@@ -73,7 +75,7 @@ export class NavComponent implements OnInit, OnDestroy {
 	async logout() {
 		this.messageService.stopHubConnection();
 		this.accountService.logout();
-		await this.router.navigateByUrl('/');
+		await this.router.navigateByUrl('/login');
 	}
 
 	toggleDropdown() {
