@@ -1,0 +1,29 @@
+<div class="report-content-dialog mat-elevation-z2">
+	<h2 mat-dialog-title>Report Content</h2>
+	<mat-dialog-content>
+		<form (ngSubmit)="addReport()">
+			<mat-form-field
+				appearance="outline"
+				class="full-width"
+				style="width: 100%; margin: 16px 0"
+			>
+				<mat-label>Reason</mat-label>
+				<textarea
+					matInput
+					[(ngModel)]="report().Reason"
+					name="reason"
+					required
+					rows="4"
+					placeholder="Please describe why you are reporting this content..."
+					style="resize: none; line-height: 1.5; padding: 8px"
+				></textarea>
+			</mat-form-field>
+		</form>
+	</mat-dialog-content>
+	<mat-dialog-actions align="end" style="gap: 8px; padding: 16px">
+		<button mat-button (click)="cancel()">Cancel</button>
+		<button mat-raised-button color="primary" (click)="addReport()">
+			Submit Report
+		</button>
+	</mat-dialog-actions>
+</div>

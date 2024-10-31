@@ -12,7 +12,6 @@ import { LikesService } from './likes.service';
 import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
 import { ConfirmCode } from '../models/confirm-code.model';
-import { Router } from '@angular/router';
 import type { Token } from '../models/token.model';
 
 @Injectable({
@@ -61,7 +60,6 @@ export class AccountService {
 		const token = localStorage.getItem('token');
 		const user = localStorage.getItem('user');
 		if (token && user) {
-			// Create the payload as per TokenDto expected structure
 			const payload: Partial<Token> = { Token: token };
 
 			this.http
