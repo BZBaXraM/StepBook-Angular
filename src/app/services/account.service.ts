@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
 import { map, Observable } from 'rxjs';
 import { Register } from '../models/register.model';
@@ -23,6 +23,23 @@ export class AccountService {
 	private likeService = inject(LikesService);
 	public currentUser = signal<User | null>(null);
 	private presenceService = inject(PresenceService);
+	roles = computed(() => {
+		const user = this.currentUser();
+		const token = user?.token || user?.Token || user?.accessToken;
+		if (user && token) {
+			try {
+				const role = JSON.parse(
+					atob(token.split('.')[1])
+				).Role;
+				console.log('Roles:', role);
+				return Array.isArray(role) ? role : [role];
+			} catch (error) {
+				console.log("Error parsing token's roles:", error);
+				return [];
+			}
+		}
+		return [];
+	});
 
 	login(model: Login) {
 		return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(

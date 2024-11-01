@@ -20,6 +20,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { AdminComponent } from './admin/admin.component';
 import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { SearchMemberComponent } from './members/search-member/search-member.component';
+import { TronComponent } from './tron/tron.component';
+import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
 	{
@@ -58,6 +60,11 @@ export const routes: Routes = [
 				component: SearchMemberComponent,
 			},
 			{ path: 'account-settings', component: AccountSettingsComponent },
+			{
+				path: 'tron',
+				component: TronComponent,
+				canActivate: [adminGuard],
+			},
 		],
 	},
 	{

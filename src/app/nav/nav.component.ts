@@ -16,8 +16,8 @@ import { MatIcon } from '@angular/material/icon';
 import { PresenceService } from '../services/presence.service';
 import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
-import { Token } from '../models/token.model';
 import { HttpClient } from '@angular/common/http';
+import { HasRoleDirective } from '../directives/has-role.directive';
 
 @Component({
 	selector: 'app-nav',
@@ -30,6 +30,7 @@ import { HttpClient } from '@angular/common/http';
 		RouterLinkActive,
 		MatIcon,
 		NgIf,
+		HasRoleDirective,
 	],
 	templateUrl: './nav.component.html',
 	styleUrls: ['./nav.component.css'],
