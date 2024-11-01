@@ -22,6 +22,9 @@ import { ConfirmEmailComponent } from './confirm-email/confirm-email.component';
 import { SearchMemberComponent } from './members/search-member/search-member.component';
 import { TronComponent } from './tron/tron.component';
 import { adminGuard } from './guards/admin.guard';
+import { ReportsComponent } from './tron/reports/reports.component';
+import { BlacklistComponent } from './tron/blacklist/blacklist.component';
+import { UsersComponent } from './tron/users/users.component';
 
 export const routes: Routes = [
 	{
@@ -63,6 +66,21 @@ export const routes: Routes = [
 			{
 				path: 'tron',
 				component: TronComponent,
+				canActivate: [adminGuard],
+			},
+			{
+				path: 'reports',
+				component: ReportsComponent,
+				canActivate: [adminGuard],
+			},
+			{
+				path: 'blacklist',
+				component: BlacklistComponent,
+				canActivate: [adminGuard],
+			},
+			{
+				path: 'users',
+				component: UsersComponent,
 				canActivate: [adminGuard],
 			},
 		],

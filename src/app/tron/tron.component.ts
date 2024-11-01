@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { AccountService } from '../services/account.service';
 import { AdminService } from '../services/admin.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
 
 @Component({
 	selector: 'app-tron',
@@ -19,37 +19,43 @@ import { ToastrService } from 'ngx-toastr';
 		MatInputModule,
 		MatButtonModule,
 		FormsModule,
+		RouterLink,
 	],
 	templateUrl: './tron.component.html',
 	styleUrl: './tron.component.css',
 })
 export class TronComponent {
-	private accountService = inject(AccountService);
 	private adminService = inject(AdminService);
-	username = signal<string>('');
+	username = '';
 	private toastr = inject(ToastrService);
 
 	addToBlackList(username: string) {
-		this.adminService.addToBlackList(username).subscribe();
+		this.adminService.addToBlackList(username).subscribe({
+			next: () => this.toastr.success('User added to blacklist'),
+			error: (error) =>
+				this.toastr.error(
+					error.error || 'Failed to add user to blacklist'
+				),
+		});
 	}
 
 	removeFromBlackList(username: string) {
-		this.adminService.removeFromBlackList(username).subscribe();
-	}
-
-	getBlackList() {
-		this.adminService.getBlackList().subscribe();
-	}
-
-	getReports() {
-		this.adminService.getReports().subscribe();
+		this.adminService.removeFromBlackList(username).subscribe({
+			next: () => this.toastr.success('User removed from blacklist'),
+			error: (error) =>
+				this.toastr.error(
+					error.error || 'Failed to remove user from blacklist'
+				),
+		});
 	}
 
 	deleteUserAccount(username: string) {
-		this.adminService.deleteUserAccount(username).subscribe();
-	}
-
-	getUsers() {
-		this.adminService.getUsers().subscribe();
+		this.adminService.deleteUserAccount(username).subscribe({
+			next: () => this.toastr.success('Account deleted successfully'),
+			error: (error) =>
+				this.toastr.error(
+					error.error || 'Failed to delete user account'
+				),
+		});
 	}
 }

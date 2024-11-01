@@ -2,7 +2,6 @@ import {
 	Directive,
 	inject,
 	input,
-	Input,
 	OnInit,
 	TemplateRef,
 	ViewContainerRef,
@@ -10,7 +9,7 @@ import {
 import { AccountService } from '../services/account.service';
 
 @Directive({
-	selector: '[appHasRole]', // *appHasRole
+	selector: '[appHasRole]',
 	standalone: true,
 })
 export class HasRoleDirective implements OnInit {

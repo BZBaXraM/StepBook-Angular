@@ -5,14 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 
 export const adminGuard: CanActivateFn = (route, state) => {
 	const accountService = inject(AccountService);
-	const toastr = inject(ToastrService);
 
 	if (accountService.roles().includes('Admin')) {
 		return true;
 	} else {
-		toastr.error('You shall not pass!');
-		console.log('You shall not pass!', accountService.roles());
-
+		window.location.href = state.url =
+			'https://youtu.be/6Ep4yYWS5D4?si=0RBnDc_Ve_JVSDnz';
 		return false;
 	}
 };

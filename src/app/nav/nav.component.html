@@ -34,14 +34,6 @@
 						>Search</a
 					>
 				</li>
-				<li *appHasRole="['Admin']">
-					<a
-						class="text-white hover:text-gray-300 transition duration-300"
-						routerLink="/tron"
-						routerLinkActive="border-b-2 border-gray-300"
-						>Tron</a
-					>
-				</li>
 				<li class="relative">
 					<a
 						class="text-white hover:text-gray-300 transition duration-300"
@@ -113,18 +105,18 @@
 						<li>
 							<hr class="my-1 border-gray-200" />
 						</li>
+						<li *appHasRole="['Admin']">
+							<a
+								class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 hover:text-purple-600 transition duration-300"
+								routerLink="/tron"
+								>Tron</a
+							>
+						</li>
 						<li>
 							<a
 								class="block px-4 py-2 text-sm text-red-600 hover:bg-red-100 transition duration-300"
 								(click)="logout()"
 								>Logout</a
-							>
-						</li>
-						<li *appHasRole="['admin']">
-							<a
-								class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 hover:text-purple-600 transition duration-300"
-								routerLink="/tron"
-								>Admin</a
 							>
 						</li>
 					</ul>
