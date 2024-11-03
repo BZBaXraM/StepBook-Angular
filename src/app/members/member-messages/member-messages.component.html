@@ -1,11 +1,20 @@
-<div class="bg-white rounded-lg shadow-lg overflow-hidden">
-	<div class="p-4">
-		<app-chat [username]="username()" class="mb-4"></app-chat>
-	</div>
-	<div class="bg-gray-100 p-4 border-t border-gray-200">
-		<app-message-form
-			[username]="username()"
-			class="w-full"
-		></app-message-form>
-	</div>
-</div>
+<mat-accordion>
+	<mat-expansion-panel expanded>
+		<mat-expansion-panel-header>
+			<mat-panel-title> Chat Messages </mat-panel-title>
+		</mat-expansion-panel-header>
+
+		<div class="chat-container">
+			<app-chat [username]="username()"></app-chat>
+
+			<mat-divider></mat-divider>
+
+			<div class="message-form-container">
+				<app-message-form
+					[username]="username()"
+					class="w-full"
+				></app-message-form>
+			</div>
+		</div>
+	</mat-expansion-panel>
+</mat-accordion>

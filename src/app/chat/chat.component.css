@@ -1,0 +1,14 @@
+.code-block {
+	/* border-radius: 30px; */
+	/* padding: 10px; */
+	/* margin: 10px; */
+	width: 100%;
+	height: auto;
+	display: block;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background-color: #f8f9fa;
+	font-family: monospace;
+	font-size: 0.9rem;
+	max-height: 400px;
+}

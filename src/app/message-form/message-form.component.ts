@@ -7,11 +7,22 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'app-message-form',
 	standalone: true,
-	imports: [FormsModule, NgIf, PickerComponent, NgFor],
+	imports: [
+		FormsModule,
+		NgIf,
+		PickerComponent,
+		NgFor,
+		MatFormFieldModule,
+		MatInputModule,
+		MatIconModule,
+	],
 	templateUrl: './message-form.component.html',
 	styleUrl: './message-form.component.css',
 })
@@ -55,9 +66,10 @@ export class MessageFormComponent {
 		});
 	}
 
-	onFileChange(event: any) {
-		if (event.target.files.length > 0) {
-			const file = event.target.files[0];
+	onFileChange(event: Event) {
+		const target = event.target as HTMLInputElement;
+		if (target.files && target.files.length > 0) {
+			const file = target.files[0];
 			this.sendFile(file);
 		}
 	}
