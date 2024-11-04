@@ -1,16 +1,18 @@
-<form
-	[formGroup]="registerForm"
-	(ngSubmit)="register()"
-	autocomplete="off"
-	class="max-w-sm mx-auto"
->
-	<mat-card class="p-4">
-		<mat-card-header class="mb-4">
-			<mat-card-title class="text-lg">Sign up</mat-card-title>
-			<mat-icon class="ml-2">account_circle</mat-icon>
+<div class="flex justify-center items-center min-h-screen">
+	<mat-card class="w-96">
+		<mat-card-header>
+			<mat-card-title>
+				<span class="text-2xl">Sign up</span>
+				<mat-icon class="ml-2">account_circle</mat-icon>
+			</mat-card-title>
 		</mat-card-header>
 		<mat-card-content>
-			<div class="grid grid-cols-1 gap-3">
+			<form
+				[formGroup]="registerForm"
+				(ngSubmit)="register()"
+				autocomplete="off"
+				class="flex flex-col gap-3 mt-4"
+			>
 				<mat-radio-group
 					formControlName="Gender"
 					class="flex justify-start space-x-4"
@@ -24,41 +26,29 @@
 					>
 				</mat-radio-group>
 
-				<mat-form-field appearance="outline" class="w-full">
-					<input
-						matInput
-						formControlName="Email"
-						placeholder="Email"
-						class="text-sm"
-					/>
+				<mat-form-field class="w-full">
+					<mat-label>Email</mat-label>
+					<input matInput formControlName="Email" required />
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
-					<input
-						matInput
-						formControlName="Username"
-						placeholder="Username"
-						class="text-sm"
-					/>
+				<mat-form-field class="w-full">
+					<mat-label>Username</mat-label>
+					<input matInput formControlName="Username" required />
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
-					<input
-						matInput
-						formControlName="KnownAs"
-						placeholder="Known As"
-						class="text-sm"
-					/>
+				<mat-form-field class="w-full">
+					<mat-label>Known As</mat-label>
+					<input matInput formControlName="KnownAs" required />
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
+				<mat-form-field class="w-full">
+					<mat-label>Date of Birth</mat-label>
 					<input
 						matInput
 						[matDatepicker]="picker"
 						formControlName="DateOfBirth"
-						placeholder="Date of Birth"
 						[max]="maxDate"
-						class="text-sm"
+						required
 					/>
 					<mat-datepicker-toggle
 						matSuffix
@@ -67,31 +57,23 @@
 					<mat-datepicker #picker></mat-datepicker>
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
-					<input
-						matInput
-						formControlName="City"
-						placeholder="City"
-						class="text-sm"
-					/>
+				<mat-form-field class="w-full">
+					<mat-label>City</mat-label>
+					<input matInput formControlName="City" required />
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
-					<input
-						matInput
-						formControlName="Country"
-						placeholder="Country"
-						class="text-sm"
-					/>
+				<mat-form-field class="w-full">
+					<mat-label>Country</mat-label>
+					<input matInput formControlName="Country" required />
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
+				<mat-form-field class="w-full">
+					<mat-label>Password</mat-label>
 					<input
 						matInput
 						[type]="passwordFieldType"
 						formControlName="Password"
-						placeholder="Password"
-						class="text-sm"
+						required
 					/>
 					<mat-icon
 						matSuffix
@@ -106,40 +88,44 @@
 					</mat-icon>
 				</mat-form-field>
 
-				<mat-form-field appearance="outline" class="w-full">
+				<mat-form-field class="w-full">
+					<mat-label>Confirm Password</mat-label>
 					<input
 						matInput
 						[type]="passwordFieldType"
 						formControlName="ConfirmPassword"
-						placeholder="Confirm Password"
-						class="text-sm"
+						required
 					/>
 				</mat-form-field>
-			</div>
 
-			@if (validationErrors && validationErrors.length) {
-			<mat-error class="mt-2 text-xs">
-				<ul>
-					@for (error of validationErrors; track error) {
-					<li>{{ error }}</li>
-					}
-				</ul>
-			</mat-error>
-			}
+				@if (validationErrors && validationErrors.length) {
+				<mat-error class="mt-2">
+					<ul>
+						@for (error of validationErrors; track error) {
+						<li>{{ error }}</li>
+						}
+					</ul>
+				</mat-error>
+				}
+
+				<div class="flex justify-center mt-2">
+					<button
+						mat-raised-button
+						color="primary"
+						type="submit"
+						[disabled]="!registerForm.valid"
+						class="w-full"
+					>
+						Register
+					</button>
+				</div>
+
+				<div class="flex justify-center mt-2">
+					<button mat-button (click)="cancel()" class="w-full">
+						Cancel
+					</button>
+				</div>
+			</form>
 		</mat-card-content>
-		<mat-card-actions class="flex justify-end space-x-2 mt-4">
-			<button
-				mat-raised-button
-				color="primary"
-				type="submit"
-				[disabled]="!registerForm.valid"
-				class="text-sm"
-			>
-				Register
-			</button>
-			<button mat-button (click)="cancel()" class="text-sm">
-				Cancel
-			</button>
-		</mat-card-actions>
 	</mat-card>
-</form>
+</div>

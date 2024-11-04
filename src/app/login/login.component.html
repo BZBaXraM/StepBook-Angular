@@ -1,17 +1,16 @@
-<div class="max-w-md mx-auto mt-8">
-	<mat-card>
+<div class="flex justify-center items-center min-h-screen">
+	<mat-card class="w-96">
 		<mat-card-header>
-			<mat-card-title class="flex items-center justify-center">
+			<mat-card-title>
 				<span class="text-2xl">Login</span>
 				<mat-icon class="ml-2">login</mat-icon>
 			</mat-card-title>
 		</mat-card-header>
-		<br />
 		<mat-card-content>
 			<form
 				(ngSubmit)="login()"
 				autocomplete="off"
-				class="flex flex-col gap-3"
+				class="flex flex-col gap-3 mt-4"
 			>
 				<mat-form-field class="w-full">
 					<mat-label>Username or Email</mat-label>
@@ -57,16 +56,19 @@
 					>
 				</div>
 
-				<div class="flex justify-center gap-3 mt-3">
+				<div class="flex justify-center mt-2">
 					<button
 						mat-raised-button
 						color="primary"
 						type="submit"
-						class="w-1/2"
+						class="w-full"
 					>
 						Login
 					</button>
-					<button mat-button routerLink="/" class="w-1/2">
+				</div>
+
+				<div class="flex justify-center mt-2">
+					<button mat-button routerLink="/" class="w-full">
 						Back to Home
 					</button>
 				</div>

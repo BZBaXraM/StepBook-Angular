@@ -2,11 +2,6 @@
 	<mat-card-content class="flex justify-center items-center">
 		<div class="text-center">
 			@if (!registerMode) {
-			<h1 class="mat-display-2 animated-text">Find Your Friend</h1>
-			<p class="mat-h2 mb-4">
-				Come on in to view your friends... All you need to do is sign
-				up!
-			</p>
 			<div class="button-container">
 				<button
 					mat-raised-button
@@ -16,11 +11,12 @@
 					Sign Up
 					<mat-icon>person_add</mat-icon>
 				</button>
-				<button mat-stroked-button color="accent" routerLink="/login">
+				<button mat-stroked-button routerLink="/login">
 					Login
 					<mat-icon>login</mat-icon>
 				</button>
 			</div>
+			<img src="Logo 2.svg" alt="logo" class="logo" />
 			} @else {
 			<mat-card class="register-card">
 				<mat-card-content>
