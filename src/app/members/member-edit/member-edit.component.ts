@@ -16,6 +16,13 @@ import { PhotoEditorComponent } from '../photo-editor/photo-editor.component';
 import { Router } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
 import { DatePipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabGroup } from '@angular/material/tabs';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
 	selector: 'app-member-edit',
@@ -27,6 +34,13 @@ import { DatePipe } from '@angular/common';
 		PhotoEditorComponent,
 		TimeagoModule,
 		DatePipe,
+		MatCardModule,
+		MatIconModule,
+		MatButtonModule,
+		MatTabsModule,
+		MatTabGroup,
+		MatFormFieldModule,
+		MatInputModule,
 	],
 	templateUrl: './member-edit.component.html',
 	styleUrl: './member-edit.component.css',

@@ -93,7 +93,6 @@ export class RegisterComponent implements OnInit {
 	}
 
 	async register() {
-		console.log(this.registerForm.value);
 		const dob = this.getDateOnly(
 			this.registerForm.get('DateOfBirth')?.value
 		);

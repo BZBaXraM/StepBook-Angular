@@ -18,6 +18,10 @@ import { Subscription } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HasRoleDirective } from '../directives/has-role.directive';
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'app-nav',
@@ -31,6 +35,10 @@ import { HasRoleDirective } from '../directives/has-role.directive';
 		MatIcon,
 		NgIf,
 		HasRoleDirective,
+		MatToolbarModule,
+		MatMenuModule,
+		MatCardModule,
+		MatDividerModule,
 	],
 	templateUrl: './nav.component.html',
 	styleUrls: ['./nav.component.css'],

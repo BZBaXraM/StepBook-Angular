@@ -1,116 +1,194 @@
 @if (member) {
-<div class="row">
-	<div class="col-4">
-		<h1>Your Profile</h1>
-	</div>
-	<div class="col-8">
+<div class="flex flex-wrap">
+	<div class="w-full flex justify-between mb-4">
 		@if (editForm.dirty) {
-		<div class="alert alert-info pb-0">
-			<p>
-				<strong>Information: </strong>
-				You have made changes. Any unsaved changes will be lost
-			</p>
-		</div>
+		<mat-card class="bg-blue-50 border-l-4 border-blue-500 p-3">
+			<div class="flex items-center">
+				<mat-icon class="text-blue-500 mr-2 text-sm">info</mat-icon>
+				<p class="text-blue-700 text-sm">
+					You have made changes. Any unsaved changes will be lost
+				</p>
+			</div>
+		</mat-card>
 		}
 	</div>
-	<div class="col-4">
-		<div class="card">
+
+	<div class="w-full md:w-1/3 mb-4 md:mb-0 md:pr-3">
+		<mat-card class="transition-transform duration-300 hover:scale-105">
 			<img
 				src="{{ member.PhotoUrl || 'user.png' }}"
-				class="card-img img-thumbnail"
+				class="w-full h-64 object-contain object-center"
 				alt="{{ member.Username }}"
 			/>
-			<div class="card-body">
-				<div>
-					<strong>Username:</strong>
-					<p>{{ member.Username }}</p>
+			<mat-card-content class="p-3">
+				<div class="space-y-3">
+					<div class="flex items-center">
+						<mat-icon class="text-purple-500 mr-2 text-sm"
+							>person</mat-icon
+						>
+						<div>
+							<span class="text-xs text-gray-500">Username</span>
+							<p class="text-sm">{{ member.Username }}</p>
+						</div>
+					</div>
+					<div class="flex items-center">
+						<mat-icon class="text-red-500 mr-2 text-sm"
+							>location_on</mat-icon
+						>
+						<div>
+							<span class="text-xs text-gray-500">Location</span>
+							<p class="text-sm">
+								{{ member.City }}, {{ member.Country }}
+							</p>
+						</div>
+					</div>
+					<div class="flex items-center">
+						<mat-icon class="text-green-500 mr-2 text-sm"
+							>cake</mat-icon
+						>
+						<div>
+							<span class="text-xs text-gray-500">Age</span>
+							<p class="text-sm">{{ member.Age }}</p>
+						</div>
+					</div>
+					<div class="flex items-center">
+						<mat-icon class="text-blue-500 mr-2 text-sm"
+							>access_time</mat-icon
+						>
+						<div>
+							<span class="text-xs text-gray-500"
+								>Last Active</span
+							>
+							<p class="text-sm">
+								{{ member.LastActive | timeago }}
+							</p>
+						</div>
+					</div>
+					<div class="flex items-center">
+						<mat-icon class="text-yellow-500 mr-2 text-sm"
+							>event</mat-icon
+						>
+						<div>
+							<span class="text-xs text-gray-500"
+								>Member Since</span
+							>
+							<p class="text-sm">
+								{{ member.Created | date : "longDate" }}
+							</p>
+						</div>
+					</div>
 				</div>
-				<div>
-					<strong>Location:</strong>
-					<p>{{ member.City }}, {{ member.Country }}</p>
-				</div>
-				<div>
-					<strong>Age:</strong>
-					<p>{{ member.Age }}</p>
-				</div>
-				<div>
-					<strong>Last Active:</strong>
-					<p>{{ member.LastActive | timeago }}</p>
-				</div>
-				<div>
-					<strong>Member Since:</strong>
-					<p>{{ member.Created | date : "longDate" }}</p>
-				</div>
-			</div>
-			<div class="card-footer">
+			</mat-card-content>
+			<mat-card-actions class="p-3">
 				<button
+					mat-raised-button
+					color="primary"
 					[disabled]="!editForm.dirty"
 					form="editForm"
 					type="submit"
-					class="btn cool-btn col-12"
+					class="w-full text-sm"
 				>
-					Save changes
+					<mat-icon class="mr-1 text-sm">save</mat-icon>
+					Save Changes
 				</button>
-			</div>
-		</div>
+			</mat-card-actions>
+		</mat-card>
 	</div>
 
-	<div class="col-8">
-		<tabset class="member-tabset">
-			<tab heading="About {{ member.KnownAs }}">
-				<form
-					id="editForm"
-					#editForm="ngForm"
-					(ngSubmit)="updateMember()"
-				>
-					<h4 class="mt-2">Description</h4>
-					<textarea
-						class="form-control"
-						name="Introduction"
-						[(ngModel)]="member.Introduction"
-						rows="6"
-					></textarea>
-					<h4 class="mt-2">Looking for</h4>
-					<textarea
-						class="form-control"
-						name="LookingFor"
-						[(ngModel)]="member.LookingFor"
-						rows="6"
-					></textarea>
-					<h4 class="mt-2">Interests</h4>
-					<textarea
-						class="form-control"
-						name="Interests"
-						[(ngModel)]="member.Interests"
-						rows="6"
-					></textarea>
+	<div class="w-full md:w-2/3">
+		<mat-card>
+			<mat-tab-group animationDuration="300ms">
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<mat-icon class="mr-1 text-sm">person_outline</mat-icon>
+						<span class="text-sm">About {{ member.KnownAs }}</span>
+					</ng-template>
+					<div class="p-4">
+						<form
+							id="editForm"
+							#editForm="ngForm"
+							(ngSubmit)="updateMember()"
+							class="space-y-4"
+						>
+							<mat-form-field class="w-full">
+								<mat-label class="text-sm"
+									>Description</mat-label
+								>
+								<textarea
+									matInput
+									name="Introduction"
+									[(ngModel)]="member.Introduction"
+									rows="4"
+									class="text-sm"
+								></textarea>
+							</mat-form-field>
 
-					<h4 class="mt-2">Location Details</h4>
-					<div class="d-flex align-items-center">
-						<label>City </label>
-						<input
-							class="form-control mx-2"
-							name="City"
-							[(ngModel)]="member.City"
-							type="text"
-						/>
-						<label>Country </label>
-						<input
-							class="form-control mx-2"
-							name="Country"
-							[(ngModel)]="member.Country"
-							type="text"
+							<mat-form-field class="w-full">
+								<mat-label class="text-sm"
+									>Looking for</mat-label
+								>
+								<textarea
+									matInput
+									name="LookingFor"
+									[(ngModel)]="member.LookingFor"
+									rows="4"
+									class="text-sm"
+								></textarea>
+							</mat-form-field>
+
+							<mat-form-field class="w-full">
+								<mat-label class="text-sm">Interests</mat-label>
+								<textarea
+									matInput
+									name="Interests"
+									[(ngModel)]="member.Interests"
+									rows="4"
+									class="text-sm"
+								></textarea>
+							</mat-form-field>
+
+							<div class="flex flex-wrap gap-3">
+								<mat-form-field class="flex-1">
+									<mat-label class="text-sm">City</mat-label>
+									<input
+										matInput
+										name="City"
+										[(ngModel)]="member.City"
+										type="text"
+										class="text-sm"
+									/>
+								</mat-form-field>
+
+								<mat-form-field class="flex-1">
+									<mat-label class="text-sm"
+										>Country</mat-label
+									>
+									<input
+										matInput
+										name="Country"
+										[(ngModel)]="member.Country"
+										type="text"
+										class="text-sm"
+									/>
+								</mat-form-field>
+							</div>
+						</form>
+					</div>
+				</mat-tab>
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<mat-icon class="mr-1 text-sm">photo_library</mat-icon>
+						<span class="text-sm">Edit Photos</span>
+					</ng-template>
+					<div class="p-4">
+						<app-photo-editor
+							[member]="member"
+							(memberChange)="onMemberChange($event)"
 						/>
 					</div>
-				</form>
-			</tab>
-			<tab heading="Edit photos">
-				<app-photo-editor
-					[member]="member"
-					(memberChange)="onMemberChange($event)"
-				/>
-			</tab>
-		</tabset>
+				</mat-tab>
+			</mat-tab-group>
+		</mat-card>
 	</div>
 </div>
 }
