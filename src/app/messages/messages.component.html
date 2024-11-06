@@ -1,126 +1,140 @@
-<div class="container mx-auto mt-8 px-4">
-	<div class="flex justify-center mb-6">
-		<div class="inline-flex rounded-md shadow-sm" role="group">
-			<button
-				class="px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 rounded-l-lg hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 transition-all duration-300 ease-in-out"
-				btnRadio="Unread"
+<div class="container mx-auto mt-4 px-4">
+	<mat-card class="mb-4">
+		<mat-card-content>
+			<mat-button-toggle-group
 				[(ngModel)]="container"
-				(click)="getMessages()"
+				(change)="getMessages()"
+				class="w-full"
 			>
-				Unread
-			</button>
-			<button
-				class="px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 transition-all duration-300 ease-in-out"
-				btnRadio="Inbox"
-				[(ngModel)]="container"
-				(click)="getMessages()"
-			>
-				Inbox
-			</button>
-			<button
-				class="px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-cyan-600 rounded-r-lg hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 transition-all duration-300 ease-in-out"
-				btnRadio="Outbox"
-				[(ngModel)]="container"
-				(click)="getMessages()"
-			>
-				Outbox
-			</button>
-		</div>
-	</div>
+				<mat-button-toggle value="Unread" class="w-1/3">
+					<mat-icon class="align-middle">mark_email_unread</mat-icon>
+					<span class="ml-1">Unread</span>
+				</mat-button-toggle>
+				<mat-button-toggle value="Inbox" class="w-1/3">
+					<mat-icon class="align-middle">inbox</mat-icon>
+					<span class="ml-1">Inbox</span>
+				</mat-button-toggle>
+				<mat-button-toggle value="Outbox" class="w-1/3">
+					<mat-icon class="align-middle">send</mat-icon>
+					<span class="ml-1">Outbox</span>
+				</mat-button-toggle>
+			</mat-button-toggle-group>
+		</mat-card-content>
+	</mat-card>
 
 	@if (!messageService.paginatedResult()?.items ||
 	messageService.paginatedResult()?.items?.length === 0) {
-	<div class="text-center py-8">
-		<h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-300">
-			No messages
-		</h3>
-	</div>
+	<mat-card class="text-center py-6">
+		<mat-icon class="text-5xl text-gray-400">inbox</mat-icon>
+		<h3 class="text-xl font-medium text-gray-600 mt-3">No messages</h3>
+	</mat-card>
 	} @else {
-	<div class="overflow-x-auto shadow-md sm:rounded-lg">
+	<mat-card class="overflow-hidden">
 		<table
-			class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+			mat-table
+			[dataSource]="messageService.paginatedResult()?.items ?? []"
+			class="w-full"
 		>
-			<thead
-				class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-			>
-				<tr>
-					<th scope="col" class="px-6 py-3 w-2/5">Message</th>
-					<th scope="col" class="px-6 py-3 w-1/5">From / To</th>
-					<th scope="col" class="px-6 py-3 w-1/5">Sent / Received</th>
-					<th scope="col" class="px-6 py-3 w-1/5">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for (item of messageService.paginatedResult()?.items; track
-				item.id) {
-				<tr
-					class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 ease-in-out"
-					routerLink="{{ getRoute(item) }}"
-					[queryParams]="{ tab: 'Messages' }"
-				>
-					<td class="px-6 py-4">{{ item.Content }}</td>
-					<td class="px-6 py-4">
-						<div class="flex items-center space-x-3">
-							<img
-								class="rounded-full h-10 w-10 object-cover"
-								[src]="
-									isOutbox
-										? item.recipientPhotoUrl || 'user.png'
-										: item.senderPhotoUrl || 'user.png'
-								"
-								alt="User avatar"
-							/>
-							<span class="font-medium">{{
+			<ng-container matColumnDef="message">
+				<th mat-header-cell *matHeaderCellDef class="font-medium">
+					Message
+				</th>
+				<td mat-cell *matCellDef="let item" class="max-w-md truncate">
+					{{ item.Content }}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="user">
+				<th mat-header-cell *matHeaderCellDef class="font-medium">
+					From / To
+				</th>
+				<td mat-cell *matCellDef="let item">
+					<div class="flex items-center gap-2">
+						<img
+							class="rounded-full h-8 w-8 object-cover"
+							[src]="
 								isOutbox
-									? item.RecipientUsername
-									: item.SenderUsername
-							}}</span>
-						</div>
-					</td>
-					<td class="px-6 py-4">
-						{{
-							item.MessageSent
-								? (item.MessageSent | timeago)
-								: "Unknown time"
-						}}
-					</td>
-					<td
-						class="px-6 py-4"
-						(click)="$event.stopImmediatePropagation()"
+									? item.recipientPhotoUrl || 'user.png'
+									: item.senderPhotoUrl || 'user.png'
+							"
+							alt="User avatar"
+						/>
+						<span>{{
+							isOutbox
+								? item.RecipientUsername
+								: item.SenderUsername
+						}}</span>
+					</div>
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="date">
+				<th mat-header-cell *matHeaderCellDef class="font-medium">
+					Sent / Received
+				</th>
+				<td mat-cell *matCellDef="let item" class="text-gray-600">
+					{{
+						item.MessageSent
+							? (item.MessageSent | timeago)
+							: "Unknown time"
+					}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="actions">
+				<th mat-header-cell *matHeaderCellDef class="font-medium">
+					Actions
+				</th>
+				<td mat-cell *matCellDef="let item">
+					<button
+						mat-icon-button
+						color="warn"
+						class="opacity-75 hover:opacity-100"
+						(click)="
+							deleteMessage(item.Id); $event.stopPropagation()
+						"
 					>
-						<button
-							class="font-medium text-red-600 dark:text-red-500 hover:underline"
-							(click)="deleteMessage(item.Id)"
-						>
-							Delete
-						</button>
-					</td>
-				</tr>
-				}
-			</tbody>
+						<mat-icon>delete</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+
+			<tr
+				mat-header-row
+				*matHeaderRowDef="['message', 'user', 'date', 'actions']"
+			></tr>
+			<tr
+				mat-row
+				*matRowDef="
+					let row;
+					columns: ['message', 'user', 'date', 'actions']
+				"
+				[routerLink]="getRoute(row)"
+				[queryParams]="{ tab: 'Messages' }"
+				class="hover:bg-gray-50 cursor-pointer transition-colors"
+			></tr>
 		</table>
-	</div>
+	</mat-card>
 	} @if (messageService.paginatedResult()?.pagination &&
 	messageService.paginatedResult()?.pagination?.totalItems! > 0) {
-	<div class="flex justify-center mt-6">
+	<div class="mt-4 flex justify-center">
 		<pagination
-			class="flex justify-center"
 			[boundaryLinks]="true"
 			[totalItems]="
-				(messageService.paginatedResult()?.pagination)!.totalItems
+				messageService.paginatedResult()?.pagination?.totalItems!
 			"
 			[itemsPerPage]="
-				(messageService.paginatedResult()?.pagination)!.itemsPerPage
+				messageService.paginatedResult()?.pagination?.itemsPerPage!
+			"
+			[ngModel]="
+				messageService.paginatedResult()?.pagination?.currentPage!
 			"
 			(pageChanged)="pageChanged($event)"
-			[(ngModel)]="
-				(messageService.paginatedResult()?.pagination)!.currentPage
-			"
-			[maxSize]="10"
 			previousText="&lsaquo;"
 			nextText="&rsaquo;"
 			firstText="&laquo;"
 			lastText="&raquo;"
+			class="pagination-sm"
 		>
 		</pagination>
 	</div>

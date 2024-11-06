@@ -3,17 +3,11 @@
 		<mat-expansion-panel-header>
 			<mat-panel-title> Chat Messages </mat-panel-title>
 		</mat-expansion-panel-header>
-
-		<div class="chat-container">
+		<div>
 			<app-chat [username]="username()"></app-chat>
-
 			<mat-divider></mat-divider>
-
-			<div class="message-form-container">
-				<app-message-form
-					[username]="username()"
-					class="w-full"
-				></app-message-form>
+			<div>
+				<app-message-form [username]="username()"></app-message-form>
 			</div>
 		</div>
 	</mat-expansion-panel>

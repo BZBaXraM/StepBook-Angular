@@ -1,4 +1,4 @@
-<mat-card class="chat-container">
+<mat-card>
 	@if (messageService.messageThread().length === 0) {
 	<mat-card-content>
 		<p class="text-center text-gray-500 italic">No messages yet</p>
@@ -6,11 +6,11 @@
 	} @else {
 	<mat-card-content>
 		<div
-			class="h-[20rem] overflow-y-auto pr-4 messages-container"
+			class="h-[20rem] overflow-y-auto pr-4 rounded-lg shadow-inner bg-gray-50"
 			#scrollMe
 			(scroll)="onScroll($event)"
 		>
-			<mat-list class="message-list">
+			<mat-list>
 				@for (message of messageService.messageThread(); track
 				message.id) {
 				<div
