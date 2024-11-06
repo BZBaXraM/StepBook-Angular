@@ -1,5 +1,5 @@
 <div class="report-content-dialog mat-elevation-z2">
-	<h2 mat-dialog-title>Report Content</h2>
+	<h2 mat-dialog-title>Report a user</h2>
 	<mat-dialog-content>
 		<form (ngSubmit)="addReport()">
 			<mat-form-field
@@ -14,8 +14,13 @@
 					name="reason"
 					required
 					rows="4"
-					placeholder="Please describe why you are reporting this content..."
-					style="resize: none; line-height: 1.5; padding: 8px"
+					placeholder="Reason..."
+					style="
+						resize: none;
+						line-height: 1.5;
+						padding: 8px;
+						background-color: aliceblue;
+					"
 				></textarea>
 			</mat-form-field>
 		</form>
