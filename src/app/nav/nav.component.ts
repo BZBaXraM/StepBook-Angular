@@ -4,7 +4,6 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
-	signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
@@ -15,7 +14,6 @@ import { MessageService } from '../services/message.service';
 import { MatIcon } from '@angular/material/icon';
 import { PresenceService } from '../services/presence.service';
 import { Subscription } from 'rxjs';
-import { NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { HasRoleDirective } from '../directives/has-role.directive';
 import { MatCardModule } from '@angular/material/card';
@@ -33,7 +31,6 @@ import { MatDividerModule } from '@angular/material/divider';
 		RouterLink,
 		RouterLinkActive,
 		MatIcon,
-		NgIf,
 		HasRoleDirective,
 		MatToolbarModule,
 		MatMenuModule,

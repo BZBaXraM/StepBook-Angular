@@ -5,16 +5,15 @@ import {
 	ElementRef,
 	inject,
 	input,
-	ViewChild,
 	HostListener,
+	viewChild,
 } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import Prism from 'prismjs';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { TimeagoModule } from 'ngx-timeago';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
-import { MatListItem } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatIconButton } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
@@ -25,10 +24,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 	imports: [
 		TimeagoModule,
 		NgIf,
-		NgFor,
 		MatCardModule,
 		MatListModule,
-		MatListItem,
 		MatIconModule,
 		MatIconButton,
 		CommonModule,
@@ -39,7 +36,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 	styleUrl: './chat.component.css',
 })
 export class ChatComponent implements AfterViewChecked {
-	@ViewChild('scrollMe') scrollMe?: ElementRef<HTMLElement>;
+	private scrollMe = viewChild<ElementRef<HTMLElement>>('scrollMe');
 	username = input.required<string>();
 	messageService = inject(MessageService);
 	messageContent = '';
@@ -96,8 +93,9 @@ export class ChatComponent implements AfterViewChecked {
 	}
 
 	private scrollToBottom() {
-		if (this.scrollMe) {
-			const element = this.scrollMe.nativeElement;
+		const scrollMe = this.scrollMe();
+		if (scrollMe) {
+			const element = scrollMe.nativeElement;
 			element.scrollTop = element.scrollHeight;
 		}
 	}
