@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
-import { map, Observable } from 'rxjs';
+import { from, map, Observable, switchMap, tap } from 'rxjs';
 import { Register } from '../models/register.model';
 import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
@@ -13,6 +13,7 @@ import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
 import { ConfirmCode } from '../models/confirm-code.model';
 import type { Token } from '../models/token.model';
+import CryptoJS from 'crypto-js';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,9 +29,7 @@ export class AccountService {
 		const token = user?.token || user?.Token || user?.accessToken;
 		if (user && token) {
 			try {
-				const role = JSON.parse(
-					atob(token.split('.')[1])
-				).Role;
+				const role = JSON.parse(atob(token.split('.')[1])).Role;
 				console.log('Roles:', role);
 				return Array.isArray(role) ? role : [role];
 			} catch (error) {
@@ -144,6 +143,33 @@ export class AccountService {
 		return this.http.put(this.baseUrl + 'Account/change-username', model, {
 			responseType: 'text',
 		});
+	}
+
+	getEncryptionKey(): Observable<string> {
+		return this.http
+			.get<string>(`${this.baseUrl}Account/get-encryption-key`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('token')}`,
+					responseType: 'text',
+				},
+			})
+			.pipe(
+				tap((response) => {
+					console.log('Encryption key response:', response);
+				})
+			);
+	}
+
+	decryptMessage(encryptedMessage: string): Observable<string> {
+		return this.getEncryptionKey().pipe(
+			switchMap((key) => {
+				const decryptedMessage = CryptoJS.AES.decrypt(
+					encryptedMessage,
+					key
+				).toString(CryptoJS.enc.Utf8);
+				return from([decryptedMessage]);
+			})
+		);
 	}
 }
 
