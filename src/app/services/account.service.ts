@@ -148,9 +148,6 @@ export class AccountService {
 	getEncryptionKey(): Observable<string> {
 		return this.http
 			.get(`${this.baseUrl}Account/get-encryption-key`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
-				},
 				responseType: 'text', // Ensure this matches the backend response format
 			})
 			.pipe(
