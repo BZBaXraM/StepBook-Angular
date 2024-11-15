@@ -147,15 +147,17 @@ export class AccountService {
 
 	getEncryptionKey(): Observable<string> {
 		return this.http
-			.get<string>(`${this.baseUrl}Account/get-encryption-key`, {
+			.get(`${this.baseUrl}Account/get-encryption-key`, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('token')}`,
-					responseType: 'text',
 				},
+				responseType: 'text', // Ensure this matches the backend response format
 			})
 			.pipe(
-				tap((response) => {
-					console.log('Encryption key response:', response);
+				tap((key) => {
+					if (!key) {
+						throw new Error('Encryption key is null or empty');
+					}
 				})
 			);
 	}
@@ -163,11 +165,26 @@ export class AccountService {
 	decryptMessage(encryptedMessage: string): Observable<string> {
 		return this.getEncryptionKey().pipe(
 			switchMap((key) => {
-				const decryptedMessage = CryptoJS.AES.decrypt(
-					encryptedMessage,
-					key
-				).toString(CryptoJS.enc.Utf8);
-				return from([decryptedMessage]);
+				if (!key || !encryptedMessage) {
+					throw new Error(
+						`Invalid input for decryption: key = ${key}, message = ${encryptedMessage}`
+					);
+				}
+				try {
+					const decryptedMessage = CryptoJS.AES.decrypt(
+						encryptedMessage,
+						key
+					).toString(CryptoJS.enc.Utf8);
+					if (!decryptedMessage) {
+						throw new Error(
+							'Decryption resulted in an empty string'
+						);
+					}
+					return from([decryptedMessage]);
+				} catch (error) {
+					console.error('Decryption failed:', error);
+					throw error;
+				}
 			})
 		);
 	}

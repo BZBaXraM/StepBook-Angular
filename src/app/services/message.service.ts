@@ -60,7 +60,8 @@ export class MessageService {
 
             forkJoin(decryptObservables).subscribe({
                 next: (decryptedMessages) => {
-                    this.messageThread.set(decryptedMessages);
+                    const validMessages = decryptedMessages.filter(message => message.content !== null && message.content !== 'Invalid input for decryption');
+                    this.messageThread.set(validMessages);
                 },
                 error: (error) => {
                     if (error instanceof SyntaxError) {
