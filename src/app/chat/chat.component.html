@@ -65,7 +65,7 @@
 							<div>
 								<ng-container
 									*ngIf="
-										isCodeMessage(message.content);
+										isCodeMessage(message.Content);
 										else plainText
 									"
 								>
@@ -83,7 +83,7 @@
 									/>
 									} @else {
 									<p>
-										{{ message.content }}
+										{{ message.Content }}
 									</p>
 									}
 								</ng-template>

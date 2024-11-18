@@ -12,4 +12,6 @@ export interface User {
 	dateExpired: Date;
 	Role: string;
 	role: string;
+	EncryptionKey: string;
+	encryptionKey: string;
 }

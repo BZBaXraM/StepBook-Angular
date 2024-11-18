@@ -16,4 +16,6 @@ export interface Message {
 	MessageSent: Date;
 	fileUrl?: string;
 	FileUrl?: string;
+	nonce: string;
+	Nonce: string;
 }

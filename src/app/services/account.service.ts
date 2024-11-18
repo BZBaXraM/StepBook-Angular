@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { User } from '../models/user.model';
-import { from, map, Observable, switchMap, tap } from 'rxjs';
+import { catchError, from, map, Observable, switchMap, tap } from 'rxjs';
 import { Register } from '../models/register.model';
 import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
@@ -146,15 +146,25 @@ export class AccountService {
 	}
 
 	getEncryptionKey(): Observable<string> {
+		const token =
+			this.currentUser()?.token ||
+			this.currentUser()?.Token ||
+			this.currentUser()?.accessToken;
+		console.log(`Using token: ${token}`);
 		return this.http
-			.get(`${this.baseUrl}Account/get-encryption-key`, {
-				responseType: 'text', // Ensure this matches the backend response format
+			.get<string>(this.baseUrl + 'get-encryption-key', {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
 			})
 			.pipe(
-				tap((key) => {
-					if (!key) {
-						throw new Error('Encryption key is null or empty');
-					}
+				map((response) => {
+					console.log(`Encryption key: ${response}`);
+					return response;
+				}),
+				catchError((error) => {
+					console.error('Failed to get encryption key:', error);
+					throw error;
 				})
 			);
 	}
@@ -168,10 +178,12 @@ export class AccountService {
 					);
 				}
 				try {
+					console.log(`Decrypting message: ${encryptedMessage}`);
 					const decryptedMessage = CryptoJS.AES.decrypt(
 						encryptedMessage,
 						key
 					).toString(CryptoJS.enc.Utf8);
+					console.log(`Decrypted message: ${decryptedMessage}`);
 					if (!decryptedMessage) {
 						throw new Error(
 							'Decryption resulted in an empty string'
