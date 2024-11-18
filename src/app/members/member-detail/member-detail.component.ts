@@ -4,7 +4,7 @@ import {
 	OnDestroy,
 	OnInit,
 	signal,
-	ViewChild,
+	viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../../models/member.model';
@@ -37,7 +37,7 @@ import { ToastrService } from 'ngx-toastr';
 	styleUrl: './member-detail.component.css',
 })
 export class MemberDetailComponent implements OnInit, OnDestroy {
-	@ViewChild('memberTabs', { static: true }) memberTabs?: TabsetComponent;
+	readonly memberTabs = viewChild<TabsetComponent>('memberTabs');
 	presenceService = inject(PresenceService);
 	private route = inject(ActivatedRoute);
 	private router = inject(Router);
@@ -92,8 +92,9 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 	}
 
 	selectTab(heading: string) {
-		if (this.memberTabs) {
-			const tab = this.memberTabs.tabs.find((t) => t.heading === heading);
+		const memberTabs = this.memberTabs();
+		if (memberTabs) {
+			const tab = memberTabs.tabs.find((t) => t.heading === heading);
 			if (tab) tab.active = true;
 		}
 	}

@@ -4,6 +4,7 @@ import {
 	inject,
 	OnDestroy,
 	OnInit,
+	HostListener,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../services/account.service';
@@ -53,8 +54,16 @@ export class NavComponent implements OnInit, OnDestroy {
 	private eventSubscription!: Subscription;
 	presenceService = inject(PresenceService);
 	isDropdownOpen = false;
+	isMobile = false;
+	isMenuOpen = false;
+
+	@HostListener('window:resize', ['$event'])
+	onResize() {
+		this.checkScreenSize();
+	}
 
 	ngOnInit() {
+		this.checkScreenSize();
 		this.eventSubscription =
 			this.presenceService.eventObservable$.subscribe(() => {
 				this.getNewMessagesCount();
@@ -86,5 +95,13 @@ export class NavComponent implements OnInit, OnDestroy {
 
 	toggleDropdown() {
 		this.isDropdownOpen = !this.isDropdownOpen;
+	}
+
+	private checkScreenSize() {
+		this.isMobile = window.innerWidth < 768; // 768px - breakpoint для мобильных устройств
+	}
+
+	toggleMenu() {
+		this.isMenuOpen = !this.isMenuOpen;
 	}
 }

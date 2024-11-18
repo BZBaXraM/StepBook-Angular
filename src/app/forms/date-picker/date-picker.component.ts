@@ -1,14 +1,22 @@
-import {Component, input, Self} from '@angular/core';
-import {ControlValueAccessor, FormControl, NgControl, ReactiveFormsModule} from "@angular/forms";
-import {BsDatepickerConfig, BsDatepickerModule} from "ngx-bootstrap/datepicker";
-import {NgIf} from "@angular/common";
+import { Component, input, Self } from '@angular/core';
+import {
+	ControlValueAccessor,
+	FormControl,
+	NgControl,
+	ReactiveFormsModule,
+} from '@angular/forms';
+import {
+	BsDatepickerConfig,
+	BsDatepickerModule,
+} from 'ngx-bootstrap/datepicker';
+import { NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-date-picker',
 	standalone: true,
 	imports: [BsDatepickerModule, NgIf, ReactiveFormsModule],
 	templateUrl: './date-picker.component.html',
-	styleUrl: './date-picker.component.css'
+	styleUrl: './date-picker.component.css',
 })
 export class DatePickerComponent implements ControlValueAccessor {
 	label = input<string>('');
@@ -21,20 +29,15 @@ export class DatePickerComponent implements ControlValueAccessor {
 			containerClass: 'theme-dark-blue',
 			dateInputFormat: 'DD MMMM YYYY',
 		};
-
 	}
 
-	writeValue(obj: any): void {
-	}
+	writeValue(obj: any): void {}
 
-	registerOnChange(fn: any): void {
-	}
+	registerOnChange(fn: any): void {}
 
-	registerOnTouched(fn: any): void {
-	}
+	registerOnTouched(fn: any): void {}
 
 	get control(): FormControl {
 		return this.ngControl.control as FormControl;
 	}
-
 }

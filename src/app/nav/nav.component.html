@@ -103,6 +103,134 @@
 				</button>
 			</mat-menu>
 		</div>
+
+		<button
+			mat-icon-button
+			class="md:hidden hamburger"
+			(click)="toggleMenu()"
+		>
+			<mat-icon
+				[class.open]="isMenuOpen"
+				class="menu-icon text-emerald-950"
+			>
+				{{ isMenuOpen ? "close" : "menu" }}
+			</mat-icon>
+		</button>
+
+		<div class="mobile-menu md:hidden" [class.open]="isMenuOpen">
+			<div class="mobile-profile">
+				<div class="flex items-center space-x-3">
+					<img
+						class="w-12 h-12 rounded-full border-2 border-emerald-950"
+						src="{{
+							accountService.currentUser()?.PhotoUrl || 'user.png'
+						}}"
+						alt="Profile photo"
+					/>
+					<div class="flex flex-col">
+						<span class="text-emerald-950 font-semibold text-lg">
+							{{ accountService.currentUser()?.KnownAs }}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<div class="flex flex-col space-y-2">
+				<a
+					mat-button
+					class="mobile-menu-item"
+					routerLink="/members"
+					routerLinkActive="bg-white/20"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">people</mat-icon>
+					<span>Friends From STEP IT</span>
+				</a>
+
+				<a
+					mat-button
+					class="mobile-menu-item"
+					routerLink="/lists"
+					routerLinkActive="bg-white/20"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">list</mat-icon>
+					<span>Lists</span>
+				</a>
+
+				<a
+					mat-button
+					class="mobile-menu-item"
+					routerLink="/search"
+					routerLinkActive="bg-white/20"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">search</mat-icon>
+					<span>Search</span>
+				</a>
+
+				<a
+					mat-button
+					class="mobile-menu-item relative"
+					routerLink="/messages"
+					routerLinkActive="bg-white/20"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">mail</mat-icon>
+					<span>Messages</span>
+					@if (haveMessages) {
+					<span
+						class="absolute right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+					>
+						{{ newMessagesCount }}
+					</span>
+					}
+				</a>
+
+				<div class="mobile-divider"></div>
+
+				<a
+					mat-button
+					class="mobile-menu-item"
+					routerLink="/member/edit"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">edit</mat-icon>
+					<span>Edit Profile</span>
+				</a>
+
+				<a
+					mat-button
+					class="mobile-menu-item"
+					routerLink="/account-settings"
+					(click)="toggleMenu()"
+				>
+					<mat-icon class="mr-3">settings</mat-icon>
+					<span>Account Settings</span>
+				</a>
+
+				<ng-container *appHasRole="['Admin']">
+					<a
+						mat-button
+						class="mobile-menu-item"
+						routerLink="/tron"
+						(click)="toggleMenu()"
+					>
+						<mat-icon class="mr-3">admin_panel_settings</mat-icon>
+						<span>Tron</span>
+					</a>
+				</ng-container>
+
+				<button
+					mat-button
+					class="mobile-menu-item !text-red-600"
+					(click)="logout()"
+				>
+					<mat-icon class="mr-3">exit_to_app</mat-icon>
+					<span>Logout</span>
+				</button>
+			</div>
+		</div>
 		}
 	</mat-toolbar-row>
 </mat-toolbar>

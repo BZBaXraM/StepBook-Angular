@@ -1,8 +1,16 @@
 <div
 	class="admin-panel mat-elevation-z4"
-	style="padding: 24px; margin: 24px; background-color: #000; color: #00ffff"
+	style="
+		padding: 24px;
+		margin: 24px;
+		background-color: #000;
+		color: #00ffff;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	"
 >
-	<h2 style="color: #00ffff">TRON Control Panel</h2>
+	<h2 style="color: #00ffff; text-align: center">TRON Control Panel</h2>
 
 	<mat-card
 		class="user-management-section"
@@ -10,6 +18,7 @@
 			margin: 16px 0;
 			background-color: #001320;
 			border: 1px solid #00ffff;
+			width: 100%;
 		"
 	>
 		<mat-card-header>
@@ -30,24 +39,39 @@
 				/>
 			</mat-form-field>
 
-			<div class="action-buttons" style="display: flex; gap: 8px">
+			<div
+				class="action-buttons"
+				style="display: flex; flex-direction: column; gap: 8px"
+			>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					(click)="addToBlackList(username)"
 				>
 					Add to Blacklist
 				</button>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					(click)="removeFromBlackList(username)"
 				>
 					Remove from Blacklist
 				</button>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					(click)="deleteUserAccount(username)"
 				>
 					Delete User Account
@@ -62,6 +86,7 @@
 			margin: 16px 0;
 			background-color: #001320;
 			border: 1px solid #00ffff;
+			width: 100%;
 		"
 	>
 		<mat-card-header>
@@ -71,24 +96,39 @@
 		</mat-card-header>
 		<br />
 		<mat-card-content>
-			<div class="list-buttons" style="display: flex; gap: 8px">
+			<div
+				class="list-buttons"
+				style="display: flex; flex-direction: column; gap: 8px"
+			>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					routerLink="/reports"
 				>
 					View Reports
 				</button>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					routerLink="/blacklist"
 				>
 					View Blacklist
 				</button>
 				<button
 					mat-raised-button
-					style="background-color: #0058f8; color: #00ffff"
+					style="
+						background-color: #0058f8;
+						color: #00ffff;
+						width: 100%;
+					"
 					routerLink="/users"
 				>
 					View All Users
