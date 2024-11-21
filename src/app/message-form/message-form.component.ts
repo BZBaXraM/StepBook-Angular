@@ -3,9 +3,8 @@ import { NgForm } from '@angular/forms';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BucketService } from '../services/bucket.service';
 import { MessageService } from '../services/message.service';
-import { NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,10 +17,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 	standalone: true,
 	imports: [
 		FormsModule,
-		NgIf,
 		NgClass,
 		PickerComponent,
-		NgFor,
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,

@@ -1,21 +1,21 @@
 .recording {
-  animation: pulse 1.5s infinite;
-  background-color: rgba(244, 67, 54, 0.1);
+	animation: pulse 1.5s infinite;
+	background-color: rgba(244, 67, 54, 0.1);
 }
 
 @keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 
 audio {
-  max-width: 300px;
-  margin: 8px 0;
+	max-width: 300px;
+	margin: 8px 0;
 }
