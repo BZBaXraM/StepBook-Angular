@@ -85,6 +85,12 @@ export class ChatComponent implements AfterViewChecked {
 		return imageExtensions.includes(extension || '');
 	}
 
+	isAudioFile(url: string): boolean {
+		const audioExtensions = ['webm', 'mp3', 'ogg', 'wav'];
+		const extension = url.split('.').pop()?.toLowerCase();
+		return audioExtensions.includes(extension || '');
+	}
+
 	ngAfterViewChecked(): void {
 		if (this.shouldScrollToBottom && !this.isUserScrolling) {
 			this.scrollToBottom();

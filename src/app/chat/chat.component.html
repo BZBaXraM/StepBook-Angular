@@ -74,17 +74,24 @@
 									</mat-card>
 								</ng-container>
 								<ng-template #plainText>
-									@if (message.fileUrl) {
+									@if (message.fileUrl) { @if
+									(isImageFile(message.fileUrl)) {
 									<img
-										*ngIf="isImageFile(message.fileUrl)"
 										[src]="message.fileUrl"
 										alt="File"
 										class="mat-elevation-z2"
 									/>
-									} @else {
-									<p>
-										{{ message.content }}
-									</p>
+									} @else if (isAudioFile(message.fileUrl)) {
+									<audio controls class="w-full">
+										<source
+											[src]="message.fileUrl"
+											type="audio/webm"
+										/>
+										Your browser does not support the audio
+										element.
+									</audio>
+									} } @else {
+									<p>{{ message.content }}</p>
 									}
 								</ng-template>
 							</div>

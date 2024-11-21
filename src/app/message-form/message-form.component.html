@@ -53,6 +53,19 @@
 				[enableSearch]="false"
 				(emojiClick)="addEmoji($event)"
 			></emoji-mart>
+
+			<button
+				mat-icon-button
+				type="button"
+				color="primary"
+				[ngClass]="{ recording: isRecording }"
+				(click)="isRecording ? stopRecording() : startRecording()"
+				matTooltip="{{
+					isRecording ? 'Stop Recording' : 'Record Audio'
+				}}"
+			>
+				<mat-icon>{{ isRecording ? "stop" : "mic" }}</mat-icon>
+			</button>
 		</div>
 
 		<button
