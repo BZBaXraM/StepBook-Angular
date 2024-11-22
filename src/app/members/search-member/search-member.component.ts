@@ -4,24 +4,36 @@ import { Member } from '../../models/member.model';
 import { MemberCardComponent } from '../member-card/member-card.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-search-member',
 	standalone: true,
-	imports: [MemberCardComponent, FormsModule, NgFor],
+	imports: [MemberCardComponent, FormsModule, NgFor, NgIf],
 	templateUrl: './search-member.component.html',
 	styleUrl: './search-member.component.css',
 })
 export class SearchMemberComponent {
 	private memberService = inject(MembersService);
-	userName = signal<string>('');
-	public members = signal<Member[]>([]);
 	private router = inject(Router);
 
+	userName = signal<string>('');
+	members = signal<Member[]>([]);
+	isSearching = signal<boolean>(false);
+
 	search() {
-		this.memberService.getMember(this.userName()).subscribe((member) => {
-			this.members.set([member]);
+		if (!this.userName()) return;
+
+		this.isSearching.set(true);
+		this.memberService.getMember(this.userName()).subscribe({
+			next: (member) => {
+				this.members.set([member]);
+				this.isSearching.set(false);
+			},
+			error: () => {
+				this.members.set([]);
+				this.isSearching.set(false);
+			},
 		});
 	}
 
@@ -30,7 +42,7 @@ export class SearchMemberComponent {
 		this.members.set([]);
 	}
 
-	getMember(username: string) {
+	navigateToMember(username: string) {
 		this.router.navigate(['/members', username]);
 	}
 }

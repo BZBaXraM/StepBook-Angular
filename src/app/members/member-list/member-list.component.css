@@ -1,0 +1,53 @@
+.container {
+	background: linear-gradient(
+		135deg,
+		rgba(255, 255, 255, 0.05) 0%,
+		rgba(255, 255, 255, 0.1) 100%
+	);
+}
+
+.content-wrapper {
+	padding-bottom: 60px; /* Space for fixed pagination */
+}
+
+.fixed-pagination {
+	position: fixed;
+	bottom: 10px;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(255, 255, 255, 0.9);
+	padding: 5px 10px;
+	border-radius: 20px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	z-index: 1000;
+	max-width: 90%;
+	overflow-x: auto;
+}
+
+.fixed-pagination :deep(.pagination) {
+	margin: 0;
+	display: flex;
+	align-items: center;
+}
+
+.fixed-pagination :deep(.page-item) {
+	margin: 0 2px;
+}
+
+.fixed-pagination :deep(.page-link) {
+	padding: 4px 8px;
+	font-size: 0.75rem;
+	line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+	.fixed-pagination {
+		width: 95%;
+		padding: 3px 8px;
+	}
+
+	.fixed-pagination :deep(.page-link) {
+		padding: 3px 6px;
+		font-size: 0.7rem;
+	}
+}
