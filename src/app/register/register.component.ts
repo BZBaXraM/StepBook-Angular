@@ -8,8 +8,6 @@ import {
 	Validators,
 } from '@angular/forms';
 import { AccountService } from '../services/account.service';
-import { TextInputComponent } from '../forms/text-input/text-input.component';
-import { DatePickerComponent } from '../forms/date-picker/date-picker.component';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -23,7 +21,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardTitle } from '@angular/material/card';
-import { MatCardActions } from '@angular/material/card';
 import { MatCardContent } from '@angular/material/card';
 import { ToastrService } from 'ngx-toastr';
 
@@ -34,8 +31,6 @@ import { ToastrService } from 'ngx-toastr';
 	styleUrl: './register.component.css',
 	imports: [
 		ReactiveFormsModule,
-		TextInputComponent,
-		DatePickerComponent,
 		MatButton,
 		MatIcon,
 		MatCard,
@@ -48,7 +43,6 @@ import { ToastrService } from 'ngx-toastr';
 		MatIconModule,
 		MatButtonModule,
 		MatCardTitle,
-		MatCardActions,
 		MatCardContent,
 	],
 })
@@ -81,6 +75,24 @@ export class RegisterComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+
+		const savedFormData = localStorage.getItem('registerFormData');
+		if (savedFormData) {
+			const formData = JSON.parse(savedFormData);
+			delete formData.Password;
+			delete formData.ConfirmPassword;
+			this.registerForm.patchValue(formData);
+		}
+
+		this.registerForm.valueChanges.subscribe((formData) => {
+			const dataToSave = { ...formData };
+			delete dataToSave.Password;
+			delete dataToSave.ConfirmPassword;
+			localStorage.setItem(
+				'registerFormData',
+				JSON.stringify(dataToSave)
+			);
+		});
 	}
 
 	matchValues(matchTo: string): ValidatorFn {
@@ -98,6 +110,11 @@ export class RegisterComponent implements OnInit {
 		this.registerForm.patchValue({ DateOfBirth: dob });
 		this.accountService.register(this.registerForm.value).subscribe({
 			next: (_) => {
+				localStorage.removeItem('registerFormData');
+				localStorage.setItem(
+					'registerEmail',
+					this.registerForm.get('email')?.value
+				);
 				this.router
 					.navigateByUrl('/confirmation-email-sent')
 					.then((success) => {
