@@ -1,4 +1,11 @@
-import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
+import {
+	Component,
+	ElementRef,
+	inject,
+	input,
+	viewChild,
+	OnInit,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BucketService } from '../services/bucket.service';
@@ -28,7 +35,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 	templateUrl: './message-form.component.html',
 	styleUrl: './message-form.component.css',
 })
-export class MessageFormComponent {
+export class MessageFormComponent implements OnInit {
 	readonly messageForm = viewChild<NgForm>('messageForm');
 	readonly scrollMe = viewChild<ElementRef<HTMLElement>>('scrollMe');
 	messageService = inject(MessageService);
@@ -40,6 +47,20 @@ export class MessageFormComponent {
 	isRecording = false;
 	audioChunks: Blob[] = [];
 
+	ngOnInit() {
+		// Retrieve saved message content on component initialization
+		this.restoreDraftMessage();
+	}
+
+	private restoreDraftMessage() {
+		// Check if there's a saved draft message for the current username
+		const savedDraftKey = `draftMessage_${this.username()}`;
+		const savedMessage = localStorage.getItem(savedDraftKey);
+		if (savedMessage) {
+			this.messageContent = savedMessage;
+		}
+	}
+
 	toggleEmojiMenu() {
 		return (this.showEmojiMenu = !this.showEmojiMenu);
 	}
@@ -48,6 +69,19 @@ export class MessageFormComponent {
 		if (event && event.emoji && event.emoji.native) {
 			this.messageContent = this.messageContent || '';
 			this.messageContent += event.emoji.native;
+			this.saveDraftMessage();
+		}
+	}
+
+	// Save draft message to localStorage
+	saveDraftMessage() {
+		if (this.username()) {
+			const savedDraftKey = `draftMessage_${this.username()}`;
+			if (this.messageContent.trim()) {
+				localStorage.setItem(savedDraftKey, this.messageContent);
+			} else {
+				localStorage.removeItem(savedDraftKey);
+			}
 		}
 	}
 
@@ -55,9 +89,19 @@ export class MessageFormComponent {
 		this.messageService
 			.sendMessage(this.username(), this.messageContent)
 			.then(() => {
+				// Remove draft message from localStorage after sending
+				const savedDraftKey = `draftMessage_${this.username()}`;
+				localStorage.removeItem(savedDraftKey);
+
 				this.messageForm()?.reset();
+				this.messageContent = '';
 				this.scrollToBottom();
 			});
+	}
+
+	// Call this method whenever the message content changes
+	onMessageContentChange() {
+		this.saveDraftMessage();
 	}
 
 	sendFile(file: File) {

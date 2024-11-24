@@ -13,7 +13,6 @@ import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
 import { ConfirmCode } from '../models/confirm-code.model';
 import type { Token } from '../models/token.model';
-import { ResendConfirmationCode } from '../models/resend-confirmation-code.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -59,16 +58,6 @@ export class AccountService {
 	confirmEmailCode(model: ConfirmCode): Observable<string> {
 		return this.http.post(
 			this.baseUrl + 'Account/confirm-email-code',
-			model,
-			{
-				responseType: 'text',
-			}
-		);
-	}
-
-	resendConfirmationCode(model: ResendConfirmationCode) {
-		return this.http.post(
-			this.baseUrl + 'Account/resend-confirmation-code',
 			model,
 			{
 				responseType: 'text',

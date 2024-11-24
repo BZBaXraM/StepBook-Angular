@@ -10,6 +10,7 @@
 			name="messageContent"
 			required
 			[(ngModel)]="messageContent"
+			(ngModelChange)="onMessageContentChange()"
 			cdkTextareaAutosize
 			cdkAutosizeMinRows="3"
 			cdkAutosizeMaxRows="10"
