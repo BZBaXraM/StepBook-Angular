@@ -141,6 +141,7 @@ export class MessageFormComponent implements OnInit {
 				audio: true,
 			});
 			this.mediaRecorder = new MediaRecorder(stream);
+			this.audioChunks = []; // Reset audio chunks before starting new recording
 
 			this.mediaRecorder.ondataavailable = (event: BlobEvent) => {
 				if (event.data.size > 0) {
@@ -152,11 +153,14 @@ export class MessageFormComponent implements OnInit {
 				const audioBlob = new Blob(this.audioChunks, {
 					type: 'audio/webm',
 				});
-				const file = new File([audioBlob], 'audio-message.webm', {
-					type: 'audio/webm',
-				});
+				const file = new File(
+					[audioBlob],
+					`audio-message-${Date.now()}.webm`,
+					{
+						type: 'audio/webm',
+					}
+				);
 				await this.sendAudioMessage(file);
-				this.audioChunks = [];
 			};
 
 			this.mediaRecorder.start();
@@ -183,6 +187,7 @@ export class MessageFormComponent implements OnInit {
 						.sendMessage(this.username(), '', fileUrl)
 						.then(() => {
 							this.messageContent = '';
+							this.scrollToBottom();
 						});
 				}
 			},
