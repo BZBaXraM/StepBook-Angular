@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { BucketService } from '../services/bucket.service';
 import { MessageService } from '../services/message.service';
-import { NgClass } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,6 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 	imports: [
 		FormsModule,
 		NgClass,
+		NgIf,
 		PickerComponent,
 		MatFormFieldModule,
 		MatInputModule,
@@ -48,12 +49,10 @@ export class MessageFormComponent implements OnInit {
 	audioChunks: Blob[] = [];
 
 	ngOnInit() {
-		// Retrieve saved message content on component initialization
 		this.restoreDraftMessage();
 	}
 
 	private restoreDraftMessage() {
-		// Check if there's a saved draft message for the current username
 		const savedDraftKey = `draftMessage_${this.username()}`;
 		const savedMessage = localStorage.getItem(savedDraftKey);
 		if (savedMessage) {
@@ -62,7 +61,7 @@ export class MessageFormComponent implements OnInit {
 	}
 
 	toggleEmojiMenu() {
-		return (this.showEmojiMenu = !this.showEmojiMenu);
+		this.showEmojiMenu = !this.showEmojiMenu;
 	}
 
 	addEmoji(event: EmojiEvent) {
@@ -70,10 +69,10 @@ export class MessageFormComponent implements OnInit {
 			this.messageContent = this.messageContent || '';
 			this.messageContent += event.emoji.native;
 			this.saveDraftMessage();
+			this.showEmojiMenu = false;
 		}
 	}
 
-	// Save draft message to localStorage
 	saveDraftMessage() {
 		if (this.username()) {
 			const savedDraftKey = `draftMessage_${this.username()}`;
@@ -99,7 +98,6 @@ export class MessageFormComponent implements OnInit {
 			});
 	}
 
-	// Call this method whenever the message content changes
 	onMessageContentChange() {
 		this.saveDraftMessage();
 	}
@@ -141,7 +139,7 @@ export class MessageFormComponent implements OnInit {
 				audio: true,
 			});
 			this.mediaRecorder = new MediaRecorder(stream);
-			this.audioChunks = []; // Reset audio chunks before starting new recording
+			this.audioChunks = [];
 
 			this.mediaRecorder.ondataavailable = (event: BlobEvent) => {
 				if (event.data.size > 0) {

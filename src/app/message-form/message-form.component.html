@@ -1,7 +1,7 @@
 <form
 	#messageForm="ngForm"
 	(ngSubmit)="sendMessage()"
-	class="flex flex-col gap-4"
+	class="flex flex-col gap-4 relative"
 >
 	<mat-form-field appearance="fill" class="w-full">
 		<mat-label>Message...</mat-label>
@@ -19,7 +19,7 @@
 	</mat-form-field>
 
 	<div class="flex justify-between items-center">
-		<div class="flex gap-2">
+		<div class="flex gap-2 relative">
 			<button
 				mat-icon-button
 				type="button"
@@ -50,7 +50,12 @@
 
 			<emoji-mart
 				*ngIf="showEmojiMenu"
-				[style]="{ position: 'absolute', bottom: '60px', zIndex: 1000 }"
+				[style]="{
+					position: 'absolute',
+					bottom: '50px',
+					left: '0',
+					zIndex: 1000
+				}"
 				[enableSearch]="false"
 				(emojiClick)="addEmoji($event)"
 			></emoji-mart>
