@@ -1,106 +1,78 @@
-<mat-card>
+<div class="chat-container">
 	@if (messageService.messageThread().length === 0) {
-	<mat-card-content>
+	<div class="chat-messages">
 		<p class="text-center text-gray-500 italic">No messages yet</p>
-	</mat-card-content>
+	</div>
 	} @else {
-	<mat-card-content>
+	<div class="chat-messages" #scrollMe (scroll)="onScroll($event)">
+		@for (message of messageService.messageThread(); track message.id) {
 		<div
-			class="h-[20rem] overflow-y-auto pr-4 rounded-lg shadow-inner bg-gray-50"
-			#scrollMe
-			(scroll)="onScroll($event)"
+			class="message"
+			[ngClass]="{
+				'message-sent': message.senderUsername !== username(),
+				'message-received': message.senderUsername === username()
+			}"
 		>
-			<mat-list>
-				@for (message of messageService.messageThread(); track
-				message.id) {
-				<div
-					class="mb-4"
-					[ngClass]="{
-						'justify-start': message.senderUsername === username(),
-						'justify-end': message.senderUsername !== username()
-					}"
-					style="display: flex"
-				>
-					<mat-card
-						class="max-w-[55%]"
-						[ngClass]="{
-							'bg-blue-100':
-								message.senderUsername === username(),
-							'bg-gray-100': message.senderUsername !== username()
-						}"
+			<div class="message-header">
+				{{ message.senderUsername }}
+			</div>
+
+			<div class="message-content">
+				<div class="message-actions">
+					<small class="message-timestamp">
+						<mat-icon class="time-icon">schedule</mat-icon>
+						{{
+							message.messageSent
+								? (message.messageSent | timeago)
+								: "Unknown time"
+						}}
+					</small>
+					@if (message.recipientUsername === username() ||
+					message.senderUsername === username()) {
+					<button
+						mat-icon-button
+						[color]="
+							message.senderUsername === username()
+								? 'primary'
+								: 'warn'
+						"
+						(click)="deleteMessage(message.id)"
+						class="delete-btn"
 					>
-						<mat-card-subtitle>
-							{{ message.senderUsername }}
-						</mat-card-subtitle>
-
-						<mat-card-content>
-							<div>
-								<small class="timestamp">
-									<mat-icon class="time-icon"
-										>schedule</mat-icon
-									>
-									{{
-										message.messageSent
-											? (message.messageSent | timeago)
-											: "Unknown time"
-									}}
-								</small>
-								@if (message.recipientUsername === username() ||
-								message.senderUsername === username()) {
-								<button
-									mat-icon-button
-									[color]="
-										message.senderUsername === username()
-											? 'primary'
-											: 'warn'
-									"
-									(click)="deleteMessage(message.id)"
-									class="delete-btn"
-								>
-									<mat-icon>delete</mat-icon>
-								</button>
-								}
-							</div>
-
-							<div>
-								<ng-container
-									*ngIf="
-										isCodeMessage(message.content);
-										else plainText
-									"
-								>
-									<mat-card class="code-block">
-										<pre><code class="code-block" [innerHTML]="highlightedCode(message.content)">{{ message.content }}</code></pre>
-									</mat-card>
-								</ng-container>
-								<ng-template #plainText>
-									@if (message.fileUrl) { @if
-									(isImageFile(message.fileUrl)) {
-									<img
-										[src]="message.fileUrl"
-										alt="File"
-										class="mat-elevation-z2"
-									/>
-									} @else if (isAudioFile(message.fileUrl)) {
-									<audio controls class="w-full">
-										<source
-											[src]="message.fileUrl"
-											type="audio/webm"
-										/>
-										Your browser does not support the audio
-										element.
-									</audio>
-									} } @else {
-									<p>{{ message.content }}</p>
-									}
-								</ng-template>
-							</div>
-						</mat-card-content>
-					</mat-card>
+						<mat-icon>delete</mat-icon>
+					</button>
+					}
 				</div>
-				}
-			</mat-list>
+
+				<div>
+					<ng-container
+						*ngIf="isCodeMessage(message.content); else plainText"
+					>
+						<div class="code-block">
+							<pre><code [innerHTML]="highlightedCode(message.content)">{{ message.content }}</code></pre>
+						</div>
+					</ng-container>
+					<ng-template #plainText>
+						@if (message.fileUrl) { @if
+						(isImageFile(message.fileUrl)) {
+						<img
+							[src]="message.fileUrl"
+							alt="File"
+							class="mat-elevation-z2"
+						/>
+						} @else if (isAudioFile(message.fileUrl)) {
+						<audio controls class="w-full">
+							<source [src]="message.fileUrl" type="audio/webm" />
+							Your browser does not support the audio element.
+						</audio>
+						} } @else {
+						<p>{{ message.content }}</p>
+						}
+					</ng-template>
+				</div>
+			</div>
 		</div>
-	</mat-card-content>
+		}
+	</div>
 	}
-</mat-card>
+</div>

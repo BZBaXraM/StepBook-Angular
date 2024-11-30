@@ -1,97 +1,88 @@
-<div class="flex flex-wrap bg-gray-100 p-6">
-	<div class="w-full md:w-1/3 mb-6 md:mb-0 md:pr-4">
-		<div
-			class="bg-white shadow-lg rounded-xl overflow-hidden transition-transform duration-300 hover:scale-105"
-		>
+<div class="profile-container">
+	<div class="profile-card">
+		<div class="profile-header">
 			<img
 				src="{{ member.PhotoUrl || 'user.png' }}"
-				class="w-full h-64 object-cover object-center"
+				class="profile-image"
 				alt="{{ member.Username }}"
 			/>
-			<div class="p-6">
-				@if (presenceService.onlineUsers().includes(member.Username)) {
-				<div class="mb-4 flex items-center text-green-500">
-					<i class="fa fa-user-circle mr-2"></i>
-					<span class="font-semibold">Online now</span>
+			@if (presenceService.onlineUsers().includes(member.Username)) {
+			<div class="mt-4 flex items-center text-white">
+				<i class="fa fa-user-circle mr-2"></i>
+				<span class="font-semibold">Online now</span>
+			</div>
+			}
+			<div class="mt-4 space-y-3 text-white">
+				<div>
+					<h3 class="text-2xl font-bold">
+						{{ member.Username }}
+					</h3>
+					<p class="text-lg opacity-90">
+						{{ member.FirstName }} {{ member.LastName }}
+					</p>
 				</div>
-				}
-				<div class="space-y-3">
-					<div>
-						<h3 class="text-lg font-bold text-gray-700">
-							{{ member.Username }}
-						</h3>
-						<p class="text-sm text-gray-500">
-							{{ member.FirstName }} {{ member.LastName }}
-						</p>
-					</div>
-					<div class="flex items-center">
-						<i class="fa fa-map-marker-alt text-red-500 mr-2"></i>
-						<span>{{ member.City }}, {{ member.Country }}</span>
-					</div>
-					<div class="flex items-center">
-						<i class="fa fa-birthday-cake text-purple-500 mr-2"></i>
-						<span>{{ member.Age }} years old</span>
-					</div>
-					<div class="flex items-center">
-						<i class="fa fa-clock text-blue-500 mr-2"></i>
-						<span
-							>Last active {{ member.LastActive | timeago }}</span
-						>
-					</div>
-					<div class="flex items-center">
-						<i class="fa fa-calendar-alt text-indigo-500 mr-2"></i>
-						<span
-							>Joined
-							{{ member.Created | date : "dd MMM yyyy" }}</span
-						>
-					</div>
+				<div class="flex items-center justify-center">
+					<i class="fa fa-map-marker-alt mr-2"></i>
+					<span>{{ member.City }}, {{ member.Country }}</span>
+				</div>
+				<div class="flex items-center justify-center">
+					<i class="fa fa-birthday-cake mr-2"></i>
+					<span>{{ member.Age }} years old</span>
+				</div>
+				<div class="flex items-center justify-center">
+					<i class="fa fa-clock mr-2"></i>
+					<span>Last active {{ member.LastActive | timeago }}</span>
+				</div>
+				<div class="flex items-center justify-center">
+					<i class="fa fa-calendar-alt mr-2"></i>
+					<span
+						>Joined
+						{{ member.Created | date : "dd MMM yyyy" }}</span
+					>
 				</div>
 			</div>
-			<div class="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
-				<button
-					(click)="selectTab('Messages')"
-					class="w-full bg-white text-blue-600 font-bold py-2 px-4 rounded-full hover:bg-blue-100 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
-				>
+
+			<div class="profile-actions mt-6">
+				<button (click)="selectTab('Messages')" class="btn btn-primary">
 					<i class="fa fa-envelope mr-2"></i> Message
 				</button>
-				<br />
-				<br />
-				<button
-					(click)="openDialog()"
-					class="w-full bg-red-500 text-white font-bold py-2 px-4 rounded-full hover:bg-red-600 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg"
-				>
-					Report
+				<button (click)="openDialog()" class="btn btn-secondary">
+					<i class="fa fa-flag mr-2"></i> Report
 				</button>
 			</div>
 		</div>
-	</div>
 
-	<div class="w-full md:w-2/3">
-		<div class="bg-white shadow-lg rounded-xl overflow-hidden">
+		<div class="profile-details">
 			<tabset class="member-tabset" #memberTabs>
 				<tab
 					heading="About {{ member.FirstName }} {{ member.LastName }}"
 					(selectTab)="onTabActivated($event)"
 				>
-					<div class="p-6">
-						<h4 class="font-bold text-xl mb-4 text-gray-800">
-							Description
-						</h4>
-						<p class="mb-6 text-gray-600">
-							{{ member.Introduction }}
-						</p>
-						<h4 class="font-bold text-xl mb-4 text-gray-800">
-							Looking For
-						</h4>
-						<p class="text-gray-600">{{ member.LookingFor }}</p>
+					<div class="space-y-6">
+						<div>
+							<h4 class="font-bold text-xl text-gray-800">
+								Description
+							</h4>
+							<p class="text-gray-600 mt-2">
+								{{ member.Introduction }}
+							</p>
+						</div>
+						<div>
+							<h4 class="font-bold text-xl text-gray-800">
+								Looking For
+							</h4>
+							<p class="text-gray-600 mt-2">
+								{{ member.LookingFor }}
+							</p>
+						</div>
 					</div>
 				</tab>
 				<tab heading="Interests" (selectTab)="onTabActivated($event)">
-					<div class="p-6">
-						<h4 class="font-bold text-xl mb-4 text-gray-800">
+					<div>
+						<h4 class="font-bold text-xl text-gray-800">
 							Interests
 						</h4>
-						<p class="text-gray-600">{{ member.Interests }}</p>
+						<p class="text-gray-600 mt-2">{{ member.Interests }}</p>
 					</div>
 				</tab>
 				<tab
@@ -100,7 +91,7 @@
 					(selectTab)="onTabActivated($event)"
 				>
 					@if (photoTab.active) {
-					<div class="p-6">
+					<div>
 						<gallery
 							[items]="images"
 							class="gallery"
@@ -110,7 +101,7 @@
 					}
 				</tab>
 				<tab heading="Messages" (selectTab)="onTabActivated($event)">
-					<div class="p-6">
+					<div>
 						<app-member-messages
 							[username]="member.Username"
 						></app-member-messages>

@@ -39,13 +39,11 @@ export class LoginComponent {
 	passwordFieldType = 'password';
 
 	async login(form: NgForm) {
-		// Проверка наличия пробелов в UsernameOrEmail
 		if (this.hasWhitespace(this.model().UsernameOrEmail)) {
-			this.toast.error('Логин не должен содержать пробелов');
+			this.toast.error('Username or email cannot contain spaces');
 			return;
 		}
 
-		// Проверка валидности формы
 		if (form.invalid) {
 			return;
 		}
@@ -60,7 +58,6 @@ export class LoginComponent {
 		});
 	}
 
-	// Метод для проверки наличия пробелов
 	hasWhitespace(value: string): boolean {
 		return /\s/.test(value);
 	}
