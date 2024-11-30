@@ -1,45 +1,61 @@
-<div class="container mx-auto px-4 py-6">
-	<div class="max-w-md mx-auto">
-		<form
-			(ngSubmit)="search()"
-			class="bg-white shadow-md rounded-lg overflow-hidden"
-		>
-			<div class="flex items-center border-b border-gray-200">
+<div class="search-page">
+	<!-- Search Header -->
+	<div class="search-header">
+		<h1>Find Friends</h1>
+		<p>Connect with people around you</p>
+	</div>
+
+	<!-- Search Form -->
+	<form (ngSubmit)="search()" class="search-form">
+		<div class="search-box">
+			<mat-form-field appearance="outline" floatLabel="always">
+				<mat-icon matPrefix>search</mat-icon>
+				<mat-label>Search members</mat-label>
 				<input
+					matInput
 					type="text"
 					[(ngModel)]="userName"
 					name="userName"
-					placeholder="Search for a member"
-					class="flex-grow p-3 text-gray-700 focus:outline-none"
 					[disabled]="isSearching()"
+					class="search-input"
+					autocomplete="off"
 				/>
+				<mat-hint>Start typing to search for members</mat-hint>
+			</mat-form-field>
+
+			<div class="button-group">
 				<button
+					class="search-btn"
 					type="submit"
-					class="bg-teal-500 text-white px-4 py-3 hover:bg-teal-600 transition-colors"
-					[disabled]="isSearching() || !userName()"
+					[disabled]="isSearching() || !userName"
 				>
-					{{ isSearching() ? "Searching..." : "Search" }}
+					<mat-icon>{{
+						isSearching() ? "hourglass_empty" : "search"
+					}}</mat-icon>
+					<span>{{ isSearching() ? "Searching..." : "Search" }}</span>
 				</button>
 				<button
+					class="reset-btn"
 					type="button"
 					(click)="reset()"
-					class="bg-gray-200 text-gray-700 px-4 py-3 hover:bg-gray-300 transition-colors"
 					[disabled]="isSearching()"
 				>
-					Reset
+					<mat-icon>refresh</mat-icon>
+					<span>Reset</span>
 				</button>
 			</div>
-		</form>
+		</div>
+	</form>
 
-		<div
-			*ngIf="members().length"
-			class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
-		>
+	<!-- Results Grid -->
+	<div *ngIf="members().length" class="results-section">
+		<h2>Search Results</h2>
+		<div class="results-grid">
 			<app-member-card
 				*ngFor="let member of members()"
 				[member]="member"
 				(click)="navigateToMember(member.Username)"
-				class="cursor-pointer hover:scale-105 transition-transform"
+				class="member-card"
 			/>
 		</div>
 	</div>

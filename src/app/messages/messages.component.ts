@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgModel } from '@angular/forms';
 import { TimeagoModule } from 'ngx-timeago';
 import { Message } from '../models/message.model';
 import { RouterLink } from '@angular/router';
@@ -33,6 +33,7 @@ export class MessagesComponent implements OnInit {
 	container = 'Inbox';
 	pageNumber = 1;
 	pageSize = 5;
+	currentPage = 1;
 	isOutbox = this.container === 'Outbox';
 
 	ngOnInit(): void {
@@ -65,10 +66,9 @@ export class MessagesComponent implements OnInit {
 	}
 
 	pageChanged(event: PageChangedEvent) {
-		if (this.pageNumber !== event.page) {
-			this.pageNumber = event.page;
-			this.getMessages();
-		}
+		this.currentPage = event.page;
+		this.pageNumber = event.page;
+		this.getMessages();
 	}
 
 	getRoute(message: Message) {

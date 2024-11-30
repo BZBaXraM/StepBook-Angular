@@ -1,113 +1,83 @@
 <div class="profile-container">
-	<div class="profile-card">
-		<div class="profile-header">
-			<img
-				src="{{ member.PhotoUrl || 'user.png' }}"
-				class="profile-image"
-				alt="{{ member.Username }}"
-			/>
-			@if (presenceService.onlineUsers().includes(member.Username)) {
-			<div class="mt-4 flex items-center text-white">
-				<i class="fa fa-user-circle mr-2"></i>
-				<span class="font-semibold">Online now</span>
-			</div>
-			}
-			<div class="mt-4 space-y-3 text-white">
-				<div>
-					<h3 class="text-2xl font-bold">
-						{{ member.Username }}
-					</h3>
-					<p class="text-lg opacity-90">
-						{{ member.FirstName }} {{ member.LastName }}
-					</p>
-				</div>
-				<div class="flex items-center justify-center">
-					<i class="fa fa-map-marker-alt mr-2"></i>
-					<span>{{ member.City }}, {{ member.Country }}</span>
-				</div>
-				<div class="flex items-center justify-center">
-					<i class="fa fa-birthday-cake mr-2"></i>
-					<span>{{ member.Age }} years old</span>
-				</div>
-				<div class="flex items-center justify-center">
-					<i class="fa fa-clock mr-2"></i>
-					<span>Last active {{ member.LastActive | timeago }}</span>
-				</div>
-				<div class="flex items-center justify-center">
-					<i class="fa fa-calendar-alt mr-2"></i>
-					<span
-						>Joined
-						{{ member.Created | date : "dd MMM yyyy" }}</span
-					>
-				</div>
-			</div>
+  <div class="profile-card">
+    <div class="profile-header">
+      <img
+        [src]="member.PhotoUrl || 'user.png'"
+        [alt]="member.Username"
+        class="profile-image"
+      />
+      
+      <div class="user-info">
+        <h2 class="username">{{ member.Username }}</h2>
+        <p class="fullname">{{ member.FirstName }} {{ member.LastName }}</p>
+        
+        <div class="user-meta">
+          <div class="meta-item">
+            <i class="fa fa-map-marker-alt"></i>
+            <span>{{ member.City }}, {{ member.Country }}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fa fa-birthday-cake"></i>
+            <span>{{ member.Age }} years old</span>
+          </div>
+          <div class="meta-item">
+            <i class="fa fa-clock"></i>
+            <span>Last active {{ member.LastActive | timeago }}</span>
+          </div>
+          <div class="meta-item">
+            <i class="fa fa-calendar-alt"></i>
+            <span>Joined {{ member.Created | date:'dd MMM yyyy' }}</span>
+          </div>
+        </div>
 
-			<div class="profile-actions mt-6">
-				<button (click)="selectTab('Messages')" class="btn btn-primary">
-					<i class="fa fa-envelope mr-2"></i> Message
-				</button>
-				<button (click)="openDialog()" class="btn btn-secondary">
-					<i class="fa fa-flag mr-2"></i> Report
-				</button>
-			</div>
-		</div>
+        @if (presenceService.onlineUsers().includes(member.Username)) {
+          <div class="online-badge">
+            <i class="fa fa-circle mr-2"></i>
+            Online now
+          </div>
+        }
+      </div>
 
-		<div class="profile-details">
-			<tabset class="member-tabset" #memberTabs>
-				<tab
-					heading="About {{ member.FirstName }} {{ member.LastName }}"
-					(selectTab)="onTabActivated($event)"
-				>
-					<div class="space-y-6">
-						<div>
-							<h4 class="font-bold text-xl text-gray-800">
-								Description
-							</h4>
-							<p class="text-gray-600 mt-2">
-								{{ member.Introduction }}
-							</p>
-						</div>
-						<div>
-							<h4 class="font-bold text-xl text-gray-800">
-								Looking For
-							</h4>
-							<p class="text-gray-600 mt-2">
-								{{ member.LookingFor }}
-							</p>
-						</div>
-					</div>
-				</tab>
-				<tab heading="Interests" (selectTab)="onTabActivated($event)">
-					<div>
-						<h4 class="font-bold text-xl text-gray-800">
-							Interests
-						</h4>
-						<p class="text-gray-600 mt-2">{{ member.Interests }}</p>
-					</div>
-				</tab>
-				<tab
-					heading="Photos"
-					#photoTab="tab"
-					(selectTab)="onTabActivated($event)"
-				>
-					@if (photoTab.active) {
-					<div>
-						<gallery
-							[items]="images"
-							class="gallery"
-							[itemAutosize]="true"
-						/>
-					</div>
-					}
-				</tab>
-				<tab heading="Messages" (selectTab)="onTabActivated($event)">
-					<div>
-						<app-member-messages
-							[username]="member.Username"
-						></app-member-messages>
-					</div>
-				</tab>
-			</tabset>
-		</div>
-	</div>
+      <div class="profile-actions">
+        <button (click)="selectTab('Messages')" class="btn btn-primary">
+          <i class="fa fa-envelope mr-2"></i> Message
+        </button>
+        <button (click)="openDialog()" class="btn btn-secondary">
+          <i class="fa fa-flag mr-2"></i> Report
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-details">
+      <tabset class="member-tabset" #memberTabs>
+        <tab heading="About" (selectTab)="onTabActivated($event)">
+          <div class="space-y-6">
+            <div>
+              <h4 class="section-title">Description</h4>
+              <p class="section-content">{{ member.Introduction }}</p>
+            </div>
+            <div>
+              <h4 class="section-title">Looking For</h4>
+              <p class="section-content">{{ member.LookingFor }}</p>
+            </div>
+          </div>
+        </tab>
+        
+        <tab heading="Interests" (selectTab)="onTabActivated($event)">
+          <h4 class="section-title">Interests</h4>
+          <p class="section-content">{{ member.Interests }}</p>
+        </tab>
+        
+        <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">
+          @if (photoTab.active) {
+            <gallery [items]="images" class="gallery" [itemAutosize]="true" />
+          }
+        </tab>
+        
+        <tab heading="Messages" (selectTab)="onTabActivated($event)">
+          <app-member-messages [username]="member.Username"></app-member-messages>
+        </tab>
+      </tabset>
+    </div>
+  </div>
 </div>

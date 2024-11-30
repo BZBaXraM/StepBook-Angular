@@ -1,12 +1,151 @@
-/* .pagination-container {
-	position: fixed;
-	bottom: 0;
-	width: 80%;
-	display: flex;
-	justify-content: center;
-	padding: 15px 0;
+.container {
+  background: #ffffff;
+  min-height: calc(100vh - 64px);
+  padding: 2rem 1rem;
 }
 
-.rounded-circle {
-	max-height: 50px;
-} */
+.content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-bottom: 70px;
+}
+
+/* Toggle Button Group */
+:host ::ng-deep .mat-button-toggle-group {
+  border: none;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .mat-button-toggle {
+  background: transparent;
+  color: #64748b;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+:host ::ng-deep .mat-button-toggle-checked {
+  background: #3182ce;
+  color: white;
+}
+
+:host ::ng-deep .mat-button-toggle:hover:not(.mat-button-toggle-checked) {
+  background: #e2e8f0;
+}
+
+/* Table Styles */
+.message-table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+:host ::ng-deep .mat-mdc-table {
+  background: white;
+  border-radius: 12px;
+}
+
+:host ::ng-deep .mat-mdc-header-row {
+  background: #f8fafc;
+}
+
+:host ::ng-deep .mat-mdc-header-cell {
+  color: #475569;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 16px;
+}
+
+:host ::ng-deep .mat-mdc-cell {
+  color: #1e293b;
+  font-size: 0.875rem;
+  padding: 16px;
+}
+
+.message-content {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e2e8f0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+.empty-icon {
+  font-size: 48px;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+}
+
+/* Pagination */
+.fixed-pagination {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 8px 16px;
+  border-radius: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+:host ::ng-deep .pagination {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+:host ::ng-deep .page-item .page-link {
+  border: none;
+  padding: 6px 12px;
+  color: #64748b;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+:host ::ng-deep .page-item.active .page-link {
+  background: #3182ce;
+  color: white;
+}
+
+:host ::ng-deep .page-item:not(.active) .page-link:hover {
+  background: #f1f5f9;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem 0.5rem;
+  }
+
+  .message-content {
+    max-width: 200px;
+  }
+
+  .fixed-pagination {
+    width: 90%;
+    padding: 6px 12px;
+  }
+
+  :host ::ng-deep .page-link {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+}
