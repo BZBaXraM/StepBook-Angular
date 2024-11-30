@@ -75,7 +75,7 @@
 						alt="Profile photo"
 					/>
 					<span class="text-emerald-950">{{
-						accountService.currentUser()?.KnownAs
+						accountService.currentUser()?.FirstName
 					}}</span>
 					<mat-icon class="ml-1">arrow_drop_down</mat-icon>
 				</div>
@@ -129,7 +129,7 @@
 					/>
 					<div class="flex flex-col">
 						<span class="text-emerald-950 font-semibold text-lg">
-							{{ accountService.currentUser()?.KnownAs }}
+							{{ accountService.currentUser()?.FirstName }}
 						</span>
 					</div>
 				</div>

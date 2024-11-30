@@ -21,7 +21,7 @@
 							{{ member.Username }}
 						</h3>
 						<p class="text-sm text-gray-500">
-							Known as {{ member.KnownAs }}
+							{{ member.FirstName }} - {{ member.LastName }}
 						</p>
 					</div>
 					<div class="flex items-center">
@@ -70,7 +70,7 @@
 		<div class="bg-white shadow-lg rounded-xl overflow-hidden">
 			<tabset class="member-tabset" #memberTabs>
 				<tab
-					heading="About {{ member.KnownAs }}"
+					heading="About {{ member.FirstName }} {{ member.LastName }}"
 					(selectTab)="onTabActivated($event)"
 				>
 					<div class="p-6">

@@ -4,7 +4,8 @@ export interface User {
 	token: string;
 	accessToken: string;
 	PhotoUrl?: string;
-	KnownAs: string;
+	FirstName: string;
+	LastName: string;
 	Gender: string;
 	RefreshToken: string;
 	refreshToken: string;

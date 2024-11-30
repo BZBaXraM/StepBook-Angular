@@ -1,11 +1,12 @@
-import {Photo} from './photo.model';
+import { Photo } from './photo.model';
 
 export interface Member {
 	Id: number;
 	Username: string;
 	PhotoUrl: string;
 	Age: number;
-	KnownAs: string;
+	FirstName: string;
+	LastName: string;
 	Created: Date;
 	LastActive: Date;
 	Gender: string;

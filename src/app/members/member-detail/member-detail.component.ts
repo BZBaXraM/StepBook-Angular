@@ -59,7 +59,7 @@ export class MemberDetailComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed().subscribe((result) => {
 			if (result) {
 				this.toast.success('Report submitted successfully');
-				this.router.navigateByUrl('/members/' + this.member.Username); // Переход после закрытия диалога
+				this.router.navigateByUrl('/members/' + this.member.Username);
 			}
 		});
 	}
