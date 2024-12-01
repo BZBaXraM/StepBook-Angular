@@ -6,6 +6,7 @@ import { ChangeUsername } from '../models/change-username.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
+
 @Component({
 	selector: 'app-account-settings',
 	standalone: true,
@@ -28,6 +29,10 @@ export class AccountSettingsComponent {
 	passwordFieldType = 'password';
 
 	changeUsername() {
+		if (this.newUsername().newUsername.trim() === '') {
+			this.toastr.error('Username cannot be empty');
+			return;
+		}
 		this.accountService.changeUsername(this.newUsername()).subscribe({
 			next: (_) => {
 				this.toastr.success('Username changed successfully');
@@ -38,9 +43,22 @@ export class AccountSettingsComponent {
 	}
 
 	changePassword() {
+		if (this.newPassword().CurrentPassword.trim() === '') {
+			this.toastr.error('Current password cannot be empty');
+			return;
+		}
+		if (this.newPassword().NewPassword.trim() === '') {
+			this.toastr.error('New password cannot be empty');
+			return;
+		}
 		this.accountService.changePassword(this.newPassword()).subscribe({
 			next: (_) => {
 				this.toastr.success('Password changed successfully');
+				this.newPassword.set({
+					CurrentPassword: '',
+					NewPassword: '',
+					ConfirmNewPassword: '',
+				});
 			},
 		});
 	}
