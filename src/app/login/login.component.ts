@@ -41,7 +41,7 @@ export class LoginComponent {
 	async login(form: NgForm) {
 		// Проверка наличия пробелов в UsernameOrEmail
 		if (this.hasWhitespace(this.model().UsernameOrEmail)) {
-			this.toast.error('Логин не должен содержать пробелов');
+			this.toast.error('Username or email cannot contain spaces');
 			return;
 		}
 
