@@ -88,7 +88,6 @@ export class MessageFormComponent implements OnInit {
 		this.messageService
 			.sendMessage(this.username(), this.messageContent)
 			.then(() => {
-				// Remove draft message from localStorage after sending
 				const savedDraftKey = `draftMessage_${this.username()}`;
 				localStorage.removeItem(savedDraftKey);
 

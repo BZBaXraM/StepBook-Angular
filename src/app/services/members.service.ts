@@ -76,6 +76,13 @@ export class MembersService {
 		return this.http.get<Member>(this.baseUrl + 'Users/' + username);
 	}
 
+	uploadPhoto(formData: FormData) {
+		return this.http.post(this.baseUrl + 'Users/add-photo', formData, {
+			reportProgress: true,
+			observe: 'events',
+		});
+	}
+
 	updateMember(member: Member) {
 		return this.http
 			.put(this.baseUrl + 'Users', member, {
@@ -94,37 +101,14 @@ export class MembersService {
 			);
 	}
 
-	setMainPhoto(photo: Photo) {
-		return this.http
-			.put(this.baseUrl + 'Users/set-main-photo/' + photo.Id, {})
-			.pipe(
-				tap(() => {
-					this.members.update((members) =>
-						members.map((x) => {
-							if (x.Photos.includes(photo)) {
-								x.PhotoUrl = photo.Url;
-							}
-							return x;
-						})
-					);
-				})
-			);
+	setMainPhoto(photoId: number) {
+		return this.http.put(
+			`${this.baseUrl}Users/set-main-photo/${photoId}`,
+			{}
+		);
 	}
 
-	deletePhoto(photo: Photo) {
-		return this.http
-			.delete(this.baseUrl + 'Users/delete-photo/' + photo.Id)
-			.pipe(
-				tap(() => {
-					this.members.update((members) =>
-						members.map((x) => {
-							x.Photos = x.Photos.filter(
-								(x) => x.Id !== photo.Id
-							);
-							return x;
-						})
-					);
-				})
-			);
+	deletePhoto(photoId: number) {
+		return this.http.delete(`${this.baseUrl}Users/delete-photo/${photoId}`);
 	}
 }

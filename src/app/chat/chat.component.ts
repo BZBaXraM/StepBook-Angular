@@ -91,6 +91,11 @@ export class ChatComponent implements AfterViewChecked {
 		return audioExtensions.includes(extension || '');
 	}
 
+	isVideoFile(url: string): boolean {
+		const videoExtensions = ['.mp4', '.avi', '.mov', '.webm', '.mkv'];
+		return videoExtensions.some((ext) => url.toLowerCase().endsWith(ext));
+	}
+
 	ngAfterViewChecked(): void {
 		if (this.shouldScrollToBottom && !this.isUserScrolling) {
 			this.scrollToBottom();

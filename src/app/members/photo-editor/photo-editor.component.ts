@@ -1,87 +1,124 @@
-import {Component, inject, input, OnInit, output} from '@angular/core';
-import {Member} from "../../models/member.model";
-import {DecimalPipe, NgClass, NgFor, NgIf, NgStyle} from "@angular/common";
-import {FileUploader, FileUploadModule} from "ng2-file-upload";
-import {AccountService} from "../../services/account.service";
-import {environment} from "../../../environments/environment";
-import {MembersService} from "../../services/members.service";
-import {Photo} from "../../models/photo.model";
+import { Component, inject, input, OnInit, output } from '@angular/core';
+import { Member } from '../../models/member.model';
+import { CommonModule } from '@angular/common';
+import { AccountService } from '../../services/account.service';
+import { environment } from '../../../environments/environment';
+import { MembersService } from '../../services/members.service';
+import { Photo } from '../../models/photo.model';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatCardModule } from '@angular/material/card';
+import { catchError, of } from 'rxjs';
 
 @Component({
 	selector: 'app-photo-editor',
 	standalone: true,
-	imports: [NgIf, NgFor, NgStyle, NgClass, FileUploadModule, DecimalPipe],
+	imports: [
+		CommonModule,
+		MatProgressBarModule,
+		MatButtonModule,
+		MatIconModule,
+		MatTooltipModule,
+		MatCardModule,
+	],
 	templateUrl: './photo-editor.component.html',
-	styleUrl: './photo-editor.component.css'
+	styleUrl: './photo-editor.component.css',
 })
 export class PhotoEditorComponent implements OnInit {
-	SIZE = 10 * 1024 * 1024
 	private accountService = inject(AccountService);
 	private memberService = inject(MembersService);
+
 	member = input.required<Member>();
-	uploader?: FileUploader;
-	hasBaseDropZoneOver = false;
-	baseUrl = environment.apiUrl;
 	memberChange = output<Member>();
 
-	ngOnInit(): void {
-		this.initializeUploader();
+	baseUrl = environment.apiUrl;
+	isUploading = false;
+	uploadProgress = 0;
+	selectedFile: File | null = null;
+
+	ngOnInit(): void {}
+
+	onFileSelected(event: any) {
+		const file = event.target.files[0];
+		if (file) {
+			this.selectedFile = file;
+			this.uploadPhoto();
+		}
 	}
 
-	fileOverBase(e: any) {
-		this.hasBaseDropZoneOver = e;
+	uploadPhoto() {
+		if (!this.selectedFile) return;
+
+		this.isUploading = true;
+		this.uploadProgress = 0;
+
+		const formData = new FormData();
+		formData.append('file', this.selectedFile);
+
+		this.memberService.uploadPhoto(formData).subscribe({
+			next: (event: any) => {
+				if (event.type === 1) {
+					this.uploadProgress = Math.round(
+						(100 * event.loaded) / event.total
+					);
+				}
+				if (event.body) {
+					const photo = event.body;
+					const updatedMember = { ...this.member() };
+					updatedMember.Photos.push(photo);
+					this.memberChange.emit(updatedMember);
+					this.isUploading = false;
+					this.selectedFile = null;
+				}
+			},
+			error: () => {
+				this.isUploading = false;
+				this.uploadProgress = 0;
+			},
+		});
 	}
 
 	setMainPhoto(photo: Photo) {
-		this.memberService.setMainPhoto(photo).subscribe({
-			next: _ => {
-				const user = this.accountService.currentUser();
-				if (user) {
-					user.PhotoUrl = photo.Url;
-					this.accountService.setCurrentUser(user);
-				}
-				const updatedMember = {...this.member()};
-				updatedMember.PhotoUrl = photo.Url;
-				updatedMember.Photos.forEach(p => {
-					if (p.IsMain) p.IsMain = false;
-					if (p.Id === photo.Id) p.IsMain = true;
-				});
-				this.memberChange.emit(updatedMember);
-			}
-		});
+		console.log('Setting main photo:', photo);
+		this.memberService
+			.setMainPhoto(photo.Id)
+			.pipe(
+				catchError((error) => {
+					console.error('Error setting main photo:', error);
+					return of(null);
+				})
+			)
+			.subscribe({
+				next: (response) => {
+					if (response) {
+						const user = this.accountService.currentUser();
+						if (user) {
+							user.PhotoUrl = photo.Url;
+							this.accountService.setCurrentUser(user);
+						}
+						const updatedMember = { ...this.member() };
+						updatedMember.PhotoUrl = photo.Url;
+						updatedMember.Photos.forEach((p) => {
+							p.IsMain = p.Id === photo.Id;
+						});
+						this.memberChange.emit(updatedMember);
+						console.log('Main photo set successfully');
+					}
+				},
+			});
 	}
 
 	deletePhoto(photo: Photo) {
-		this.memberService.deletePhoto(photo).subscribe({
-			next: _ => {
-				const updatedMember = {...this.member()};
-				updatedMember.Photos = updatedMember.Photos.filter(p => p.Id !== photo.Id);
+		this.memberService.deletePhoto(photo.Id).subscribe({
+			next: () => {
+				const updatedMember = { ...this.member() };
+				updatedMember.Photos = updatedMember.Photos.filter(
+					(p) => p.Id !== photo.Id
+				);
 				this.memberChange.emit(updatedMember);
-			}
+			},
 		});
-	}
-
-	initializeUploader() {
-		this.uploader = new FileUploader({
-			url: this.baseUrl + 'Users/add-photo',
-			authToken: 'Bearer ' + this.accountService.currentUser()?.Token,
-			isHTML5: true,
-			allowedFileType: ['image'],
-			removeAfterUpload: true,
-			autoUpload: false,
-			maxFileSize: this.SIZE,
-		});
-
-		this.uploader.onAfterAddingFile = (file) => {
-			file.withCredentials = false;
-		};
-
-		this.uploader.onSuccessItem = (item, response, status, headers) => {
-			const photo = JSON.parse(response);
-			const updatedMember = {...this.member()};
-			updatedMember.Photos.push(photo);
-			this.memberChange.emit(updatedMember);
-
-		};
 	}
 }

@@ -65,6 +65,14 @@
 							<source [src]="message.fileUrl" type="audio/webm" />
 							Your browser does not support the audio element.
 						</audio>
+						} @else if (isVideoFile(message.fileUrl)) {
+						<video
+							controls
+							class="w-full rounded-lg shadow-md max-h-96 object-cover"
+						>
+							<source [src]="message.fileUrl" type="video/mp4" />
+							Your browser does not support the video element.
+						</video>
 						} } @else {
 						<p>{{ message.content }}</p>
 						}
