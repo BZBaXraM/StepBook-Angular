@@ -8,7 +8,6 @@ import {
 	Validators,
 } from '@angular/forms';
 import { AccountService } from '../services/account.service';
-import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard } from '@angular/material/card';
@@ -23,6 +22,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardTitle } from '@angular/material/card';
 import { MatCardContent } from '@angular/material/card';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { RequestConfirmCodeDialogComponent } from '../request-confirm-code-dialog/request-confirm-code-dialog.component';
 
 @Component({
 	selector: 'app-register',
@@ -48,7 +49,6 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent implements OnInit {
 	private accountService = inject(AccountService);
-	private router = inject(Router);
 	private toast = inject(ToastrService);
 	cancelRegister = output<boolean>();
 	registerForm: FormGroup = new FormGroup({
@@ -73,6 +73,7 @@ export class RegisterComponent implements OnInit {
 	maxDate = new Date();
 	validationErrors: string[] | undefined = [];
 	passwordFieldType = 'password';
+	private dialog = inject(MatDialog);
 
 	ngOnInit(): void {
 		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
@@ -116,19 +117,9 @@ export class RegisterComponent implements OnInit {
 					'registerEmail',
 					this.registerForm.get('email')?.value
 				);
-				this.router
-					.navigateByUrl('/confirmation-email-sent')
-					.then((success) => {
-						if (success) {
-							this.toast.success(
-								"You've successfully registered!"
-							);
-						} else {
-							this.toast.error(
-								'An error occurred while navigating to confirmation-email-sent'
-							);
-						}
-					});
+				this.dialog.open(RequestConfirmCodeDialogComponent, {
+					data: { email: this.registerForm.get('email')?.value },
+				});
 			},
 			error: (error) => {
 				this.validationErrors = error;

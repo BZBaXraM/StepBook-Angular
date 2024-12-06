@@ -1,0 +1,47 @@
+<div class="request-confirm-code-dialog mat-elevation-z2">
+	<h2 mat-dialog-title>Request Confirmation Code</h2>
+	<mat-dialog-content>
+		<form (ngSubmit)="requestConfirmationCode()">
+			<!-- <mat-form-field
+				appearance="outline"
+				class="full-width"
+				style="width: 100%; margin: 16px 0"
+			>
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					[(ngModel)]="model().Email"
+					name="email"
+					required
+					placeholder="Email"
+					style="
+						outline: none;
+						border: none;
+						padding: 8px;
+						background-color: transparent;
+					"
+				/>
+			</mat-form-field> -->
+			<mat-form-field class="w-full">
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					[(ngModel)]="model().Email"
+					name="email"
+					placeholder="Email"
+					required
+				/>
+			</mat-form-field>
+		</form>
+	</mat-dialog-content>
+	<mat-dialog-actions align="end" style="gap: 8px; padding: 16px">
+		<button mat-button (click)="close()">Cancel</button>
+		<button
+			mat-raised-button
+			color="primary"
+			(click)="requestConfirmationCode(); close()"
+		>
+			Confirm
+		</button>
+	</mat-dialog-actions>
+</div>

@@ -2,16 +2,18 @@ import { Component, inject } from '@angular/core';
 import { AccountService } from '../services/account.service';
 import {
 	FormBuilder,
+	FormControl,
 	FormGroup,
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ConfirmCode } from '../models/confirm-code.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { RequestConfirmCodeDialogComponent } from '../request-confirm-code-dialog/request-confirm-code-dialog.component';
 
 @Component({
 	selector: 'app-confirm-email',
@@ -27,7 +29,11 @@ import { NgIf } from '@angular/common';
 	styleUrl: './confirm-email.component.css',
 })
 export class ConfirmEmailComponent {
-	form: FormGroup;
+	form: FormGroup = new FormGroup({
+		Email: new FormControl('', [Validators.email, Validators.required]),
+	});
+
+	private dialog = inject(MatDialog);
 
 	constructor(
 		private accountService: AccountService,
@@ -48,5 +54,22 @@ export class ConfirmEmailComponent {
 				console.error(`${JSON.stringify(error.error)}`);
 			},
 		});
+	}
+
+	openRequestConfirmCodeDialog() {
+		const dialogRef = this.dialog.open(RequestConfirmCodeDialogComponent, {
+			data: { email: this.form.value.Email },
+			autoFocus: true,
+		});
+
+		dialogRef.afterClosed().subscribe((result) => {
+			if (result) {
+				this.confirmEmailCode();
+			}
+		});
+	}
+
+	closeDialog() {
+		this.dialog.closeAll();
 	}
 }

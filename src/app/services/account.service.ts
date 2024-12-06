@@ -13,6 +13,7 @@ import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
 import { ConfirmCode } from '../models/confirm-code.model';
 import type { Token } from '../models/token.model';
+import { RequestConfirmationCode } from '../models/request-confirmation-code';
 
 @Injectable({
 	providedIn: 'root',
@@ -142,6 +143,16 @@ export class AccountService {
 		return this.http.put(this.baseUrl + 'Account/change-username', model, {
 			responseType: 'text',
 		});
+	}
+
+	requestConfirmationCode(model: RequestConfirmationCode) {
+		return this.http.post(
+			this.baseUrl + 'Account/request-confirmation-code',
+			model,
+			{
+				responseType: 'text',
+			}
+		);
 	}
 }
 

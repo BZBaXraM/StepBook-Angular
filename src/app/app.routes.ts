@@ -13,7 +13,6 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { preventUnsavedChangeGuard } from './guards/prevent-unsaved-change.guard';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
-import { ConfirmationEmailSentComponent } from './confirmation-email-sent/confirmation-email-sent.component';
 import { MessagesComponent } from './messages/messages.component';
 import { memberDetailedResolver } from './member-detailed.resolver';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
@@ -88,10 +87,6 @@ export const routes: Routes = [
 	{
 		path: 'register',
 		component: RegisterComponent,
-	},
-	{
-		path: 'confirmation-email-sent',
-		component: ConfirmationEmailSentComponent,
 	},
 	{
 		path: 'login',
