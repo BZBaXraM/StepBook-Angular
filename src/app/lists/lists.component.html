@@ -1,0 +1,64 @@
+<div class="text-center mt-12 mb-4">
+	<h2 class="text-4xl font-bold">{{ getTitle() }}</h2>
+</div>
+
+<div class="container mx-auto px-4 mb-12">
+	<div class="flex justify-center mb-4">
+		<div class="flex space-x-4">
+			<button
+				class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+				btnRadio="liked"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Members I like
+			</button>
+			<button
+				class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+				btnRadio="likedBy"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Members who like me
+			</button>
+			<button
+				class="px-4 py-2 bg-blue-500 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+				btnRadio="mutual"
+				[(ngModel)]="predicate"
+				(click)="getLikes()"
+			>
+				Mutual
+			</button>
+		</div>
+	</div>
+
+	<div
+		class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+	>
+		@for (member of likeService.paginatedResult()?.items; track member.Id) {
+		<div>
+			<app-member-card [member]="member"></app-member-card>
+		</div>
+		}
+	</div>
+</div>
+
+@if (likeService.paginatedResult()?.pagination) {
+<div class="fixed-pagination">
+	<pagination
+		[boundaryLinks]="true"
+		[totalItems]="(likeService.paginatedResult()?.pagination)!.totalItems"
+		[itemsPerPage]="
+			(likeService.paginatedResult()?.pagination)!.itemsPerPage
+		"
+		(pageChanged)="pageChanged($event)"
+		[(ngModel)]="(likeService.paginatedResult()?.pagination)!.currentPage"
+		[maxSize]="10"
+		previousText="&lsaquo;"
+		nextText="&rsaquo;"
+		firstText="&laquo;"
+		lastText="&raquo;"
+		class="pagination-sm"
+	></pagination>
+</div>
+}

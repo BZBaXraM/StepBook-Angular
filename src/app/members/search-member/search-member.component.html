@@ -1,0 +1,61 @@
+<div class="min-h-screen bg-slate-50 p-8">
+	<div class="max-w-4xl mx-auto space-y-8">
+		<div class="text-center">
+			<h1 class="text-3xl font-bold text-slate-800">Find Friends</h1>
+			<p class="text-slate-600 mt-2">Connect with people around you</p>
+		</div>
+
+		<form (ngSubmit)="search()" class="bg-white rounded-xl shadow-lg p-6">
+			<div class="space-y-4">
+				<div class="relative">
+					<label class="block text-sm font-medium text-slate-600 mb-1.5">Search members</label>
+					<div class="relative">
+						<span class="material-icons absolute left-3 top-2.5 text-slate-400">search</span>
+						<input
+							type="text"
+							[(ngModel)]="userName"
+							name="userName"
+							[disabled]="isSearching()"
+							class="w-full pl-10 pr-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+							autocomplete="off"
+							placeholder="Start typing to search..."
+						/>
+					</div>
+					<p class="text-xs text-slate-500 mt-1.5">Start typing to search for members</p>
+				</div>
+
+				<div class="flex gap-4">
+					<button
+						type="submit"
+						[disabled]="isSearching() || !userName"
+						class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+						<span class="material-icons">{{ isSearching() ? "hourglass_empty" : "search" }}</span>
+						{{ isSearching() ? "Searching..." : "Search" }}
+					</button>
+					<button
+						type="button"
+						(click)="reset()"
+						[disabled]="isSearching()"
+						class="flex items-center justify-center gap-2 px-6 py-2.5 border border-slate-200 hover:bg-slate-50 text-slate-700 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+						<span class="material-icons">refresh</span>
+						Reset
+					</button>
+				</div>
+			</div>
+		</form>
+
+		@if (members().length) {
+			<div class="space-y-4">
+				<h2 class="text-2xl font-semibold text-slate-800">Search Results</h2>
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+					<app-member-card
+						*ngFor="let member of members()"
+						[member]="member"
+						(click)="navigateToMember(member.Username)"
+						class="cursor-pointer hover:shadow-lg transition-shadow"
+					/>
+				</div>
+			</div>
+		}
+	</div>
+</div>

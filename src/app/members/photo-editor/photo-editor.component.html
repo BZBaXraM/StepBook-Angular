@@ -1,0 +1,61 @@
+<div class="photo-editor-container">
+	<div class="photo-upload">
+		<input
+			type="file"
+			#fileInput
+			(change)="onFileSelected($event)"
+			accept="image/*"
+			style="display: none"
+		/>
+		<button
+			mat-raised-button
+			color="primary"
+			(click)="fileInput.click()"
+			[disabled]="isUploading"
+		>
+			<mat-icon>cloud_upload</mat-icon>
+			Upload Photo
+		</button>
+
+		@if (isUploading) {
+		<mat-progress-bar
+			mode="determinate"
+			[value]="uploadProgress"
+			color="primary"
+		></mat-progress-bar>
+		}
+	</div>
+
+	<div class="photo-grid">
+		@for (photo of member().Photos; track photo.Id) {
+		<mat-card class="photo-card">
+			<img
+				[src]="photo.Url"
+				[alt]="photo.Id.toString()"
+				class="photo-image"
+			/>
+			<div class="photo-actions">
+				<button
+					mat-icon-button
+					color="primary"
+					(click)="setMainPhoto(photo)"
+					matTooltip="Set as Main Photo"
+					[disabled]="photo.IsMain"
+				>
+					<mat-icon>{{
+						photo.IsMain ? "check_circle" : "star"
+					}}</mat-icon>
+				</button>
+				<button
+					mat-icon-button
+					color="warn"
+					(click)="deletePhoto(photo)"
+					matTooltip="Delete Photo"
+				>
+					<mat-icon>delete</mat-icon>
+				</button>
+			</div>
+		</mat-card>
+		}
+	</div>
+</div>

@@ -1,0 +1,117 @@
+<div class="container">
+  <div class="content-wrapper">
+    <!-- Toggle Buttons -->
+    <mat-card class="mb-6">
+      <mat-card-content>
+        <mat-button-toggle-group
+          [(ngModel)]="container"
+          (change)="getMessages()"
+          class="w-full"
+        >
+          <mat-button-toggle value="Unread" class="w-1/3">
+            <mat-icon>mark_email_unread</mat-icon>
+            <span class="ml-2">Unread</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="Inbox" class="w-1/3">
+            <mat-icon>inbox</mat-icon>
+            <span class="ml-2">Inbox</span>
+          </mat-button-toggle>
+          <mat-button-toggle value="Outbox" class="w-1/3">
+            <mat-icon>send</mat-icon>
+            <span class="ml-2">Outbox</span>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Empty State -->
+    @if (!messageService.paginatedResult()?.items ||
+    messageService.paginatedResult()?.items?.length === 0) {
+    <div class="empty-state">
+      <mat-icon class="empty-icon">inbox</mat-icon>
+      <h3 class="text-lg font-medium text-gray-600">No messages</h3>
+      <p class="text-gray-500 mt-2">Your {{ container.toLowerCase() }} is empty</p>
+    </div>
+    } @else {
+    <!-- Messages Table -->
+    <mat-card class="message-table">
+      <table mat-table [dataSource]="messageService.paginatedResult()?.items ?? []" class="w-full">
+        <!-- Message Column -->
+        <ng-container matColumnDef="message">
+          <th mat-header-cell *matHeaderCellDef>Message</th>
+          <td mat-cell *matCellDef="let item">
+            <div class="message-content">{{ item.Content }}</div>
+          </td>
+        </ng-container>
+
+        <!-- User Column -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>{{ isOutbox ? 'To' : 'From' }}</th>
+          <td mat-cell *matCellDef="let item">
+            <div class="flex items-center gap-3">
+              <img
+                class="user-avatar"
+                [src]="isOutbox ? item.recipientPhotoUrl || 'user.png' : item.senderPhotoUrl || 'user.png'"
+                [alt]="isOutbox ? item.RecipientUsername : item.SenderUsername"
+              />
+              <span class="font-medium">
+                {{ isOutbox ? item.RecipientUsername : item.SenderUsername }}
+              </span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let item" class="text-gray-600">
+            {{ item.MessageSent ? (item.MessageSent | timeago) : "Unknown time" }}
+          </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let item">
+            <button
+              mat-icon-button
+              color="warn"
+              class="opacity-60 hover:opacity-100 transition-opacity"
+              (click)="deleteMessage(item.Id); $event.stopPropagation()"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['message', 'user', 'date', 'actions']"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: ['message', 'user', 'date', 'actions']"
+          [routerLink]="getRoute(row)"
+          [queryParams]="{ tab: 'Messages' }"
+          class="hover:bg-gray-50 cursor-pointer transition-colors"
+        ></tr>
+      </table>
+    </mat-card>
+    }
+  </div>
+
+  <!-- Pagination -->
+  @if (messageService.paginatedResult()?.pagination) {
+  <div class="fixed-pagination">
+    <pagination
+      [boundaryLinks]="true"
+      [totalItems]="messageService.paginatedResult()?.pagination?.totalItems!"
+      [itemsPerPage]="messageService.paginatedResult()?.pagination?.itemsPerPage!"
+      [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)"
+      [maxSize]="5"
+      previousText="&lsaquo;"
+      nextText="&rsaquo;"
+      firstText="&laquo;"
+      lastText="&raquo;"
+    ></pagination>
+  </div>
+  }
+</div>

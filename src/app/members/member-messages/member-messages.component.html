@@ -1,0 +1,14 @@
+<mat-accordion>
+	<mat-expansion-panel expanded>
+		<mat-expansion-panel-header>
+			<mat-panel-title> Chat Messages </mat-panel-title>
+		</mat-expansion-panel-header>
+		<div>
+			<app-chat [username]="username()"></app-chat>
+			<mat-divider></mat-divider>
+			<div>
+				<app-message-form [username]="username()"></app-message-form>
+			</div>
+		</div>
+	</mat-expansion-panel>
+</mat-accordion>
