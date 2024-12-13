@@ -9,20 +9,16 @@ import {
 } from '@angular/forms';
 import { AccountService } from '../services/account.service';
 import { Router } from '@angular/router';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatCard } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatCardHeader } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardTitle } from '@angular/material/card';
-import { MatCardContent } from '@angular/material/card';
 import { ToastrService } from 'ngx-toastr';
+import { RequestConfirmCodeDialogComponent } from '../request-confirm-code-dialog/request-confirm-code-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-register',
@@ -31,19 +27,13 @@ import { ToastrService } from 'ngx-toastr';
 	styleUrl: './register.component.css',
 	imports: [
 		ReactiveFormsModule,
-		MatButton,
-		MatIcon,
-		MatCard,
 		MatRadioModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardHeader,
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatIconModule,
 		MatButtonModule,
-		MatCardTitle,
-		MatCardContent,
 	],
 })
 export class RegisterComponent implements OnInit {
@@ -73,6 +63,7 @@ export class RegisterComponent implements OnInit {
 	maxDate = new Date();
 	validationErrors: string[] | undefined = [];
 	passwordFieldType = 'password';
+	private dialog = inject(MatDialog);
 
 	ngOnInit(): void {
 		this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
@@ -116,19 +107,9 @@ export class RegisterComponent implements OnInit {
 					'registerEmail',
 					this.registerForm.get('email')?.value
 				);
-				this.router
-					.navigateByUrl('/confirmation-email-sent')
-					.then((success) => {
-						if (success) {
-							this.toast.success(
-								"You've successfully registered!"
-							);
-						} else {
-							this.toast.error(
-								'An error occurred while navigating to confirmation-email-sent'
-							);
-						}
-					});
+				this.dialog.open(RequestConfirmCodeDialogComponent, {
+					data: { email: this.registerForm.get('email')?.value },
+				});
 			},
 			error: (error) => {
 				this.validationErrors = error;

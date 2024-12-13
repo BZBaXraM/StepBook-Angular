@@ -5,13 +5,14 @@ import { map, Observable } from 'rxjs';
 import { Register } from '../models/register.model';
 import { Login } from '../models/login.model';
 import { environment } from '../../environments/environment';
-import { ResetPassword } from '../models/reset-password.model';
 import { ForgetPassword } from '../models/forget.password.model';
+import { ResetPassword } from '../models/reset-password.model';
 import { ChangePassword } from '../models/change-password.model';
 import { LikesService } from './likes.service';
 import { PresenceService } from './presence.service';
 import { ChangeUsername } from '../models/change-username.model';
 import { ConfirmCode } from '../models/confirm-code.model';
+import { RequestConfirmationCode } from '../models/request-confirmation-code.model';
 import type { Token } from '../models/token.model';
 
 @Injectable({
@@ -142,6 +143,16 @@ export class AccountService {
 		return this.http.put(this.baseUrl + 'Account/change-username', model, {
 			responseType: 'text',
 		});
+	}
+
+	requestConfirmationCode(model: RequestConfirmationCode) {
+		return this.http.post(
+			this.baseUrl + 'Account/request-confirmation-code',
+			model,
+			{
+				responseType: 'text',
+			}
+		);
 	}
 }
 
