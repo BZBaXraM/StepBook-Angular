@@ -3,11 +3,12 @@ import { AdminService } from '../../services/admin.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {NgIf} from "@angular/common";
 
 @Component({
 	selector: 'app-blacklist',
 	standalone: true,
-	imports: [MatTableModule, MatCardModule, MatPaginatorModule],
+	imports: [MatTableModule, MatCardModule, MatPaginatorModule, NgIf],
 	templateUrl: './blacklist.component.html',
 	styleUrl: './blacklist.component.css',
 })

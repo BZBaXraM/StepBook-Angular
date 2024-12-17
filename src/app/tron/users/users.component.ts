@@ -3,11 +3,12 @@ import { AdminService } from '../../services/admin.service';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {NgIf} from "@angular/common";
 
 @Component({
 	selector: 'app-users',
 	standalone: true,
-	imports: [MatTableModule, MatCardModule, MatPaginatorModule],
+	imports: [MatTableModule, MatCardModule, MatPaginatorModule, NgIf],
 	templateUrl: './users.component.html',
 	styleUrl: './users.component.css',
 })
