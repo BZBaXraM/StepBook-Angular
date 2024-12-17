@@ -74,7 +74,7 @@ export class MessageFormComponent implements OnInit {
 	}
 
 	saveDraftMessage() {
-		if (this.username()) {
+		if (this.username() && this.messageContent) {
 			const savedDraftKey = `draftMessage_${this.username()}`;
 			if (this.messageContent.trim()) {
 				localStorage.setItem(savedDraftKey, this.messageContent);

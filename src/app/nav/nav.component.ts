@@ -14,13 +14,14 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MessageService } from '../services/message.service';
 import { MatIcon } from '@angular/material/icon';
 import { PresenceService } from '../services/presence.service';
-import { Subscription } from 'rxjs';
+import { count, Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { HasRoleDirective } from '../directives/has-role.directive';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
+import { NgIf } from '@angular/common';
 
 @Component({
 	selector: 'app-nav',
@@ -31,7 +32,6 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatButtonModule,
 		RouterLink,
 		RouterLinkActive,
-		MatIcon,
 		HasRoleDirective,
 		MatToolbarModule,
 		MatMenuModule,
@@ -64,11 +64,17 @@ export class NavComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.checkScreenSize();
-		this.eventSubscription =
-			this.presenceService.eventObservable$.subscribe(() => {
-				this.getNewMessagesCount();
-			});
-		this.getNewMessagesCount();
+
+		this.messageService.getNewMessagesCountFromApi().subscribe({
+			next: (count) => {
+				this.newMessagesCount = count;
+				this.haveMessages = count > 0;
+			},
+			error: (error) => {
+				console.error('Error fetching new message count', error);
+			},
+		});
+
 		this.cdr.detectChanges();
 	}
 
@@ -98,7 +104,7 @@ export class NavComponent implements OnInit, OnDestroy {
 	}
 
 	private checkScreenSize() {
-		this.isMobile = window.innerWidth < 768; // 768px - breakpoint для мобильных устройств
+		this.isMobile = window.innerWidth < 768;
 	}
 
 	toggleMenu() {

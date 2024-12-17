@@ -56,9 +56,15 @@ export class PresenceService {
 			this.onlineUsers.set(usernames);
 		});
 
-		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
+		// presence.service.ts
+		this.connection.on('ReceiveNewMessagesCount', (count: number) => {
+			this.newMessagesCount = count; // Обновляем счетчик новых сообщений
+			this.toastr.info(`У вас ${count} новых сообщений`); // Уведомление о новых сообщениях
+		});
+
+		this.connection.on('NewMessageReceived', ({ username }) => {
 			this.toastr
-				.info('You have a new message from ' + knownAs)
+				.info('You have a new message from ' + username)
 				.onTap.pipe(take(1))
 				.subscribe(() =>
 					this.router.navigateByUrl(

@@ -16,6 +16,7 @@ import {
 import { User } from '../models/user.model';
 import { Group } from '../models/group.model';
 import { BusyService } from './busy.service';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root',
@@ -26,6 +27,7 @@ export class MessageService {
 	private http = inject(HttpClient);
 	private busyService = inject(BusyService);
 	hubConnection?: HubConnection;
+	private newMessagesCount = new BehaviorSubject<number>(0);
 	paginatedResult = signal<PaginatedResult<Message[]> | null>(null);
 	messageThread = signal<Message[]>([]);
 
@@ -64,6 +66,10 @@ export class MessageService {
 					return messages;
 				});
 			}
+		});
+
+		this.hubConnection.on('ReceiveNewMessagesCount', (count: number) => {
+			this.newMessagesCount.next(count);
 		});
 	}
 
@@ -118,9 +124,14 @@ export class MessageService {
 		);
 	}
 
-	getNewMessagesCount() {
+	// message.service.ts
+	getNewMessagesCount(): Observable<number> {
+		return this.newMessagesCount.asObservable();
+	}
+
+	getNewMessagesCountFromApi(): Observable<number> {
 		return this.http.get<number>(
-			this.baseUrl + 'messages/new-messages-count'
+			`${this.baseUrl}Messages/new-messages-count`
 		);
 	}
 }
