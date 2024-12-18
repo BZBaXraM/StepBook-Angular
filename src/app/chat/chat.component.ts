@@ -15,7 +15,6 @@ import { TimeagoModule } from 'ngx-timeago';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
@@ -27,7 +26,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 		MatCardModule,
 		MatListModule,
 		MatIconModule,
-		MatIconButton,
 		CommonModule,
 		FormsModule,
 		MatFormFieldModule,

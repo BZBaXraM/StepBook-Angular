@@ -1,121 +1,171 @@
 <div class="relative h-[50%] bg-white">
 	@if (messageService.messageThread().length === 0) {
-		<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
-			<div class="text-center">
-				<svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-				</svg>
-				<p class="mt-4 text-gray-500 text-sm font-medium">No messages yet...</p>
-				<p class="text-gray-400 text-xs">Start a conversation!</p>
-			</div>
+	<div class="absolute inset-0 flex items-center justify-center bg-gray-50">
+		<div class="text-center">
+			<svg
+				class="mx-auto h-12 w-12 text-gray-400"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="1.5"
+					d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+				/>
+			</svg>
+			<p class="mt-4 text-gray-500 text-sm font-medium">
+				No messages yet...
+			</p>
+			<p class="text-gray-400 text-xs">Start a conversation!</p>
 		</div>
+	</div>
 	} @else {
-		<div
-			class="h-full overflow-y-auto px-2 py-2"
-			#scrollMe
-			(scroll)="onScroll($event)"
-		>
-			@for (message of messageService.messageThread(); track message.id) {
-				<div class="mb-2 last:mb-0 group">
-					<div
-						class="flex items-start gap-2"
-						[class.justify-end]="message.senderUsername !== username()"
-					>
-						<div
-							class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium uppercase"
-							[class.order-2]="message.senderUsername !== username()"
-							[ngClass]="{
-                        'bg-blue-100 text-blue-600': message.senderUsername !== username(),
-                        'bg-gray-100 text-gray-600': message.senderUsername === username()
-                    }"
-						>
-							{{message.senderUsername[0]}}
-						</div>
-						<div
-							class="relative flex flex-col max-w-[70%]"
-							[class.items-end]="message.senderUsername !== username()"
-						>
-							<!-- Username and timestamp -->
-							<div class="flex items-center gap-2 px-1 mb-0.5">
-                        <span
+	<div
+		class="h-full overflow-y-auto px-2 py-2"
+		#scrollMe
+		(scroll)="onScroll($event)"
+	>
+		@for (message of messageService.messageThread(); track message.id) {
+		<div class="mb-2 last:mb-0 group">
+			<div
+				class="flex items-start gap-2"
+				[class.justify-end]="message.senderUsername !== username()"
+			>
+				<div
+					class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium uppercase"
+					[class.order-2]="message.senderUsername !== username()"
+					[ngClass]="{
+						'bg-blue-100 text-blue-600':
+							message.senderUsername !== username(),
+						'bg-gray-100 text-gray-600':
+							message.senderUsername === username()
+					}"
+				>
+					{{ message.senderUsername[0] }}
+				</div>
+				<div
+					class="relative flex flex-col max-w-[70%]"
+					[class.items-end]="message.senderUsername !== username()"
+				>
+					<!-- Username and timestamp -->
+					<div class="flex items-center gap-2 px-1 mb-0.5">
+						<span
 							class="text-xs font-medium"
-							[class.text-gray-600]="message.senderUsername === username()"
-							[class.text-blue-600]="message.senderUsername !== username()"
+							[class.text-gray-600]="
+								message.senderUsername === username()
+							"
+							[class.text-blue-600]="
+								message.senderUsername !== username()
+							"
 						>
-                            {{message.senderUsername}}
-                        </span>
-								<span class="text-[10px] text-gray-400">
-                            {{message.messageSent ? (message.messageSent | timeago) : "Unknown time"}}
-                        </span>
-							</div>
+							{{ message.senderUsername }}
+						</span>
+						<span class="text-[10px] text-gray-400">
+							{{
+								message.messageSent
+									? (message.messageSent | timeago)
+									: "Unknown time"
+							}}
+						</span>
+					</div>
 
-							<div class="flex items-center gap-2">
+					<div class="flex items-center gap-2">
+						<div
+							class="rounded-xl py-2 px-3"
+							[ngClass]="{
+								'bg-gray-100 text-gray-800':
+									message.senderUsername === username(),
+								'bg-blue-500 text-white':
+									message.senderUsername !== username()
+							}"
+						>
+							<ng-container
+								*ngIf="
+									isCodeMessage(message.content);
+									else plainText
+								"
+							>
 								<div
-									class="rounded-xl py-2 px-3"
-									[ngClass]="{
-                                'bg-gray-100 text-gray-800': message.senderUsername === username(),
-                                'bg-blue-500 text-white': message.senderUsername !== username()
-                            }"
+									class="bg-gray-900 rounded-lg p-3 overflow-x-auto"
 								>
-									<ng-container *ngIf="isCodeMessage(message.content); else plainText">
-										<div class="bg-gray-900 rounded-lg p-3 overflow-x-auto">
-											<pre><code [innerHTML]="highlightedCode(message.content)" class="text-xs font-mono text-white"></code></pre>
-										</div>
-									</ng-container>
-
-									<ng-template #plainText>
-										@if (message.fileUrl) {
-											@if (isImageFile(message.fileUrl)) {
-												<img
-													[src]="message.fileUrl"
-													alt="File"
-													class="rounded-lg max-h-60 w-auto object-contain hover:opacity-95 transition-opacity"
-												/>
-											} @else if (isAudioFile(message.fileUrl)) {
-												<audio
-													controls
-													class="w-full rounded-lg"
-													[ngClass]="{
-                                                'bg-white': message.senderUsername !== username(),
-                                                'bg-gray-200': message.senderUsername === username()
-                                            }"
-												>
-													<source [src]="message.fileUrl" type="audio/webm" />
-												</audio>
-											} @else if (isVideoFile(message.fileUrl)) {
-												<video
-													controls
-													class="rounded-lg max-h-60 w-auto hover:opacity-95 transition-opacity"
-												>
-													<source [src]="message.fileUrl" type="video/mp4" />
-												</video>
-											}
-										} @else {
-											<p class="text-sm whitespace-pre-wrap break-words leading-snug m-0">{{message.content}}</p>
-										}
-									</ng-template>
+									<pre><code [innerHTML]="highlightedCode(message.content)" class="text-xs font-mono text-white"></code></pre>
 								</div>
+							</ng-container>
 
-								@if (message.recipientUsername === username() || message.senderUsername === username()) {
-									<button
-										class="rounded-full hover:bg-gray-100"
-										(click)="deleteMessage(message.id)"
-									>
-										<svg
-											class="w-3.5 h-3.5 text-gray-400 hover:text-red-500 transition-colors"
-											fill="none"
-											viewBox="0 0 24 24"
-											stroke="currentColor"
-										>
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-										</svg>
-									</button>
+							<ng-template #plainText>
+								@if (message.fileUrl) { @if
+								(isImageFile(message.fileUrl)) {
+								<img
+									[src]="message.fileUrl"
+									alt="File"
+									class="rounded-lg max-h-60 w-auto object-contain hover:opacity-95 transition-opacity"
+								/>
+								} @else if (isAudioFile(message.fileUrl)) {
+								<audio
+									controls
+									class="w-full rounded-lg"
+									[ngClass]="{
+										'bg-white':
+											message.senderUsername !==
+											username(),
+										'bg-gray-200':
+											message.senderUsername ===
+											username()
+									}"
+								>
+									<source
+										[src]="message.fileUrl"
+										type="audio/webm"
+									/>
+								</audio>
+								} @else if (isVideoFile(message.fileUrl)) {
+								<video
+									controls
+									class="rounded-lg max-h-60 w-auto hover:opacity-95 transition-opacity"
+								>
+									<source
+										[src]="message.fileUrl"
+										type="video/mp4"
+									/>
+								</video>
+								} } @else {
+								<p
+									class="text-sm whitespace-pre-wrap break-words leading-snug m-0"
+								>
+									{{ message.content }}
+								</p>
 								}
-							</div>
+							</ng-template>
 						</div>
+
+						@if (message.recipientUsername === username() ||
+						message.senderUsername === username()) {
+						<button
+							class="rounded-full hover:bg-gray-100"
+							(click)="deleteMessage(message.id)"
+						>
+							<svg
+								class="w-3.5 h-3.5 text-gray-400 hover:text-red-500 transition-colors"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+								/>
+							</svg>
+						</button>
+						}
 					</div>
 				</div>
-			}
+			</div>
 		</div>
+		}
+	</div>
 	}
 </div>

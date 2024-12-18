@@ -85,16 +85,18 @@ export class MessageFormComponent implements OnInit {
 	}
 
 	sendMessage() {
-		this.messageService
-			.sendMessage(this.username(), this.messageContent)
-			.then(() => {
-				const savedDraftKey = `draftMessage_${this.username()}`;
-				localStorage.removeItem(savedDraftKey);
+		if (this.messageContent.trim()) {
+			this.messageService
+				.sendMessage(this.username(), this.messageContent)
+				.then(() => {
+					const savedDraftKey = `draftMessage_${this.username()}`;
+					localStorage.removeItem(savedDraftKey);
 
-				this.messageForm()?.reset();
-				this.messageContent = '';
-				this.scrollToBottom();
-			});
+					this.messageForm()?.resetForm();
+					this.messageContent = '';
+					this.scrollToBottom();
+				});
+		}
 	}
 
 	onMessageContentChange() {

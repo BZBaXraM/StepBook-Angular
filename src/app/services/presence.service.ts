@@ -56,9 +56,9 @@ export class PresenceService {
 			this.onlineUsers.set(usernames);
 		});
 
-		this.connection.on('NewMessageReceived', ({ username, knownAs }) => {
+		this.connection.on('NewMessageReceived', ({ username }) => {
 			this.toastr
-				.info('You have a new message from ' + knownAs)
+				.info('You have a new message from ' + username)
 				.onTap.pipe(take(1))
 				.subscribe(() =>
 					this.router.navigateByUrl(
