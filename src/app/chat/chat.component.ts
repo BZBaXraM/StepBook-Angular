@@ -44,6 +44,9 @@ export class ChatComponent implements AfterViewChecked {
 	private sanitizer = inject(DomSanitizer);
 	shouldScrollToBottom = true;
 	private isUserScrolling = false;
+	private audioPlayers = new Map<number, boolean>();
+	private audioDurations = new Map<number, string>();
+	private audioProgress = new Map<number, number>();
 
 	@HostListener('scroll', ['$event'])
 	onScroll(event: Event) {
@@ -70,6 +73,67 @@ export class ChatComponent implements AfterViewChecked {
 		);
 
 		return this.sanitizer.bypassSecurityTrustHtml(formattedContent);
+	}
+
+	generateWaveform(count: number): number[] {
+		return Array.from({ length: count }, () => 20 + Math.random() * 60);
+	}
+
+	toggleAudioPlay(messageId: number) {
+		const audioElement = document.getElementById(`audio-${messageId}`) as HTMLAudioElement;
+		if (!audioElement) return;
+
+		if (this.isPlaying(messageId)) {
+			audioElement.pause();
+			this.audioPlayers.set(messageId, false);
+		} else {
+			// Pause all other playing audio
+			this.audioPlayers.forEach((isPlaying, id) => {
+				if (isPlaying && id !== messageId) {
+					const otherAudio = document.getElementById(`audio-${id}`) as HTMLAudioElement;
+					if (otherAudio) {
+						otherAudio.pause();
+						this.audioPlayers.set(id, false);
+					}
+				}
+			});
+
+			audioElement.play();
+			this.audioPlayers.set(messageId, true);
+		}
+	}
+
+	isPlaying(messageId: number): boolean {
+		return this.audioPlayers.get(messageId) || false;
+	}
+
+	onTimeUpdate(messageId: number, event: Event) {
+		const audio = event.target as HTMLAudioElement;
+		const progress = (audio.currentTime / audio.duration) * 100;
+		this.audioProgress.set(messageId, progress);
+
+		if (!this.audioDurations.has(messageId)) {
+			this.audioDurations.set(messageId, this.formatDuration(audio.duration));
+		}
+	}
+
+	getAudioProgress(messageId: number): number {
+		return this.audioProgress.get(messageId) || 0;
+	}
+
+	getAudioDuration(messageId: number): string {
+		return this.audioDurations.get(messageId) || '0:00';
+	}
+
+	onAudioEnded(messageId: number) {
+		this.audioPlayers.set(messageId, false);
+		this.audioProgress.set(messageId, 0);
+	}
+
+	private formatDuration(seconds: number): string {
+		const minutes = Math.floor(seconds / 60);
+		const remainingSeconds = Math.floor(seconds % 60);
+		return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
 	}
 
 	highlightSyntax() {
