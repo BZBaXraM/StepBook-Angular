@@ -8,6 +8,7 @@ import {
 	HostListener,
 	viewChild,
 } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MessageService } from '../services/message.service';
 import Prism from 'prismjs';
 import { CommonModule, NgIf } from '@angular/common';
@@ -17,6 +18,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+
 @Component({
 	selector: 'app-chat',
 	standalone: true,
@@ -39,6 +41,7 @@ export class ChatComponent implements AfterViewChecked {
 	messageService = inject(MessageService);
 	messageContent = '';
 	private cdr = inject(ChangeDetectorRef);
+	private sanitizer = inject(DomSanitizer);
 	shouldScrollToBottom = true;
 	private isUserScrolling = false;
 
@@ -51,6 +54,22 @@ export class ChatComponent implements AfterViewChecked {
 		if (atBottom) {
 			this.shouldScrollToBottom = true;
 		}
+	}
+
+	formatMessageContent(content: string, senderUsername: string): SafeHtml {
+		if (!content) return '';
+
+		const urlRegex = /(https?:\/\/[^\s]+)/g;
+		const formattedContent = content.replace(
+			urlRegex,
+			(url) => `<a href="${url}" target="_blank" rel="noopener noreferrer" class="${
+				senderUsername !== this.username()
+					? 'text-white underline hover:text-gray-100'
+					: 'text-blue-600 underline hover:text-blue-800'
+			}">${url}</a>`
+		);
+
+		return this.sanitizer.bypassSecurityTrustHtml(formattedContent);
 	}
 
 	highlightSyntax() {
