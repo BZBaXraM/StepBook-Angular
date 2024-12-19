@@ -140,9 +140,15 @@ export class AccountService {
 	}
 
 	changeUsername(model: ChangeUsername) {
-		return this.http.put(this.baseUrl + 'Account/change-username', model, {
-			responseType: 'text',
-		});
+		return this.http
+			.put(this.baseUrl + 'Account/change-username', model, {
+				responseType: 'text',
+			})
+			.pipe(
+				map(() => {
+					this.clearLocalSession();
+				})
+			);
 	}
 
 	requestConfirmationCode(model: RequestConfirmationCode) {
