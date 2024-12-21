@@ -2,10 +2,16 @@
 	<div class="w-full max-w-md p-8 bg-white rounded-xl shadow-lg">
 		<div class="text-center mb-8">
 			<h2 class="text-2xl font-bold text-gray-900">Confirm Your Email</h2>
-			<p class="mt-2 text-sm text-gray-600">Please enter the confirmation code we sent to your email</p>
+			<p class="mt-2 text-sm text-gray-600">
+				Please enter the confirmation code we sent to your email
+			</p>
 		</div>
 
-		<form [formGroup]="form" (ngSubmit)="confirmEmailCode()" class="space-y-6">
+		<form
+			[formGroup]="form"
+			(ngSubmit)="confirmEmailCode()"
+			class="space-y-6"
+		>
 			<div class="relative">
 				<label class="block text-sm font-medium text-gray-700 mb-1">
 					Confirmation Code
@@ -18,8 +24,12 @@
 					placeholder="Enter code"
 				/>
 				<div
-					*ngIf="form.get('code')?.hasError('required') && form.get('code')?.touched"
-					class="mt-2 text-sm text-red-600">
+					*ngIf="
+						form.get('code')?.hasError('required') &&
+						form.get('code')?.touched
+					"
+					class="mt-2 text-sm text-red-600"
+				>
 					Code is required
 				</div>
 			</div>
@@ -28,20 +38,29 @@
 				<button
 					type="submit"
 					[disabled]="!form.valid"
-					class="flex-1 px-4 py-3 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+					class="flex-1 px-4 py-3 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+				>
 					Confirm Email
 				</button>
 				<button
 					type="button"
 					(click)="openRequestConfirmCodeDialog()"
-					class="flex-1 px-4 py-3 text-sm font-semibold text-blue-500 bg-blue-50 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+					class="flex-1 px-4 py-3 text-sm font-semibold text-blue-500 bg-blue-50 rounded-lg hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+				>
 					Resend Code
 				</button>
 			</div>
 		</form>
 
 		<div class="mt-6 text-center text-sm text-gray-500">
-			Having trouble? <a href="#" class="text-blue-500 hover:text-blue-600 font-medium">Contact Support</a>
+			Having trouble?
+			<a
+				href="https://t.me/baxram97"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-blue-500 hover:text-blue-600 font-medium"
+				>Contact Support</a
+			>
 		</div>
 	</div>
 </div>
